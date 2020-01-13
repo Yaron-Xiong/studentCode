@@ -10,11 +10,14 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Accompany
  * Date:2020/1/9
  * 如何实现一个锁？
- * 1.实现Lock
  * 2.内部类继承AQS （模板设计模式）
+ *
  * 3.内部类实现方法
+ *      实现tryAcquire()方法、tryRelease()方法、isHeldExclusively()
+ *
+ * 4.外部调用acquire()方法、release()方法
  */
-public class Mutex implements Lock {
+public class Mutex{
 
     private final Sync sync ;
     Mutex(){
@@ -40,7 +43,7 @@ public class Mutex implements Lock {
                     setExclusiveOwnerThread(current);
                     return true;
                 }
-            }else if (isHeldExclusively()){
+            }else if (current == getExclusiveOwnerThread()){
                 //表示是当前线程占用了
                 int nextc = c + acquires;
                 //小于零 错误
@@ -61,7 +64,7 @@ public class Mutex implements Lock {
         protected boolean tryRelease(int releases) {
             int c = getState() - releases;
             //如果非锁持有线程释放锁 则异常
-            if (!isHeldExclusively())
+            if (Thread.currentThread()!=getExclusiveOwnerThread())
                 throw new IllegalMonitorStateException();
             boolean free = false;
             if (c==0){
@@ -84,40 +87,28 @@ public class Mutex implements Lock {
         }
 
 
-
+        /**
+         * 在AQS中会调用tryAcquire()方法
+         */
         final void lock() {
             acquire(1);
         }
+
+        /**
+         * 在AQS中会调用tryRelease()方法
+         */
+        final void unlock(){
+            release(1);
+        }
     }
 
-    @Override
     public void lock() {
         sync.lock();
     }
 
-    @Override
-    public void lockInterruptibly() throws InterruptedException {
 
-    }
-
-    @Override
-    public boolean tryLock() {
-        return sync.tryAcquire(1);
-    }
-
-    @Override
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        return false;
-    }
-
-    @Override
     public void unlock() {
-        sync.tryRelease(1);
-    }
-
-    @Override
-    public Condition newCondition() {
-        return null;
+        sync.unlock();
     }
 
 }

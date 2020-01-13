@@ -6,21 +6,28 @@ package com.accompnay.myThread;
  */
 public class MutexMain {
     private static Mutex mutex = new Mutex();
+    static int a = 0;
 
-    public static void main(String[] args) {
-        for (int i = 0; i < 10; i++) {
-            Thread thread = new Thread(() -> {
+    public static void main(String[] args) throws InterruptedException {
+        Thread[] threads = new Thread[10];
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new Thread(() -> {
                 mutex.lock();
                 try {
-                    System.out.println("线程再执行");
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    for (int i1 = 0; i1 < 1000; i1++) {
+                        a++;
+                    }
                 } finally {
                     mutex.unlock();
                 }
             });
+        }
+        for (Thread thread : threads) {
             thread.start();
         }
+        for (Thread thread : threads) {
+            thread.join();
+        }
+        System.out.println(a);
     }
 }
