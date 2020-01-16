@@ -1,5 +1,9 @@
 package com.accompnay.algorithmCombat.arrayDemo;
 
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * @author Accompany
  * Date:2020/1/15
@@ -14,7 +18,7 @@ package com.accompnay.algorithmCombat.arrayDemo;
  * 进阶:
  * 你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
  */
-public class Demo1 {
+public class Demo1{
     public static class ListNode {
         int val;
         ListNode next;
