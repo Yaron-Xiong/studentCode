@@ -2,61 +2,62 @@ package com.accompnay.customizedThread.myConcurrent;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-/**Accompany
+/**
+ * Accompany
  * Author:
  * 可重入锁响应中断
+ * 演示两个线程争夺两个资源，当一个线程被中断后放弃资源
  * Date:2019/12/18
  */
-public class IntLock implements  Runnable{
-    private static ReentrantLock lock1 = new ReentrantLock();
-    private static ReentrantLock lock2 = new ReentrantLock();
-    int lock ;
-
-    public IntLock(int lock) {
-        this.lock = lock;
-    }
+public class IntLock implements Runnable {
+    private ReentrantLock r1 = new ReentrantLock();
+    private ReentrantLock r2 = new ReentrantLock();
 
     @Override
     public void run() {
         try {
-            if (lock ==1){
-                lock1.lockInterruptibly();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                lock2.lockInterruptibly();
-                System.out.println("线程1执行完毕");
-            }else {
-                lock2.lockInterruptibly();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                lock1.lockInterruptibly();
-                System.out.println("线程2执行完毕");
+            if (Thread.currentThread().getName().equals("1")){
+                //先获取r1 再获取r2
+                System.out.println(Thread.currentThread().getName()+"获取r1");
+                r1.lockInterruptibly();
+                Thread.sleep(200);
+                System.out.println(Thread.currentThread().getName()+"获取r2");
+                r2.lockInterruptibly();
+                System.out.println(Thread.currentThread().getName()+"执行完毕");
+            }else{
+                //先获取r1 再获取r2
+                System.out.println(Thread.currentThread().getName()+"获取r2");
+                r2.lockInterruptibly();
+                Thread.sleep(200);
+                System.out.println(Thread.currentThread().getName()+"获取r1");
+                r1.lockInterruptibly();
+                System.out.println(Thread.currentThread().getName()+"执行完毕");
             }
-        }catch (InterruptedException e){
-            e.printStackTrace();
+        } catch (InterruptedException e) {
+            //响应中断信号
+            System.out.println(Thread.currentThread().getName()+"响应中断");
         }finally {
-            if (lock1.isHeldByCurrentThread()){
-                lock1.unlock();
+            //释放锁
+            if (r1.isHeldByCurrentThread()){
+                //是否被当前线程持有
+                System.out.println(Thread.currentThread().getName()+"释放r1");
+                r1.unlock();
             }
-            if (lock2.isHeldByCurrentThread()){
-                lock2.unlock();
+            if (r2.isHeldByCurrentThread()){
+                System.out.println(Thread.currentThread().getName()+"释放r2");
+                r2.unlock();
             }
-            System.out.println("线程退出");
         }
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        Thread t1 = new Thread(new IntLock(1));
-        Thread t2 = new Thread(new IntLock(2));
+    public static void main(String[] args) {
+        IntLock inTest = new IntLock();
+        Thread t1 = new Thread(inTest,"1");
+        Thread t2 = new Thread(inTest, "2");
         t1.start();
         t2.start();
-        Thread.sleep(1000);
-        t2.interrupt();
+        t1.interrupt();
     }
+
+
 }
