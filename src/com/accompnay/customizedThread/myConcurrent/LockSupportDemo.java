@@ -16,6 +16,7 @@ public class LockSupportDemo {
     public static Object object = new Object();
     public static ChangeObjectThread t1 = new ChangeObjectThread("t1");
     public static ChangeObjectThread t2 = new ChangeObjectThread("t2");
+
     public static class ChangeObjectThread extends Thread{
         public ChangeObjectThread(String name){
             super(name);

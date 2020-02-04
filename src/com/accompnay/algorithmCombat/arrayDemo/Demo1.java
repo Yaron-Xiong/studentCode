@@ -28,22 +28,6 @@ public class Demo1{
         }
     }
 
-
-    //迭代的做法
-    public ListNode reverseList(ListNode head) {
-        ListNode cur = head;
-        ListNode prev =null;
-        while (cur!=null){
-            ListNode nextNode = cur.next;
-            cur.next = prev;
-            prev = cur;
-            cur = nextNode;
-        }
-        return prev;
-    }
-
-
-
     public static void main(String[] args) {
         ListNode head = new ListNode(1);
         head.next = new ListNode(2);
@@ -52,5 +36,17 @@ public class Demo1{
         Demo1 demo1 = new Demo1();
         head = demo1.reverseList(head);
         System.out.println(head);
+    }
+
+    private ListNode reverseList(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+        while (cur!=null){
+            ListNode temp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        return pre;
     }
 }

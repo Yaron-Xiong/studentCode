@@ -53,7 +53,7 @@ public class Demo4 {
         return null;
     }*/
 
-    public static ListNode detectCycle(ListNode head) {
+    /*public static ListNode detectCycle(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
         while (fast != null && fast.next != null) {
@@ -71,14 +71,45 @@ public class Demo4 {
             }
         }
         return null;
-    }
+    }*/
 
     public static void main(String[] args) {
         ListNode head = new ListNode(3);
         head.next = new ListNode(2);
         head.next.next = new ListNode(0);
         head.next.next.next = new ListNode(-4);
-        //head.next.next.next.next = head.next;
+        head.next.next.next.next = head.next;
         System.out.println(detectCycle(head));
     }
+
+    private static ListNode detectCycle(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                break;
+            }
+        }
+        if (fast.next == null || fast.next.next == null) {
+            return null;
+        }else {
+            //说明成环
+            fast = head;
+            while (fast != slow) {
+                //追击
+                fast = fast.next;
+                slow = slow.next;
+                if (fast == slow) {
+                    return fast;
+                }
+            }
+        }
+        return null;
+    }
 }
+
