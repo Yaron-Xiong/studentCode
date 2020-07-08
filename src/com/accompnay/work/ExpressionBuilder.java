@@ -6,46 +6,35 @@ public class ExpressionBuilder {
 
     private Map<String, Fun> funMap = new HashMap<>();
 
-    //"f1(x, f2(x, f3(y,z)))"
+    // f1(x, f2(x, f5(p,o,u),z),f3(q,w,e,f4(r,t,y)))
     public Expression buildExpression(String s) {
-        List<int[]> indexList = new ArrayList<>();
+        s = s.trim();
         Stack<Integer> lastIndexStack = new Stack<>();
+        Queue<Method> methodQueue = new LinkedList<>();
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == '(') {
                 lastIndexStack.push(i);
             } else if (s.charAt(i) == ')') {
                 Integer lastIndex = lastIndexStack.pop();
-                //todo 添加方法的记录信息
-                String method = findMethod(s, lastIndex);
-                indexList.add(new int[]{lastIndex, i + 1});
+                String methodName = findMethod(s, lastIndex);
+                List<String> paramsList = findParams(s, lastIndex + 1, i);
+                Method method = new Method(methodName, paramsList);
+                methodQueue.add(method);
+                String methodDesigin = methodName + s.substring(lastIndex, i + 1);
+                s = s.replace(methodDesigin, "#" + methodName);
+                i = i - (methodDesigin.length() - methodName.length() + 1);
             }
         }
 
-        Stack<String> methodStack = new Stack<>();
-        Map<String, List<String>> method2Params = new HashMap<>();
-        for (int i = 0; i < indexList.size(); i++) {
-            String substring = s.substring(indexList.get(i)[0] + 1, indexList.get(i)[1] - 1);
+        return new Expression(methodQueue, funMap);
+    }
 
-            if (substring.contains("(")) {
-                String substring1 = s.substring(indexList.get(i - 1)[0], indexList.get(i - 1)[1]);
-                String peek = methodStack.peek();
-                substring = substring.replace(peek + substring1, "#" + peek.trim());
-                //System.out.println("内部方法为" + peek+substring1);
-            }
-            String[] split = substring.split(",");
-            List<String> paramsList = new ArrayList<>();
-            for (String params : split) {
-                params = params.trim();
-                paramsList.add(params);
-            }
-
-
-            String methodName = findMethod(s, indexList.get(i)[0]);
-            methodStack.push(methodName);
-            System.out.print(paramsList);
-            System.out.println("\t" + methodName);
-        }
-        return null;
+    // f1(x, f2(x, f5(p,o,u),z),f3(q,w,e,f4(r,t,y)))
+    private List<String> findParams(String s, Integer startIndex, Integer endIndex) {
+        String[] split = s.substring(startIndex, endIndex).split(",");
+        List<String> result = new ArrayList<>();
+        Collections.addAll(result, split);
+        return result;
     }
 
     public String findMethod(String s, int index) {
