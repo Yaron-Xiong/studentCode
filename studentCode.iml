@@ -28,5 +28,7 @@
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:3.12" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.baitian.oa:oa-baioo-interface:1.4-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.baitian:baitian-common:1.0.0" level="project" />
   </component>
 </module>

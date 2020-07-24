@@ -1,4 +1,4 @@
-package com.accompnay.work;
+package com.accompnay.work.J1;
 
 import java.util.List;
 

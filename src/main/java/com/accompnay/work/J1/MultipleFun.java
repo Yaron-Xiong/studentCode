@@ -1,7 +1,6 @@
-package com.accompnay.work;
+package com.accompnay.work.J1;
 
 import java.util.List;
-import java.util.Map;
 
 public class MultipleFun implements Fun<Number> {
 
