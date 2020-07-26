@@ -45,7 +45,7 @@ public class ZoneJsonWriter extends ZoneWriter {
     }
 
     private void writeServers(List<Zone> zoneList, BufferedWriter writer) throws IOException {
-        writer.write("\tservers:");
+        writer.write("\t\"servers\":");
         writer.newLine();
         writer.write("\t[");
         writer.newLine();
@@ -66,7 +66,7 @@ public class ZoneJsonWriter extends ZoneWriter {
     }
 
     private void writeZones(BufferedWriter writer, List<List<Islands>> zoneIslandsList) throws IOException {
-        writer.write("\tzones:");
+        writer.write("\t\"zones\":");
         writer.newLine();
         writer.write("\t[");
         writer.newLine();
