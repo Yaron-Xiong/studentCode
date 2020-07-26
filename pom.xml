@@ -48,12 +48,6 @@
             <version>3.12</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.baitian.oa</groupId>
-            <artifactId>oa-baioo-interface</artifactId>
-            <version>1.4-SNAPSHOT</version>
-        </dependency>
-
     </dependencies>
 
     <build>

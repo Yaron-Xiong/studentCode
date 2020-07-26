@@ -2,13 +2,13 @@ package com.accompnay.work.A2;
 
 public class Islands {
 	private String name;
-	private Integer curNum;
-	private Integer maxNum;
+	private int curNum;
+	private int maxNum;
 
 	public Islands(String name, String curNum, String maxNum) {
 		this.name = name;
-		this.curNum = Integer.valueOf(curNum);
-		this.maxNum = Integer.valueOf(maxNum);
+		this.curNum = Integer.parseInt(curNum);
+		this.maxNum = Integer.parseInt(maxNum);
 	}
 
 	public String getName() {
@@ -19,7 +19,7 @@ public class Islands {
 		this.name = name;
 	}
 
-	public Integer getCurNum() {
+	public int getCurNum() {
 		return curNum;
 	}
 
@@ -27,7 +27,7 @@ public class Islands {
 		this.curNum = curNum;
 	}
 
-	public Integer getMaxNum() {
+	public int getMaxNum() {
 		return maxNum;
 	}
 
