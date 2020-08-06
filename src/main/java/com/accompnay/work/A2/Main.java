@@ -2,13 +2,12 @@ package com.accompnay.work.A2;
 
 import com.google.common.collect.Sets;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class Main {
 
-	private static final String zoneFilePath = "zone.config.txt";
-	private static final String domainFilePath = "domain.txt";
+	private static final String zoneFilePath = "work/A02/zone.config.txt";
+	private static final String domainFilePath = "work/A02/domain.txt";
 
     public static void main(String[] args) throws Exception {
         long readStart = System.currentTimeMillis();
