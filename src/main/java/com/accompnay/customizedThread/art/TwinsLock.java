@@ -1,6 +1,5 @@
 package com.accompnay.customizedThread.art;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
