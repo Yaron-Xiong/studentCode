@@ -1,7 +1,6 @@
 package com.accompnay.customizedThread.threadPool;
 
 
-import javafx.concurrent.Worker;
 
 import java.util.ArrayList;
 import java.util.Collections;
