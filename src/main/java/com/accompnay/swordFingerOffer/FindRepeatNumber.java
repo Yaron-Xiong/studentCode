@@ -9,20 +9,17 @@ package com.accompnay.swordFingerOffer;
  */
 public class FindRepeatNumber {
 	public int findRepeatNumber(int[] nums) {
-		int index = 0;
-		while (index < nums.length) {
-			int indexValue = nums[index];
-			//当前位置
-			if (index == indexValue){
-				index++;
-				continue;
+		int i = 0;
+		while (i < nums.length) {
+			int numI = nums[i];
+			if (numI != i && numI == nums[numI]) {
+				return numI;
 			}
-			//非当前位置
-			int num = nums[indexValue];
-			if (indexValue == num) {
-				return indexValue;
+			if (numI != i) {
+				swap(nums, numI, i);
+			} else {
+				i++;
 			}
-			swap(nums, indexValue, index);
 		}
 		return -1;
 	}
