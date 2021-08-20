@@ -16,7 +16,6 @@ import java.util.Map;
  * 链接：https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof
  */
 public class CopyRandomList {
-	private Map<Node,Node> copyMap = new HashMap<>();
 	public static class Node {
 		int val;
 		Node next;
@@ -27,29 +26,36 @@ public class CopyRandomList {
 			this.next = null;
 			this.random = null;
 		}
-	}
 
-	public Node copyRandomList(Node head) {
-		Node copyHead = copyList(head);
-		Node cur = head;
-		while (cur!=null){
-			Node copyRandom = copyMap.get(cur.random);
-			Node copyNode = copyMap.get(cur);
-			copyNode.random = copyRandom;
-			cur = cur.next;
+		@Override
+		public String toString() {
+			return "Node{" +
+					"val=" + val +
+					'}';
 		}
-		return copyHead;
 	}
 
-	public Node copyList(Node head) {
+	private Map<Node, Node> map = new HashMap<>();
+
+	/**
+	 * 递归
+	 */
+	public Node copyRandomList(Node head) {
 		if (head == null) {
 			return head;
 		}
-		Node copyNode = new Node(head.val);
-		copyNode.next = copyRandomList(head.next);
-		copyMap.put(head, copyNode);
-		return copyNode;
+		//origin -> newNode
+		if (!map.containsKey(head)) {
+			Node newNode = new Node(head.val);
+			map.put(head, newNode);
+			//这里会将所有的next创建好
+			newNode.next = copyRandomList(head.next);
+			//这里会将所有的random创建好
+			newNode.random = copyRandomList(head.random);
+		}
+		return map.get(head);
 	}
+
 
 	public static void main(String[] args) {
 		Node node = new Node(7);
