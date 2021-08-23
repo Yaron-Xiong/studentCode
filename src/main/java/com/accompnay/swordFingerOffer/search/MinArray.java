@@ -1,4 +1,4 @@
-package com.accompnay.swordFingerOffer;
+package com.accompnay.swordFingerOffer.search;
 
 /**
  * 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
@@ -20,11 +20,12 @@ public class MinArray {
 		int r = numbers.length - 1;
 		while (l < r) {
 			int mid = (l + r) >> 1;
-			if (numbers[mid] < numbers[r]) {
+			int midValue = numbers[mid];
+			if (midValue < numbers[r]) {
 				r = mid;
-			} else if (numbers[mid] > numbers[r]) {
-				l = mid + 1;
-			} else {
+			}else if (midValue > numbers[r]){
+				l = mid+1;
+			}else {
 				r--;
 			}
 		}
@@ -33,7 +34,7 @@ public class MinArray {
 
 	public static void main(String[] args) {
 		MinArray minArray = new MinArray();
-		int i = minArray.minArray(new int[]{1, 2, 3, 4});
+		int i = minArray.minArray(new int[]{10, 1, 10, 10, 10});
 		System.out.println(i);
 	}
 }

@@ -1,4 +1,4 @@
-package com.accompnay.swordFingerOffer;
+package com.accompnay.swordFingerOffer.linked;
 
 import java.util.Stack;
 

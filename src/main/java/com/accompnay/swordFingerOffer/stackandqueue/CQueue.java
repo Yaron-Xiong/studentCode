@@ -1,4 +1,4 @@
-package com.accompnay.swordFingerOffer;
+package com.accompnay.swordFingerOffer.stackandqueue;
 
 import java.util.Stack;
 

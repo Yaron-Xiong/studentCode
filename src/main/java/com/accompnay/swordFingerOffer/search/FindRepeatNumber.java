@@ -1,4 +1,4 @@
-package com.accompnay.swordFingerOffer;
+package com.accompnay.swordFingerOffer.search;
 
 /**
  * 找出数组中重复的数字。

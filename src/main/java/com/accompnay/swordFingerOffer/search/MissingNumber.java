@@ -1,4 +1,4 @@
-package com.accompnay.swordFingerOffer;
+package com.accompnay.swordFingerOffer.search;
 
 public class MissingNumber {
 	public int missingNumber(int[] nums) {
