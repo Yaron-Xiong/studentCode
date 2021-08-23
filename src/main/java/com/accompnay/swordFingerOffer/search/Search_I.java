@@ -1,9 +1,9 @@
 package com.accompnay.swordFingerOffer.search;
 
 /**
+ * 剑指 Offer 53 - I. 在排序数组中查找数字 I :https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof
+ * <p>
  * 统计一个数字在排序数组中出现的次数。
- * <p>
- * <p>
  * <p>
  * 示例 1:
  * <p>
@@ -18,8 +18,6 @@ package com.accompnay.swordFingerOffer.search;
  * nums是一个非递减数组
  * <p>
  * <p>
- * 剑指 Offer 53 - I. 在排序数组中查找数字 I
- * 链接：https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof
  */
 public class Search_I {
 	public int search(int[] nums, int target) {

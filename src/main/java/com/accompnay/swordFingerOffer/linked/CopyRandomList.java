@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 剑指 Offer 35. 复杂链表的复制 ：https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof
+ * <p>
  * 请实现 copyRandomList 函数，复制一个复杂链表。在复杂链表中，每个节点除了有一个 next 指针指向下一个节点，还有一个 random 指针指向链表中的任意节点或者 null。
  * 示例 1：
  * 输入：head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
@@ -12,8 +14,6 @@ import java.util.Map;
  * 输入：head = [[1,1],[2,1]]
  * 输出：[[1,1],[2,1]]
  * <p>
- * 剑指 Offer 35. 复杂链表的复制
- * 链接：https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof
  */
 public class CopyRandomList {
 	public static class Node {

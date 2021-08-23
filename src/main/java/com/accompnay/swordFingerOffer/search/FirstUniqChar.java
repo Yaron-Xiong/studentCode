@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Queue;
 
 /**
+ * 剑指 Offer 50. 第一个只出现一次的字符：https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof
+ * <p>
  * 在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
  * <p>
  * 示例:
@@ -16,7 +18,6 @@ import java.util.Queue;
  * s = ""
  * 返回 " "
  * <p>
- * 链接：https://leetcode-cn.com/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof
  */
 public class FirstUniqChar {
 	/**
@@ -49,7 +50,6 @@ public class FirstUniqChar {
 	 * 当重复了索引值记录为 -1
 	 * 时间复杂度：N + M（单词去重后的数量）
 	 * 空间复杂度：26
-	 *
 	 */
 	public char firstUniqChar2(String s) {
 		if (s.length() == 0) {
@@ -75,12 +75,11 @@ public class FirstUniqChar {
 	}
 
 	/**
-	 *
 	 * 在方法2的基础上做优化，将时间复杂度从2N->N 空间复杂度从 26->52
-	 *
+	 * <p>
 	 * 使用map和queue
 	 * map负责记录索引，queue保证单词的顺序
-	 *
+	 * <p>
 	 * 时间复杂度：N（由于While循环检测队头 数量级很小 不纳入计算）
 	 * 空间复杂度：两个26个小写字母组成 52个
 	 */
