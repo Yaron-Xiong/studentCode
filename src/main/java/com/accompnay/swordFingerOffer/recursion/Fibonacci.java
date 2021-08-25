@@ -1,4 +1,4 @@
-package com.accompnay.swordFingerOffer;
+package com.accompnay.swordFingerOffer.recursion;
 
 import java.util.HashMap;
 import java.util.Map;
