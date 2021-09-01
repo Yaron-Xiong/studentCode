@@ -1,4 +1,4 @@
-package com.accompnay.swordFingerOffer.recursion;
+package com.accompnay.swordFingerOffer.dynamic;
 
 /**
  * @author Accompany

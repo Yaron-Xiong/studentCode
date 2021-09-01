@@ -1,11 +1,10 @@
-package com.accompnay.swordFingerOffer.recursion;
+package com.accompnay.swordFingerOffer.dynamic;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Accompany
- * Date:2020/1/14
+ * 剑指offer-10：https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/
  * 斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。
  * 斐波那契数列 = f(n-1)+f(n-2);
  * <p>
@@ -17,9 +16,6 @@ import java.util.Map;
  * <p>
  * 实现方式3
  * 自顶向下，在递归的基础上完成 时间复杂度 n 空间复杂度 n
- *
- * 剑指offer-10：https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/
- *
  */
 public class Fibonacci {
 	/**
