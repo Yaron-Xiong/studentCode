@@ -32,17 +32,30 @@ public class LengthOfLongestSubstring {
 		int temp = 0;
 		Map<Character, Integer> characters = new HashMap<>();
 		for (int i = 0; i < s.length(); i++) {
-			temp = characters.containsKey(s.charAt(i)) ? i - characters.get(s.charAt(i)) : temp + 1;
+			int length = i - characters.getOrDefault(s.charAt(i), -1);
+			temp = temp >= length ? length : temp + 1;
 			maxLength = Math.max(temp, maxLength);
-			if (characters.containsKey(s.charAt(i))) characters.clear();
 			characters.put(s.charAt(i), i);
+		}
+		return maxLength;
+	}
+
+	public int lengthOfLongestSubstring2(String s) {
+		int maxLength = 0;
+		int left = -1;
+		Map<Character, Integer> characters = new HashMap<>();
+		for (int i = 0; i < s.length(); i++) {
+			char charAt = s.charAt(i);
+			left = Math.max(left,characters.getOrDefault(charAt,-1));
+			maxLength = Math.max(i - left, maxLength);
+			characters.put(charAt, i);
 		}
 		return maxLength;
 	}
 
 	public static void main(String[] args) {
 		LengthOfLongestSubstring lengthOfLongestSubstring = new LengthOfLongestSubstring();
-		int abcabcbb = lengthOfLongestSubstring.lengthOfLongestSubstring("abcabcbb");
+		int abcabcbb = lengthOfLongestSubstring.lengthOfLongestSubstring2("abcabcbb");
 		System.out.println(abcabcbb);
 	}
 }
