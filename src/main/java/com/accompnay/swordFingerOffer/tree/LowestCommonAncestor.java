@@ -1,7 +1,5 @@
 package com.accompnay.swordFingerOffer.tree;
 
-import org.apache.poi.ss.formula.functions.T;
-
 /**
  * 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先:https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof
  * <p>
@@ -35,33 +33,11 @@ public class LowestCommonAncestor {
 		if (root == null) {
 			return root;
 		}
-		boolean a = root == p || contains(root.left, p);
-		boolean b = root == q || contains(root.right, q);
-		if (a && b) {
-			return root;
-		}
-		if (!a && b) {
-			a = contains(root.right, p);
-			return lowestCommonAncestor(root.right,p,q);
-		}
-		if (!b && a) {
-			b = contains(root.left, q);
-			if (a && b) return root;
-		}
-		if (a && b) {
-			return root;
-		}
-		TreeNode result;
-		boolean x = (result = lowestCommonAncestor(root.left, p, q)) != null || (result = lowestCommonAncestor(root.right, p, q)) != null;
-		return result;
-	}
-
-	private boolean contains(TreeNode root, TreeNode p) {
-		if (root == null) return false;
-		if (root == p) {
-			return true;
-		}
-		return contains(root.left, p) || contains(root.right, p);
+		TreeNode left = lowestCommonAncestor(root.left, p, q);
+		if (root == p) return p;
+		if (root == q) return q;
+		TreeNode right = lowestCommonAncestor(root.right, p, q);
+		return null;
 	}
 
 	public static void main(String[] args) {
