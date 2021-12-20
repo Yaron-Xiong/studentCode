@@ -40,47 +40,51 @@ import java.util.Map;
 public class MinWindow {
 	public static void main(String[] args) {
 		MinWindow minWindow = new MinWindow();
-		String s = minWindow.minWindow("ADOBECODEBANC", "ABC");
+		String s1 = new String("");
+		String s2 = new String("");
+		String s = minWindow.minWindow(s1, s2);
 		System.out.println(s);
 	}
 
 	public String minWindow(String s, String t) {
+		Map<Character, Integer> originMap = new HashMap<>();
 		Map<Character, Integer> map = new HashMap<>();
-		Map<Character, Integer> map2 = new HashMap<>();
 		for (char c : t.toCharArray()) {
-			map.put(c, map.getOrDefault(c, 0) + 1);
+			originMap.put(c, originMap.getOrDefault(c, 0) + 1);
 		}
 		int left = 0;
 		int right = 0;
 		int valid = 0;
-		int subStart = 0;
-		int subLen = Integer.MAX_VALUE;
+		int resultLen = Integer.MAX_VALUE;
+		int start = 0;
 		while (right < s.length()) {
 			char c = s.charAt(right);
 			right++;
-			if (map.containsKey(c)) {
-				map2.put(c, map2.getOrDefault(c, 0) + 1);
-				if (map2.get(c) == map.get(c)) {
+
+			if (originMap.containsKey(c)) {
+				map.put(c, map.getOrDefault(c, 0) + 1);
+
+				if (originMap.get(c).equals(map.get(c))) {
 					valid++;
 				}
 			}
-			//考虑缩减 并且已经生成了一个字符串
-			while (valid == map.size()) {
-				if (right - left < subLen) {
-					subStart = left;
-					subLen = right - left;
+
+			//left开始移动
+			while (valid == originMap.size()) {
+				if (resultLen > (right - left)) {
+					start = left;
+					resultLen = right - left;
 				}
-				char d = s.charAt(left);
+				char c2 = s.charAt(left);
 				left++;
-				if (map.containsKey(d)) {
-					if (map.get(d) == map2.get(d)) {
+				if (originMap.containsKey(c2)) {
+					if (map.get(c2).equals(originMap.get(c2))) {
 						valid--;
 					}
-					map2.put(d, map2.get(d) - 1);
+					map.put(c2, map.get(c2) - 1);
 				}
 			}
-
 		}
-		return subLen == Integer.MAX_VALUE ? "" : s.substring(subStart, subStart + subLen);
+		return resultLen == Integer.MAX_VALUE ? "" : s.substring(start, start + resultLen);
 	}
 }
