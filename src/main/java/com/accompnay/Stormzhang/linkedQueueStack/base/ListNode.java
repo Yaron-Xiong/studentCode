@@ -1,4 +1,4 @@
-package com.accompnay.Stormzhang.linkedQueueStack;
+package com.accompnay.Stormzhang.linkedQueueStack.base;
 
 public class ListNode {
 	int val;

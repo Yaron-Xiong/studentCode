@@ -1,4 +1,4 @@
-package com.accompnay.Stormzhang.linkedQueueStack;
+package com.accompnay.Stormzhang.linkedQueueStack.base;
 
 /**
  * 160. 相交链表：https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
