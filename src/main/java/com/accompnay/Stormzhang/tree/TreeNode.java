@@ -1,9 +1,9 @@
 package com.accompnay.Stormzhang.tree;
 
 public class TreeNode {
-	int val;
-	TreeNode left;
-	TreeNode right;
+	public int val;
+	public TreeNode left;
+	public TreeNode right;
 
 	@Override
 	public String toString() {
@@ -18,7 +18,7 @@ public class TreeNode {
 	TreeNode() {
 	}
 
-	TreeNode(int val) {
+	public TreeNode(int val) {
 		this.val = val;
 	}
 

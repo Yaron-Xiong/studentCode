@@ -1,4 +1,6 @@
-package com.accompnay.Stormzhang.tree;
+package com.accompnay.Stormzhang.tree.bst;
+
+import com.accompnay.Stormzhang.tree.TreeNode;
 
 /**
  * 701. 二叉搜索树中的插入操作：https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/

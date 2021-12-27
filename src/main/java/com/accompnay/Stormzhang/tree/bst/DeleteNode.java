@@ -1,4 +1,6 @@
-package com.accompnay.Stormzhang.tree;
+package com.accompnay.Stormzhang.tree.bst;
+
+import com.accompnay.Stormzhang.tree.TreeNode;
 
 /**
  * 450. 删除二叉搜索树中的节点:https://leetcode-cn.com/problems/delete-node-in-a-bst/

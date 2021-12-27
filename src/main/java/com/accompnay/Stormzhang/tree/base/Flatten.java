@@ -1,4 +1,6 @@
-package com.accompnay.Stormzhang.tree;
+package com.accompnay.Stormzhang.tree.base;
+
+import com.accompnay.Stormzhang.tree.TreeNode;
 
 /**
  * 114. 二叉树展开为链表:https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/

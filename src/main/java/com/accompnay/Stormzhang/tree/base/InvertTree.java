@@ -1,4 +1,6 @@
-package com.accompnay.Stormzhang.tree;
+package com.accompnay.Stormzhang.tree.base;
+
+import com.accompnay.Stormzhang.tree.TreeNode;
 
 /**
  * 226. 翻转二叉树:https://leetcode-cn.com/problems/invert-binary-tree/
