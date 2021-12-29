@@ -1,8 +1,5 @@
 package com.accompnay.Stormzhang.uf;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * 990. 等式方程的可满足性:https://leetcode-cn.com/problems/satisfiability-of-equality-equations/
  * 给定一个由表示变量之间关系的字符串方程组成的数组，每个字符串方程 equations[i] 的长度为 4，
@@ -49,17 +46,7 @@ import java.util.Set;
 public class EquationsPossible {
 	private int[] parent;
 	public boolean equationsPossible(String[] equations) {
-		parent = new int[26];
-		for (int i = 0; i < parent.length; i++) {
-			parent[i] = i;
-		}
-
-		for (String equation : equations) {
-			char one = equation.charAt(0);
-			char two = equation.charAt(3);
-			set.add(one);
-			set.add(two);
-		}
+		return false;
 
 
 	}
