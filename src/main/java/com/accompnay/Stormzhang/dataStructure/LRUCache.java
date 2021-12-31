@@ -1,6 +1,7 @@
 package com.accompnay.Stormzhang.dataStructure;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * 146. LRU 缓存:https://leetcode-cn.com/problems/lru-cache/
@@ -82,33 +83,17 @@ public class LRUCache {
 			node.nextNode = null;
 		}
 
-		public void add(Node node) {
-			Node nextNode = head.nextNode;
-
-			head.nextNode = node;
-			node.preNode = head;
-
-			node.nextNode = nextNode;
-			nextNode.preNode = node;
-		}
-
-		public void moveToTail(Node node) {
-			Node preNode = node.preNode;
-			Node nextNode = node.nextNode;
-			preNode.nextNode = nextNode;
-			nextNode.preNode = preNode;
-
-			Node tailPre = tail.preNode;
-			tailPre.nextNode = node;
-			node.preNode = tailPre;
+		public void addToTail(Node node) {
+			Node preNode = tail.preNode;
+			preNode.nextNode = node;
+			node.preNode = preNode;
 			node.nextNode = tail;
-
 			tail.preNode = node;
 		}
 	}
 
-	private HashMap<Integer, Node> map;
 	private int capacity;
+	private HashMap<Integer, Node> map;
 	private SefLikedList sefLikedList;
 
 	public LRUCache(int capacity) {
@@ -117,33 +102,59 @@ public class LRUCache {
 		sefLikedList = new SefLikedList();
 	}
 
+	private void makeRecently(int key) {
+		Node node = map.get(key);
+		if (node == null) {
+			return;
+		}
+		sefLikedList.del(node);
+		sefLikedList.addToTail(node);
+	}
+
+	private Node remove(int key){
+		if (!map.containsKey(key)){
+			return null;
+		}
+		Node node = map.remove(key);
+		sefLikedList.del(node);
+		return node;
+	}
+
 	public int get(int key) {
 		Node node = map.get(key);
 		if (node == null) return -1;
-		sefLikedList.moveToTail(node);
+		makeRecently(key);
 		return node.val;
 	}
 
 	public void put(int key, int value) {
-		if (capacity < map.size() + 1) {
-			Node node = sefLikedList.delHead();
-			map.remove(node.key);
+		Node newNode = new Node(key, value);
+		if (map.containsKey(key)) {
+			remove(key);
 		}
-		Node node = new Node(key, value);
-		sefLikedList.add(node);
-		map.put(key, node);
+		ensureCapacityInternal(map.size() + 1);
+		sefLikedList.addToTail(newNode);
+		map.put(key, newNode);
+	}
+
+	private void ensureCapacityInternal(int i) {
+		if (capacity < i){
+			Node nodeTemp = sefLikedList.delHead();
+			map.remove(nodeTemp.key);
+		}
 	}
 
 	public static void main(String[] args) {
 		LRUCache lruCache = new LRUCache(2);
-		int i = lruCache.get(0);
-		System.out.println(i);
-		lruCache.put(0, 0);
-		System.out.println(lruCache.get(0));
 		lruCache.put(1, 1);
-		System.out.println(lruCache.get(1));
 		lruCache.put(2, 2);
+		System.out.println(lruCache.get(1));
+		lruCache.put(3, 3);
 		System.out.println(lruCache.get(2));
-		System.out.println(lruCache.get(0));
+		lruCache.put(4, 4);
+		System.out.println(lruCache.get(1));
+		System.out.println(lruCache.get(3));
+		System.out.println(lruCache.get(4));
+
 	}
 }

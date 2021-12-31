@@ -44,10 +44,64 @@ package com.accompnay.Stormzhang.uf;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class EquationsPossible {
+	public static void main(String[] args) {
+		EquationsPossible equationsPossible = new EquationsPossible();
+		boolean b = equationsPossible.equationsPossible(new String[]{"a==z", "a==b", "b==c", "c==d", "b==y", "c==x", "d==w", "g==h", "h==i", "i==j", "a==g", "j!=y"});
+		System.out.println(b);
+	}
+
 	private int[] parent;
+	private int[] size;
+
 	public boolean equationsPossible(String[] equations) {
-		return false;
+		parent = new int[26];
+		size = new int[26];
+		for (int i = 0; i < parent.length; i++) {
+			parent[i] = i;
+			size[i] = 1;
+		}
 
+		for (String equation : equations) {
+			int one = equation.charAt(0) - 'a';
+			int two = equation.charAt(3) - 'a';
+			if (equation.charAt(1) == '=') {
+				union(one, two);
+			}
+		}
 
+		for (String equation : equations) {
+			int one = equation.charAt(0) - 'a';
+			int two = equation.charAt(3) - 'a';
+			if (equation.charAt(1) == '!' && connect(one, two)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public boolean connect(int a, int b) {
+		int aRoot = find(a);
+		int bRoot = find(b);
+		return aRoot == bRoot;
+	}
+
+	public void union(int a, int b) {
+		int aRoot = find(a);
+		int bRoot = find(b);
+		if (size[aRoot] > size[bRoot]) {
+			parent[bRoot] = aRoot;
+			size[aRoot]++;
+		} else {
+			parent[aRoot] = bRoot;
+			size[bRoot]++;
+		}
+	}
+
+	public int find(int x) {
+		if (parent[x] != x) {
+			parent[x] = parent[parent[x]];
+			x = parent[x];
+		}
+		return x;
 	}
 }
