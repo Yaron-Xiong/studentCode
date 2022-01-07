@@ -1,5 +1,6 @@
 package com.accompnay.Stormzhang.backtracking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,43 @@ import java.util.List;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class GenerateParenthesis {
-	public List<String> generateParenthesis(int n) {
-		return null;
+	public static void main(String[] args) {
+		GenerateParenthesis generateParenthesis = new GenerateParenthesis();
+		List<String> strings = generateParenthesis.generateParenthesis(3);
+		System.out.println(strings);
 	}
+
+
+	private int leftN;
+	private int rightN;
+	public List<String> generateParenthesis(int n) {
+		leftN = n;
+		rightN = n;
+		char[] chars = new char[n * 2];
+		List<String> res = new ArrayList<>();
+		backtrack(chars, res, 0);
+		return res;
+	}
+
+	public void backtrack(char[] chars, List<String> res, int index) {
+		if (leftN == 0 && rightN == 0) {
+			res.add(new String(chars));
+			return;
+		}
+		if (leftN > 0) {
+			chars[index] = '(';
+			leftN--;
+			backtrack(chars, res, index + 1);
+			chars[index] = ' ';
+			leftN++;
+		}
+		if (rightN - leftN > 0) {
+			chars[index] = ')';
+			rightN--;
+			backtrack(chars, res, index + 1);
+			chars[index] = ' ';
+			rightN++;
+		}
+	}
+
 }
