@@ -1,4 +1,6 @@
-package com.accompnay.TopicAlgorithms.practiceSet.tree;
+package com.accompnay.TopicAlgorithms.practiceSet.tree.base;
+
+import com.accompnay.TopicAlgorithms.practiceSet.tree.TreeNode;
 
 /**
  * 110. 平衡二叉树
