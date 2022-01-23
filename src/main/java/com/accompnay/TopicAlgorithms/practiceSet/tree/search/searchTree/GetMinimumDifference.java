@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.tree.searchTree;
+package com.accompnay.TopicAlgorithms.practiceSet.tree.search.searchTree;
 
 
 import com.accompnay.TopicAlgorithms.practiceSet.tree.TreeNode;
