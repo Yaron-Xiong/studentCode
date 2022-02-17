@@ -1,8 +1,6 @@
 package com.accompnay.TopicAlgorithms.practiceSet.backtracking;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 47. 全排列 II
@@ -38,28 +36,26 @@ public class PermuteUnique {
 
 	public List<List<Integer>> permuteUnique(int[] nums) {
 		List<List<Integer>> ans = new ArrayList<>();
-		for (int i = 0; i < nums.length; i++) {
-			backtracking(nums, i, new LinkedList<>(), ans, new boolean[nums.length]);
-		}
+		Arrays.sort(nums);
+		backtracking(nums, new LinkedList<>(), ans, new boolean[nums.length]);
 		return ans;
 	}
 
-	private void backtracking(int[] nums, int index, LinkedList<Integer> path, List<List<Integer>> ans, boolean[] used) {
+	private void backtracking(int[] nums, Deque<Integer> path, List<List<Integer>> ans, boolean[] used) {
 		if (path.size() == nums.length) {
 			ans.add(new ArrayList<>(path));
-		}
-		if (index >= nums.length) {
 			return;
 		}
 		for (int i = 0; i < nums.length; i++) {
-			if (used[i]) {
+			if (used[i] || (i >= 1 && nums[i] == nums[i - 1] && !used[i - 1])) {
 				continue;
 			}
 			path.add(nums[i]);
 			used[i] = true;
-			backtracking(nums, index, path, ans, used);
+			backtracking(nums, path, ans, used);
 			path.removeLast();
 			used[i] = false;
 		}
 	}
+
 }

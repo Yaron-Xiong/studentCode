@@ -36,22 +36,18 @@ import java.util.List;
 public class Permute {
 	public static void main(String[] args) {
 		Permute permute = new Permute();
-		List<List<Integer>> permute1 = permute.permute(new int[]{1,2,3});
+		List<List<Integer>> permute1 = permute.permute(new int[]{1, 2, 3});
 		System.out.println(permute1);
 	}
 	public List<List<Integer>> permute(int[] nums) {
-		List<List<Integer>> ans = new ArrayList<>();
-		for (int i = 0; i < nums.length; i++) {
-			backtracking(nums, i, new LinkedList<>(), ans);
-		}
-		return ans;
+		List<List<Integer>> res = new ArrayList<>();
+		backtracking(nums, new LinkedList<>(), res);
+		return res;
 	}
 
-	private void backtracking(int[] nums, int index, Deque<Integer> path, List<List<Integer>> ans) {
+	private void backtracking(int[] nums, Deque<Integer> path, List<List<Integer>> res) {
 		if (path.size() == nums.length) {
-			ans.add(new ArrayList<>(path));
-		}
-		if (index >= nums.length) {
+			res.add(new ArrayList<>(path));
 			return;
 		}
 		for (int i = 0; i < nums.length; i++) {
@@ -59,7 +55,7 @@ public class Permute {
 				continue;
 			}
 			path.add(nums[i]);
-			backtracking(nums, index + 1, path, ans);
+			backtracking(nums,path,res);
 			path.removeLast();
 		}
 	}
