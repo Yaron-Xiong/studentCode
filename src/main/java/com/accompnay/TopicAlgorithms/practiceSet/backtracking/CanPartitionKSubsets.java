@@ -23,8 +23,49 @@ package com.accompnay.TopicAlgorithms.practiceSet.backtracking;
  */
 public class CanPartitionKSubsets {
 	public static void main(String[] args) {
-
+		CanPartitionKSubsets canPartitionKSubsets = new CanPartitionKSubsets();
+		boolean b = canPartitionKSubsets.canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 4);
+		System.out.println(b);
 	}
+
+	/**
+	 * 做法：
+	 *  每个桶的目标，当装到了某个值就递归下个桶
+	 *
+	 * @param nums
+	 * @param k
+	 * @return
+	 */
+	public boolean canPartitionKSubsets2(int[] nums, int k) {
+		//合法性判断
+		if (nums.length < k) return false;
+		int sum = 0;
+		for (int num : nums) sum += num;
+		if (sum % k != 0) return false;
+		int target = sum / k;
+		//递归目标每个桶都能装到target值
+		return backtracking2(nums, target, k, 0, 0, new boolean[nums.length]);
+	}
+
+	public boolean backtracking2(int[] nums, int target, int k, int bucket, int start, boolean[] used) {
+		if (k == 0) return true;
+		if (target == bucket) return backtracking2(nums, target, k - 1, 0, 0, used);
+		for (int i = start; i < nums.length; i++) {
+			if (used[i]) continue;
+			if (bucket + nums[i] > target) continue;
+			used[i] = true;
+			if (backtracking2(nums, target, k, bucket + nums[i], i, used)) {
+				return true;
+			}
+			used[i] = false;
+		}
+		return false;
+	}
+
+
+	/**
+	 * 将数字放进桶里
+	 */
 	public boolean canPartitionKSubsets(int[] nums, int k) {
 		int[] kBuk = new int[k];
 		return backtracking(nums, 0, kBuk);

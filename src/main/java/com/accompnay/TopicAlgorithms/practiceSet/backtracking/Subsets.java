@@ -1,8 +1,5 @@
 package com.accompnay.TopicAlgorithms.practiceSet.backtracking;
 
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -38,21 +35,6 @@ public class Subsets {
 	}
 
 	public List<List<Integer>> subsets(int[] nums) {
-		List<List<Integer>> ans = new ArrayList<>();
-		backtracking(nums, new LinkedList<>(), 0, ans);
-		return ans;
-	}
-
-
-	public void backtracking(int[] nums, Deque<Integer> path, int index, List<List<Integer>> ans) {
-		ans.add(new ArrayList<>(path));
-		if (index >= nums.length) return;
-
-		for (int i = index; i < nums.length; i++) {
-			path.add(nums[i]);
-			backtracking(nums, path, i + 1, ans);
-			path.removeLast();
-		}
-
+		return null;
 	}
 }
