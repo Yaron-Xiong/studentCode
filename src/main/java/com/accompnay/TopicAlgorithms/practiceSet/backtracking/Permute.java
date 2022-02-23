@@ -39,6 +39,7 @@ public class Permute {
 		List<List<Integer>> permute1 = permute.permute(new int[]{1, 2, 3});
 		System.out.println(permute1);
 	}
+
 	public List<List<Integer>> permute(int[] nums) {
 		List<List<Integer>> res = new ArrayList<>();
 		backtracking(nums, new LinkedList<>(), res);
@@ -50,12 +51,12 @@ public class Permute {
 			res.add(new ArrayList<>(path));
 			return;
 		}
-		for (int i = 0; i < nums.length; i++) {
-			if (path.contains(nums[i])) {
+		for (int num : nums) {
+			if (path.contains(num)) {
 				continue;
 			}
-			path.add(nums[i]);
-			backtracking(nums,path,res);
+			path.add(num);
+			backtracking(nums, path, res);
 			path.removeLast();
 		}
 	}

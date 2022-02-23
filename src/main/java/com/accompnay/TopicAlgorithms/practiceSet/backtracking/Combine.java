@@ -41,26 +41,25 @@ public class Combine {
 
 	public static void main(String[] args) {
 		Combine combine = new Combine();
-		List<List<Integer>> lists = combine.combine(4, 3);
+		List<List<Integer>> lists = combine.combine(4, 2);
 		System.out.println(lists);
 
 	}
 
-	private List<List<Integer>> res = new ArrayList<>();
-
 	public List<List<Integer>> combine(int n, int k) {
-		backtracking(n, 1, k, new LinkedList<>());
+		List<List<Integer>> res = new ArrayList<>();
+		backtracking(n, k, 1, new LinkedList<>(), res);
 		return res;
 	}
 
-	public void backtracking(int n, int curN, int k, Deque<Integer> path) {
+	private void backtracking(int n, int k, int index, Deque<Integer> path, List<List<Integer>> res) {
 		if (path.size() == k) {
 			res.add(new ArrayList<>(path));
 			return;
 		}
-		for (int i = curN; i <= n - (k - path.size()) + 1; i++) {
+		for (int i = index; path.size() + n - i + 1 >= k; i++) {
 			path.add(i);
-			backtracking(n, i + 1, k, path);
+			backtracking(n, k, i + 1, path, res);
 			path.removeLast();
 		}
 	}
