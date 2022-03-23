@@ -35,31 +35,34 @@ public class LetterCombinations {
 
 	public static void main(String[] args) {
 		LetterCombinations letterCombinations = new LetterCombinations();
-		List<String> strings = letterCombinations.letterCombinations("23");
+		List<String> strings = letterCombinations.letterCombinations("");
 		System.out.println(strings);
 	}
 
 	String[] numString = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
 	public List<String> letterCombinations(String digits) {
-		if (digits==null || digits.length()==0) return new ArrayList<>();
-		backtracking(digits, numString, 0);
-		return ans;
+		if (digits.length() == 0) {
+			return new ArrayList<>();
+		}
+		ArrayList<String> res = new ArrayList<>();
+		backtracking(digits, 0, new StringBuilder(), res);
+		return res;
 	}
 
-	List<String> ans = new ArrayList<>();
-	StringBuilder stringBuilder = new StringBuilder();
-
-	public void backtracking(String digits, String[] numsString, int num) {
-		if (digits.length() == num) {
-			ans.add(stringBuilder.toString());
+	public void backtracking(String digits, int index, StringBuilder path, List<String> res) {
+		if (index >= digits.length()) {
+			res.add(path.toString());
 			return;
 		}
-		String groupString = numsString[digits.charAt(num) - '0'];
-		for (int i = 0; i < groupString.length(); i++) {
-			stringBuilder.append(groupString.charAt(i));
-			backtracking(digits, numsString, num + 1);
-			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+		int a = digits.charAt(index) - '0';
+		String s = numString[a];
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			path.append(c);
+			backtracking(digits, index + 1, path, res);
+			path.deleteCharAt(path.length() - 1);
 		}
 	}
+
 }
