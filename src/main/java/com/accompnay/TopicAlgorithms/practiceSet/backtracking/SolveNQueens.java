@@ -3,6 +3,7 @@ package com.accompnay.TopicAlgorithms.practiceSet.backtracking;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 51. N 皇后
@@ -39,57 +40,66 @@ public class SolveNQueens {
 	}
 
 	public List<List<String>> solveNQueens(int n) {
-		char[][] paths = new char[n][n];
-		for (char[] path : paths) {
-			Arrays.fill(path, '.');
+		char[][] board = new char[n][n];
+		for (char[] chars : board) {
+			Arrays.fill(chars, '.');
 		}
 		List<List<String>> res = new ArrayList<>();
-		backtracking(0, paths, res);
+		backtracking(n, board, res);
 		return res;
 	}
 
-	public void backtracking(int curN, char[][] path, List<List<String>> res) {
-		if (curN >= path.length) {
-			List<String> subRes = new ArrayList<>();
-			for (char[] ints : path) {
-				subRes.add(String.valueOf(ints));
-			}
+	private void backtracking(int n, char[][] board, List<List<String>> res) {
+		if (n == 0) {
+			List<String> subRes = Arrays.stream(board).map(String::valueOf).collect(Collectors.toList());
 			res.add(subRes);
 			return;
 		}
-		for (int i = 0; i < path[curN].length; i++) {
-			boolean isValid = isValid(path, curN, i);
-			if (isValid) {
+		int y = board.length - n;
+		for (int i = 0; i < board[y].length; i++) {
+			if (board[y][i] != '.') {
 				continue;
 			}
-			path[curN][i] = 'Q';
-			backtracking(curN + 1, path, res);
-			path[curN][i] = '.';
+			if (!isValid(board, y, i)) {
+				continue;
+			}
+			board[y][i] = 'Q';
+			backtracking(n - 1, board, res);
+			board[y][i] = '.';
 		}
+
 	}
 
-	private boolean isValid(char[][] path, int curN, int x) {
-		for (int i = 0; i < x; i++) {
-			if (path[curN][i] == 'Q') {
-				return true;
+	private boolean isValid(char[][] board, int y, int x) {
+		for (int i = 0; i <= x; i++) {
+			if (board[y][i] == 'Q') {
+				return false;
 			}
 		}
-		for (int i = 0; i < curN; i++) {
-			if (path[i][x] == 'Q') {
-				return true;
+		for (int i = 0; i <= y; i++) {
+			if (board[i][x] == 'Q') {
+				return false;
 			}
 		}
-		for (int tempY = curN, tempX = x; tempY >= 0 && tempX >= 0; tempX--, tempY--) {
-			if (path[tempY][tempX] == 'Q') {
-				return true;
+		int curX = x;
+		int curY = y;
+		while (curX >= 0 && curY >= 0) {
+			if (board[curY][curX] == 'Q') {
+				return false;
 			}
+			curX--;
+			curY--;
 		}
-		for (int tempY = curN, tempX = x; tempY >= 0 && tempX < path[curN].length; tempX++, tempY--) {
-			if (path[tempY][tempX] == 'Q') {
-				return true;
+		curX = x;
+		curY = y;
+		while (curX < board[y].length && curY >= 0) {
+			if (board[curY][curX] == 'Q') {
+				return false;
 			}
+			curX++;
+			curY--;
 		}
-		return false;
+		return true;
 	}
 
 

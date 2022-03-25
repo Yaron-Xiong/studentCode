@@ -41,7 +41,7 @@ public class Combine {
 
 	public static void main(String[] args) {
 		Combine combine = new Combine();
-		List<List<Integer>> lists = combine.combine(4, 2);
+		List<List<Integer>> lists = combine.combine(1, 1);
 		System.out.println(lists);
 
 	}
@@ -57,7 +57,7 @@ public class Combine {
 			res.add(new ArrayList<>(path));
 			return;
 		}
-		for (int i = index; path.size() + n - i + 1 >= k; i++) {
+		for (int i = index; n - i + path.size() + 1 >= k; i++) {
 			path.add(i);
 			backtracking(n, k, i + 1, path, res);
 			path.removeLast();

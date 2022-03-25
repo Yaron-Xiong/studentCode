@@ -45,10 +45,6 @@ public class Subsets {
 	}
 
 	private void backtracking(int[] nums, int index, Deque<Integer> path, List<List<Integer>> result) {
-		//控制可选列表
-		if (index == nums.length) {
-			return;
-		}
 		for (int i = index; i < nums.length; i++) {
 			path.add(nums[i]);
 			result.add(new ArrayList<>(path));

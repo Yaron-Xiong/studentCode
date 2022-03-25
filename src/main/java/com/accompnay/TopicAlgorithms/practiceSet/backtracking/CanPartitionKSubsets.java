@@ -1,5 +1,9 @@
 package com.accompnay.TopicAlgorithms.practiceSet.backtracking;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 698. 划分为k个相等的子集
  * <p>
@@ -24,40 +28,60 @@ package com.accompnay.TopicAlgorithms.practiceSet.backtracking;
 public class CanPartitionKSubsets {
 	public static void main(String[] args) {
 		CanPartitionKSubsets canPartitionKSubsets = new CanPartitionKSubsets();
-		boolean b = canPartitionKSubsets.canPartitionKSubsets2(new int[]{4, 3, 2, 3, 5, 2, 1}, 4);
+		boolean b = canPartitionKSubsets.canPartitionKSubsets2(new int[]{5, 2, 4, 3, 1}, 5);
 		System.out.println(b);
 	}
 
 	/**
 	 * 做法：
-	 *  每个桶的目标，当装到了某个值就递归下个桶
+	 * 每个桶的目标，当装到了某个值就递归下个桶
 	 *
 	 * @param nums
 	 * @param k
 	 * @return
 	 */
 	public boolean canPartitionKSubsets2(int[] nums, int k) {
-		//合法性判断
-		if (nums.length < k) return false;
-		int sum = 0;
-		for (int num : nums) sum += num;
-		if (sum % k != 0) return false;
+		if (k > nums.length) {
+			return false;
+		}
+		int sum = Arrays.stream(nums).sum();
+		if (sum % k != 0) {
+			return false;
+		}
 		int target = sum / k;
-		//递归目标每个桶都能装到target值
-		return backtracking2(nums, target, k, 0, 0, new boolean[nums.length]);
+		int used = 0;
+		usedArr = new boolean[nums.length];
+		return backtracking2(nums, k, used, target, 0, 0);
 	}
+	private boolean[] usedArr ;
+	private Map<Integer, Boolean> memo = new HashMap<>();
 
-	public boolean backtracking2(int[] nums, int target, int k, int bucket, int start, boolean[] used) {
-		if (k == 0) return true;
-		if (target == bucket) return backtracking2(nums, target, k - 1, 0, 0, used);
-		for (int i = start; i < nums.length; i++) {
-			if (used[i]) continue;
-			if (bucket + nums[i] > target) continue;
-			used[i] = true;
-			if (backtracking2(nums, target, k, bucket + nums[i], i, used)) {
+	private boolean backtracking2(int[] nums, int k, int used, int target, int value, int index) {
+		if (k == 0) {
+			return true;
+		}
+		if (target == value) {
+			boolean b = backtracking2(nums, k - 1, used, target, 0, 0);
+			memo.put(used, b);
+			return b;
+		}
+		if (memo.containsKey(used)) {
+			return memo.get(used);
+		}
+		for (int i = index; i < nums.length; i++) {
+			if ((used >> i & 1) == 1) {
+				continue;
+			}
+			if (value + nums[i] > target) {
+				continue;
+			}
+			used = used | (1 << i);
+			usedArr[i] = true;
+			if (backtracking2(nums, k, used, target, value + nums[i], i + 1)) {
 				return true;
 			}
-			used[i] = false;
+			usedArr[i]=false;
+			used = used ^ (1 << i);
 		}
 		return false;
 	}

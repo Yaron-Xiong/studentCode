@@ -40,54 +40,44 @@ public class SolveSudoku {
 	}
 
 	public void solveSudoku(char[][] board) {
-		backtracking(board);
+		backtracking(board, 0, 0);
 	}
 
-	private boolean backtracking(char[][] board) {
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				if (board[i][j] != '.') {
-					continue;
-				}
-				for (char k = '1'; k <= '9'; k++) {
-					if (isValid(board, i, j, k)) {
-						continue;
-					}
-					board[i][j] = k;
-					if (backtracking(board)) {
-						return true;
-					}
-					board[i][j] = '.';
-				}
-				return false;
+	private boolean backtracking(char[][] board, int y, int x) {
+		if (y >= board.length) {
+			return true;
+		}
+		if (x >= board[0].length) {
+			return backtracking(board, y + 1, 0);
+		}
+		if (board[y][x] != '.') {
+			return backtracking(board, y, x + 1);
+		}
+		for (char i = '1'; i <= '9'; i++) {
+			if (!isValid(board, y, x, i)) {
+				continue;
 			}
+			board[y][x] = i;
+			if (backtracking(board, y, x + 1)) {
+				return true;
+			}
+			board[y][x] = '.';
+		}
+		return false;
+	}
+
+	private boolean isValid(char[][] board, int y, int x, char value) {
+		for (int i = 0; i < 9; i++) {
+			// 判断⾏是否存在重复
+			if (board[y][i] == value) return false;
+			// 判断列是否存在重复
+			if (board[i][x] == value) return false;
+			// 判断 3 x 3 ⽅框是否存在重复
+			if (board[(y/3)*3 + i/3][(x/3)*3 + i%3] == value)
+				return false;
 		}
 		return true;
 	}
 
-
-	private boolean isValid(char[][] board, int y, int x, char i) {
-		if (board[y][x] != '.') {
-			return false;
-		}
-		for (char c : board[y]) {
-			if (i == c) {
-				return true;
-			}
-		}
-		for (char[] chars : board) {
-			if (chars[x] == i) {
-				return true;
-			}
-		}
-		for (int gridY = (y / 3) * 3; gridY < (y / 3) * 3 + 3; gridY++) {
-			for (int gridX = (x / 3) * 3; gridX < (x / 3) * 3 + 3; gridX++) {
-				if (board[gridY][gridX] == i) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
 
 }
