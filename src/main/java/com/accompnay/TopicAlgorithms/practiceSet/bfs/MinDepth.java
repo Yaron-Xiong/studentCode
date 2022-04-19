@@ -33,27 +33,29 @@ import java.util.LinkedList;
  */
 public class MinDepth {
 	public int minDepth(TreeNode root) {
-		if (root == null) return 0;
+		if (root == null) {
+			return 0;
+		}
 		Deque<TreeNode> queue = new LinkedList<>();
-		int depth = 0;
 		queue.add(root);
+		int minDepth = 0;
 		while (!queue.isEmpty()) {
 			int size = queue.size();
-			depth++;
+			minDepth++;
 			while (size > 0) {
 				size--;
-				TreeNode poll = queue.poll();
-				if (poll.left == null && poll.right == null) {
-					return depth;
+				TreeNode node = queue.poll();
+				if (node.left == null && node.right == null) {
+					return minDepth;
 				}
-				if (poll.left != null) {
-					queue.add(poll.left);
+				if (node.left != null) {
+					queue.add(node.left);
 				}
-				if (poll.right != null) {
-					queue.add(poll.right);
+				if (node.right != null) {
+					queue.add(node.right);
 				}
 			}
 		}
-		return 0;
+		return minDepth;
 	}
 }

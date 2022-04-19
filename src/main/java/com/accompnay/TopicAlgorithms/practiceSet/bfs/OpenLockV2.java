@@ -60,42 +60,37 @@ public class OpenLockV2 {
 	 * @return
 	 */
 	public int openLock(String[] deadends, String target) {
+		Set<String> queue1 = new HashSet<>();
+		Set<String> queue2 = new HashSet<>();
 		Set<String> deadSet = new HashSet<>(Arrays.asList(deadends));
-		if (deadSet.contains(target)) {
-			return -1;
-		}
-		Set<String> q1Set = new HashSet<>();
-		Set<String> q2Set = new HashSet<>();
-		Set<String> temp = new HashSet<>();
-		q1Set.add("0000");
-		q2Set.add(target);
+
+		queue1.add("0000");
+		queue2.add(target);
 		int step = 0;
-		while (!q1Set.isEmpty() && !q2Set.isEmpty()) {
-			for (String curLock : q1Set) {
-				if (deadSet.contains(curLock)) {
+		while (!queue1.isEmpty() && !queue2.isEmpty()) {
+			Set<String> temp = new HashSet<>();
+			for (String lock : queue1) {
+				if (deadSet.contains(lock)) {
 					continue;
 				}
-				if (q2Set.contains(curLock)) {
+				if (queue2.contains(lock)) {
 					return step;
 				}
-				deadSet.add(curLock);
+				deadSet.add(lock);
 				for (int i = 0; i < 4; i++) {
-					String plus = plus(curLock, i);
-					String minus = minus(curLock, i);
+					String plus = plus(lock, i);
+					String minus = minus(lock, i);
 					temp.add(plus);
 					temp.add(minus);
 				}
 			}
-			step++;
-			if (temp.size() > q2Set.size()) {
-				q1Set = q2Set;
-				q2Set = temp;
-				temp = new HashSet<>();
-			}else {
-				q1Set = temp;
-				temp = new HashSet<>();
+			if (temp.size() > queue2.size()) {
+				queue1 = queue2;
+				queue2 = temp;
+			} else {
+				queue1 = temp;
 			}
-
+			step++;
 		}
 		return -1;
 	}

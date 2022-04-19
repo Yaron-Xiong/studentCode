@@ -53,56 +53,55 @@ public class OpenLock {
 		int i = openLock.openLock(deadends, "0202");
 		System.out.println(i);
 	}
+
 	public int openLock(String[] deadends, String target) {
-		Set<String> dieLocks = new HashSet<>(Arrays.asList(deadends));
-		if (dieLocks.contains(target)) {
-			return -1;
-		}
-		String curLock = "0000";
-		Queue<String> queue = new LinkedList<>();
-		queue.add(curLock);
-		int depth = 0;
+		Set<String> deadSet = new HashSet<>(Arrays.asList(deadends));
+		Deque<String> queue = new LinkedList<>();
+		queue.add("0000");
+		int step = 0;
 		while (!queue.isEmpty()) {
 			int size = queue.size();
 			while (size > 0) {
 				size--;
-				String poll = queue.poll();
-				if (dieLocks.contains(poll)) {
+				String lock = queue.poll();
+				if (deadSet.contains(lock)) {
 					continue;
 				}
-				dieLocks.add(poll);
-				if (poll.equals(target)) {
-					return depth;
+				if (target.equals(lock)) {
+					return step;
 				}
+				deadSet.add(lock);
 				for (int i = 0; i <= 3; i++) {
-					String plus = plus(poll, i);
-					String minus = minus(poll, i);
-					queue.add(plus);
-					queue.add(minus);
+					String plusStr = plus(lock, i);
+					String minusStr = minus(lock, i);
+					queue.add(plusStr);
+					queue.add(minusStr);
 				}
 			}
-			depth++;
+			step++;
 		}
-		return -1;
+		return 0;
 	}
 
-	public String plus(String lock, int index) {
-		char[] chars = lock.toCharArray();
-		if (chars[index] == '9') {
-			chars[index] = '0';
-		} else {
-			chars[index] = (char) (chars[index] + 1);
-		}
-		return new String(chars);
-	}
-
-	public String minus(String lock, int index) {
+	private String minus(String lock, int index) {
 		char[] chars = lock.toCharArray();
 		if (chars[index] == '0') {
 			chars[index] = '9';
 		} else {
-			chars[index] = (char) (chars[index] - 1);
+			chars[index] -= 1;
 		}
-		return new String(chars);
+		return String.valueOf(chars);
 	}
+
+	private String plus(String lock, int index) {
+		char[] chars = lock.toCharArray();
+		if (chars[index] == '9') {
+			chars[index] = '0';
+		} else {
+			chars[index] += 1;
+		}
+		return String.valueOf(chars);
+	}
+
+
 }
