@@ -37,7 +37,7 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
 public class LongestCommonSubsequence {
 	public static void main(String[] args) {
 		LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
-		int i = longestCommonSubsequence.longestCommonSubsequence("abcde", "ace");
+		int i = longestCommonSubsequence.longestCommonSubsequence("delete", "leet");
 		System.out.println(i);
 	}
 
