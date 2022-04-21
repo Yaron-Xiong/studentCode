@@ -20,6 +20,10 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
  * <p>
  * 1 <= word1.length, word2.length <= 500
  * word1 和 word2 只包含小写英文字母
+ *
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/delete-operation-for-two-strings
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class MinDistance {
 	public static void main(String[] args) {
