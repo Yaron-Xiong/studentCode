@@ -20,7 +20,7 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
  * <p>
  * 1 <= word1.length, word2.length <= 500
  * word1 和 word2 只包含小写英文字母
- *
+ * <p>
  * 来源：力扣（LeetCode）
  * 链接：https://leetcode-cn.com/problems/delete-operation-for-two-strings
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
@@ -31,6 +31,7 @@ public class MinDistance {
 		int i = minDistance.minDistance("sea", "eat");
 		System.out.println(i);
 	}
+
 	public int minDistance(String word1, String word2) {
 		int[][] dp = new int[word1.length() + 1][word2.length() + 1];
 		for (int i = 1; i < dp.length; i++) {
@@ -38,11 +39,11 @@ public class MinDistance {
 				if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
 					dp[i][j] = dp[i - 1][j - 1] + 1;
 				} else {
-					dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+					dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
 				}
 			}
 		}
-		int longestCommonSubStringSize = dp[word1.length()][word2.length()];
-		return word1.length() + word2.length() - longestCommonSubStringSize - longestCommonSubStringSize;
+		int lcs = dp[word1.length()][word2.length()];
+		return word1.length() - lcs + word2.length() - lcs;
 	}
 }

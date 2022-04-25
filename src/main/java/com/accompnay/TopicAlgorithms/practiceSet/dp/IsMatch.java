@@ -39,8 +39,42 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
 public class IsMatch {
 	public static void main(String[] args) {
 		IsMatch isMatch = new IsMatch();
-		boolean cb = isMatch.isMatch("bbbba", ".*a*a");
+		boolean cb = isMatch.isMatch2("bbbbba", ".*a*a");
 		System.out.println(cb);
+	}
+
+	public boolean isMatch2(String s, String p) {
+		boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
+		dp[0][0] = true;
+		for (int i = 0; i < dp.length; i++) {
+			for (int j = 1; j < dp[i].length; j++) {
+				if (p.charAt(j - 1) == '*') {
+					if (match(s, i - 1, p, j - 1)) {
+						dp[i][j] = dp[i - 1][j] || dp[i][j - 2];
+					} else {
+						dp[i][j] = dp[i][j - 2];
+					}
+				} else {
+					if (match(s, i - 1, p, j - 1)) {
+						dp[i][j] = dp[i - 1][j - 1];
+					} else {
+						dp[i][j] = false;
+					}
+				}
+			}
+		}
+		return dp[s.length()][p.length()];
+	}
+
+	public boolean match(String s, int i, String p, int j) {
+		if (i < 0) {
+			return false;
+		}
+		if (p.charAt(j) == '*') {
+			return p.charAt(j - 1) == '.' || s.charAt(i) == p.charAt(j - 1);
+		} else {
+			return p.charAt(j) == '.' || s.charAt(i) == p.charAt(j);
+		}
 	}
 
 	public boolean isMatch(String s, String p) {
@@ -48,21 +82,21 @@ public class IsMatch {
 	}
 
 	private boolean dp(String s, int i, String p, int j) {
-		if (i >= s.length() && hasOver(p, j)) {
+		if (i >= s.length() && !has(p, j)) {
 			return true;
-		} else if (i >= s.length() || j >= p.length()) {
+		} else if (i >= s.length() && has(p, j)) {
+			return false;
+		} else if (i < s.length() && j >= p.length()) {
 			return false;
 		}
-		char sChar = s.charAt(i);
-		char pChar = p.charAt(j);
-		if (j <= p.length() - 2 && p.charAt(j + 1) == '*') {
-			if (sChar == pChar || pChar == '.') {
+		if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
+			if (p.charAt(j) == s.charAt(i) || p.charAt(j) == '.') {
 				return dp(s, i + 1, p, j) || dp(s, i, p, j + 2);
 			} else {
 				return dp(s, i, p, j + 2);
 			}
 		} else {
-			if (sChar == pChar || pChar == '.') {
+			if (p.charAt(j) == s.charAt(i) || p.charAt(j) == '.') {
 				return dp(s, i + 1, p, j + 1);
 			} else {
 				return false;
@@ -70,19 +104,14 @@ public class IsMatch {
 		}
 	}
 
-	public boolean hasOver(String s, int index) {
-		if (index >= s.length()) {
-			return true;
-		}
-		if ((s.length() - index) % 2 != 0) {
+	private boolean has(String p, int j) {
+		if (j >= p.length()) {
 			return false;
 		}
-		while (index < s.length()) {
-			if (s.charAt(index + 1) != '*') {
-				return false;
-			}
-			index += 2;
+		int tempIndex = p.charAt(j) == '*' ? j + 1 : j;
+		while (tempIndex + 1 < p.length() && p.charAt(tempIndex + 1) == '*') {
+			tempIndex += 2;
 		}
-		return true;
+		return tempIndex < p.length();
 	}
 }

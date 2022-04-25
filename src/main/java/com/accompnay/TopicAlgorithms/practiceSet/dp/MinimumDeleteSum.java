@@ -32,7 +32,7 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
 public class MinimumDeleteSum {
 	public static void main(String[] args) {
 		MinimumDeleteSum minimumDeleteSum = new MinimumDeleteSum();
-		int i = minimumDeleteSum.minimumDeleteSum("delete", "leet");
+		int i = minimumDeleteSum.minimumDeleteSum("sea", "eat");
 		System.out.println(i);
 	}
 
@@ -47,13 +47,15 @@ public class MinimumDeleteSum {
 				}
 			}
 		}
-		int res = 0;
+		int lcs = dp[s1.length()][s2.length()];
+		int s1ASCIIValue = 0;
 		for (char c : s1.toCharArray()) {
-			res += c;
+			s1ASCIIValue += c;
 		}
+		int s2ASCIIValue = 0;
 		for (char c : s2.toCharArray()) {
-			res += c;
+			s2ASCIIValue += c;
 		}
-		return res - (dp[s1.length()][s2.length()] << 1);
+		return s1ASCIIValue - lcs + s2ASCIIValue - lcs;
 	}
 }

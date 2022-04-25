@@ -1,5 +1,8 @@
 package com.accompnay.TopicAlgorithms.practiceSet.dp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 1143. 最长公共子序列
  * 给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。
@@ -37,23 +40,46 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
 public class LongestCommonSubsequence {
 	public static void main(String[] args) {
 		LongestCommonSubsequence longestCommonSubsequence = new LongestCommonSubsequence();
-		int i = longestCommonSubsequence.longestCommonSubsequence("delete", "leet");
+		int i = longestCommonSubsequence.longestCommonSubsequence2("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		System.out.println(i);
 	}
 
-
-	public int longestCommonSubsequence(String text1, String text2) {
+	public int longestCommonSubsequence2(String text1, String text2) {
 		int[][] dp = new int[text1.length() + 1][text2.length() + 1];
-
 		for (int i = 1; i < dp.length; i++) {
 			for (int j = 1; j < dp[i].length; j++) {
 				if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
 					dp[i][j] = dp[i - 1][j - 1] + 1;
-				} else {
+				}else {
 					dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
 				}
 			}
 		}
 		return dp[text1.length()][text2.length()];
+	}
+
+	public int longestCommonSubsequence(String text1, String text2) {
+		return dp(text1, 0, text2, 0);
+	}
+
+	private Map<String, Integer> memo = new HashMap<>();
+
+	private int dp(String text1, int i, String text2, int j) {
+		if (i >= text1.length() || j >= text2.length()) {
+			return 0;
+		}
+		Integer res = this.memo.get(i + "#" + j);
+		if (res != null) {
+			return res;
+		}
+		res = 0;
+		if (text1.charAt(i) == text2.charAt(j)) {
+			res = dp(text1, i + 1, text2, j + 1) + 1;
+		}else {
+			res = Math.max(res, dp(text1, i + 1, text2, j));
+			res = Math.max(res, dp(text1, i, text2, j + 1));
+		}
+		this.memo.put(i + "#" + j, res);
+		return res;
 	}
 }

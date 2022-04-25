@@ -37,48 +37,67 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
 public class LengthOfLIS {
 	public static void main(String[] args) {
 		LengthOfLIS lengthOfLIS = new LengthOfLIS();
-		int i = lengthOfLIS.lengthOfLIS2(new int[]{0, 1, 0, 3, 2, 3});
+		int i = lengthOfLIS.lengthOfLIS2(new int[]{7, 7, 7, 7, 7, 7, 7});
 		System.out.println(i);
 	}
 
+	private int[] bucket;
+	private int bucketCount;
+
 	public int lengthOfLIS2(int[] nums) {
-		int[] dp = new int[nums.length];
-		int dpSize = 0;
-		for (int poker : nums) {
-			int left = 0;
-			int right = dpSize;
-			while (left < right) {
-				int mid = (left + right) >> 1;
-				if (poker < dp[mid]) {
-					right = mid;
-				} else if (poker > dp[mid]) {
-					left = mid + 1;
-				} else {
-					right = mid;
-				}
+		bucket = new int[nums.length];
+		bucketCount = 0;
+		for (int num : nums) {
+			int index = findIndex(num);
+			if (index < 0) {
+				bucketCount++;
+				index = bucketCount - 1;
 			}
-			if (left == dpSize) dpSize++;
-			dp[left] = poker;
+			bucket[index] = num;
 		}
-		return dpSize;
+		return bucketCount;
 	}
+
+	/**
+	 * 从左到右找到第一个大于value值的桶
+	 */
+	public int findIndex(int value) {
+		int left = 0;
+		int right = bucketCount;
+		while (left < right) {
+			int mid = (left + right) >> 1;
+			if (value > bucket[mid]) {
+				left = mid + 1;
+			} else {
+				right = mid;
+			}
+		}
+		return left == bucketCount ? -1 : left;
+	}
+
 
 	public int lengthOfLIS(int[] nums) {
 		int[] dp = new int[nums.length];
 		dp[0] = 1;
 		for (int i = 1; i < nums.length; i++) {
-			int maxDp = Integer.MIN_VALUE;
-			for (int j = 0; j < i; j++) {
-				if (nums[i] > nums[j]) {
-					maxDp = Math.max(dp[j], maxDp);
-				}
-			}
-			dp[i] = maxDp == Integer.MIN_VALUE ? 1 : maxDp + 1;
+			int dpI = find(nums, dp, i);
+			dp[i] = dpI == 0 ? 1 : dpI + 1;
 		}
-		int maxDp = Integer.MIN_VALUE;
+		int max = 0;
 		for (int i : dp) {
-			maxDp = Math.max(maxDp, i);
+			max = Math.max(max, i);
+		}
+		return max;
+	}
+
+	public int find(int[] nums, int[] dp, int index) {
+		int maxDp = 0;
+		for (int i = 0; i < index; i++) {
+			if (nums[i] < nums[index]) {
+				maxDp = Math.max(maxDp, dp[i]);
+			}
 		}
 		return maxDp;
 	}
+
 }

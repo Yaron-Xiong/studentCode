@@ -1,5 +1,8 @@
 package com.accompnay.TopicAlgorithms.practiceSet.dp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 72. 编辑距离
  * 给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数  。
@@ -41,52 +44,79 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
 public class MinDistance2 {
 	public static void main(String[] args) {
 		MinDistance2 minDistance2 = new MinDistance2();
-		int i = minDistance2.minDistance2("", "a");
+		int i = minDistance2.minDistance2("horse", "ros");
 		System.out.println(i);
 	}
 
-	public int minDistance2(String word1, String word2) {
-		int[][] dp = new int[word1.length() + 1][word2.length() + 1];
-		for (int i = 0; i <= word1.length(); i++) {
-			dp[i][0] = i;
+	class Node {
+		int dp;
+		String op;
+
+		public Node(int dp, String op) {
+			this.dp = dp;
+			this.op = op;
 		}
-		for (int i = 0; i <= word2.length(); i++) {
-			dp[0][i] = i;
+
+		@Override
+		public String toString() {
+			return "Node{" +
+					"dp=" + dp +
+					", op='" + op + '\'' +
+					'}';
+		}
+	}
+
+
+	public int minDistance2(String word1, String word2) {
+		Node[][] dp = new Node[word1.length() + 1][word2.length() + 1];
+		dp[0][0] = new Node(0, "N");
+		for (int i = 1; i < dp.length; i++) {
+			dp[i][0] = new Node(i, "A");
+		}
+		for (int i = 1; i < dp[0].length; i++) {
+			dp[0][i] = new Node(i, "A");
 		}
 
 		for (int i = 1; i < dp.length; i++) {
 			for (int j = 1; j < dp[i].length; j++) {
 				if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-					dp[i][j] = dp[i - 1][j - 1];
+					dp[i][j] = new Node(dp[i - 1][j - 1].dp, "N");
 				} else {
-					dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1])) + 1;
+					dp[i][j] = new Node(dp[i - 1][j - 1].dp + 1, "R");
+					dp[i][j] = dp[i - 1][j].dp < dp[i][j].dp ? new Node(dp[i - 1][j].dp + 1, "D") : dp[i][j];
+					dp[i][j] = dp[i][j - 1].dp < dp[i][j].dp ? new Node(dp[i][j - 1].dp + 1, "A") : dp[i][j];
+
 				}
 			}
 		}
-		return dp[word1.length()][word2.length()];
+		return dp[word1.length()][word2.length()].dp;
 	}
 
+	private Map<String, Integer> memo = new HashMap<>();
+
 	public int minDistance(String word1, String word2) {
-		return dp(word1, word1.length() - 1, word2, word2.length() - 1);
+		return dp(word1, 0, word2, 0);
 	}
 
 	private int dp(String word1, int i, String word2, int j) {
-		if (i == -1) {
-			return j + 1;
+		if (i >= word1.length()) {
+			return word2.length() - j;
 		}
-		if (j == -1) {
-			return i + 1;
+		if (j >= word2.length()) {
+			return word1.length() - i;
+		}
+		String key = i + "#" + j;
+		if (memo.containsKey(key)) {
+			return memo.get(key);
 		}
 		if (word1.charAt(i) == word2.charAt(j)) {
-			return dp(word1, i - 1, word2, j - 1);
-		} else {
-			//当t1插入时 t2可跳过一位
-			//当t1修改时,t1和t2可跳过一位
-			//当t1删除时,t1可跳过一位
-			int dp1 = dp(word1, i - 1, word2, j) + 1;
-			int dp2 = dp(word1, i, word2, j - 1) + 1;
-			int dp3 = dp(word1, i - 1, word2, j - 1) + 1;
-			return Math.min(Math.min(dp1, dp2), dp3);
+			return dp(word1, i + 1, word2, j + 1);
 		}
+		int i1 = dp(word1, i + 1, word2, j + 1) + 1;
+		int i2 = dp(word1, i + 1, word2, j) + 1;
+		int i3 = dp(word1, i, word2, j + 1) + 1;
+		int dpResult = Math.min(i1, Math.min(i2, i3));
+		memo.put(key, dpResult);
+		return dpResult;
 	}
 }

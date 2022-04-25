@@ -32,13 +32,40 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class MaxSubArray {
+	public static void main(String[] args) {
+		MaxSubArray maxSubArray = new MaxSubArray();
+		int i = maxSubArray.maxSubArray2(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
+		System.out.println(i);
+	}
+
+	int maxDp;
+
+	public int maxSubArray2(int[] nums) {
+		maxDp = nums[0];
+		dp(nums, 0);
+		return maxDp;
+	}
+
+	private int dp(int[] nums, int i) {
+		if (i >= nums.length) {
+			return 0;
+		}
+		int dp = Math.max(nums[i] + dp(nums, i + 1), nums[i]);
+		maxDp = Math.max(dp, maxDp);
+		return dp;
+	}
+
 	public int maxSubArray(int[] nums) {
 		int dp = nums[0];
-		int res = dp;
+		int maxDp = dp;
 		for (int i = 1; i < nums.length; i++) {
-			dp = Math.max(nums[i] + dp, nums[i]);
-			res = Math.max(dp, res);
+			if (nums[i] + dp > nums[i]) {
+				dp += nums[i];
+			} else {
+				dp = nums[i];
+			}
+			maxDp = Math.max(dp, maxDp);
 		}
-		return res;
+		return maxDp;
 	}
 }
