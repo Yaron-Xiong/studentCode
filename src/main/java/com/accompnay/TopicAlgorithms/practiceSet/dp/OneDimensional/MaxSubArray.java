@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.dp;
+package com.accompnay.TopicAlgorithms.practiceSet.dp.OneDimensional;
 
 /**
  * 53. 最大子数组和
@@ -34,38 +34,36 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
 public class MaxSubArray {
 	public static void main(String[] args) {
 		MaxSubArray maxSubArray = new MaxSubArray();
-		int i = maxSubArray.maxSubArray2(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
+		int i = maxSubArray.maxSubArray(new int[]{5,4,-1,7,8});
 		System.out.println(i);
 	}
 
-	int maxDp;
+	int maxDp = Integer.MIN_VALUE;
 
-	public int maxSubArray2(int[] nums) {
-		maxDp = nums[0];
-		dp(nums, 0);
+	public int maxSubArray(int[] nums) {
+		dp(nums, nums.length - 1);
 		return maxDp;
 	}
 
 	private int dp(int[] nums, int i) {
-		if (i >= nums.length) {
+		if (i < 0) {
 			return 0;
 		}
-		int dp = Math.max(nums[i] + dp(nums, i + 1), nums[i]);
-		maxDp = Math.max(dp, maxDp);
-		return dp;
+		int res = Math.max(nums[i], dp(nums, i - 1) + nums[i]);
+		maxDp = Math.max(maxDp, res);
+		return res;
 	}
 
-	public int maxSubArray(int[] nums) {
-		int dp = nums[0];
-		int maxDp = dp;
+	public int maxSubArray2(int[] nums) {
+		int[] dp = new int[nums.length];
+		dp[0] = nums[0];
 		for (int i = 1; i < nums.length; i++) {
-			if (nums[i] + dp > nums[i]) {
-				dp += nums[i];
-			} else {
-				dp = nums[i];
-			}
-			maxDp = Math.max(dp, maxDp);
+			dp[i] = Math.max(nums[i] + dp[i - 1], nums[i]);
 		}
-		return maxDp;
+		int res = Integer.MIN_VALUE;
+		for (int i = 0; i < nums.length; i++) {
+			res = Math.max(dp[i], res);
+		}
+		return res;
 	}
 }

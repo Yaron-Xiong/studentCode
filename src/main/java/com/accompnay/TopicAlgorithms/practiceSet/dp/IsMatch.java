@@ -71,10 +71,9 @@ public class IsMatch {
 			return false;
 		}
 		if (p.charAt(j) == '*') {
-			return p.charAt(j - 1) == '.' || s.charAt(i) == p.charAt(j - 1);
-		} else {
-			return p.charAt(j) == '.' || s.charAt(i) == p.charAt(j);
+			return p.charAt(j - 1) == '.' || p.charAt(j - 1) == s.charAt(i);
 		}
+		return p.charAt(j) == '.' || p.charAt(j) == s.charAt(i);
 	}
 
 	public boolean isMatch(String s, String p) {
@@ -90,13 +89,13 @@ public class IsMatch {
 			return false;
 		}
 		if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
-			if (p.charAt(j) == s.charAt(i) || p.charAt(j) == '.') {
+			if (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.') {
 				return dp(s, i + 1, p, j) || dp(s, i, p, j + 2);
 			} else {
 				return dp(s, i, p, j + 2);
 			}
 		} else {
-			if (p.charAt(j) == s.charAt(i) || p.charAt(j) == '.') {
+			if (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.') {
 				return dp(s, i + 1, p, j + 1);
 			} else {
 				return false;
@@ -108,10 +107,10 @@ public class IsMatch {
 		if (j >= p.length()) {
 			return false;
 		}
-		int tempIndex = p.charAt(j) == '*' ? j + 1 : j;
-		while (tempIndex + 1 < p.length() && p.charAt(tempIndex + 1) == '*') {
-			tempIndex += 2;
+		int temp = p.charAt(j) == '*' ? j + 1 : j;
+		while (temp + 1 < p.length() && p.charAt(temp + 1) == '*') {
+			temp += 2;
 		}
-		return tempIndex < p.length();
+		return temp < p.length();
 	}
 }
