@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.dp;
+package com.accompnay.TopicAlgorithms.practiceSet.dp.bag;
 
 /**
  * 518. 零钱兑换 II
@@ -43,9 +43,40 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
 public class Change {
 	public static void main(String[] args) {
 		Change change = new Change();
-		int change1 = change.change(0, new int[]{7});
+		int change1 = change.change3(5, new int[]{1, 2, 5});
 		System.out.println(change1);
 	}
+
+	public int change3(int amount, int[] coins) {
+		int[] dp = new int[amount + 1];
+		dp[0] = 1;
+		for (int i = 0; i < coins.length; i++) {
+			for (int j = 0; j < dp.length; j++) {
+				if (j - coins[i] < 0)
+					continue;
+				dp[j] = dp[j] + dp[j - coins[i]];
+			}
+		}
+		return dp[amount];
+	}
+
+	public int change2(int amount, int[] coins) {
+		int[][] dp = new int[coins.length + 1][amount + 1];
+		for (int i = 1; i < dp.length; i++) {
+			dp[i][0] = 1;
+		}
+		for (int i = 1; i < dp.length; i++) {
+			for (int j = 1; j < dp[i].length; j++) {
+				if (j - coins[i - 1] < 0) {
+					dp[i][j] = dp[i - 1][j];
+				} else {
+					dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i - 1]];
+				}
+			}
+		}
+		return dp[coins.length][amount];
+	}
+
 
 	public int change(int amount, int[] coins) {
 		if (amount <= 0) {

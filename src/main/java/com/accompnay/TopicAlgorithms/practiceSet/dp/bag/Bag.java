@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.dp;
+package com.accompnay.TopicAlgorithms.practiceSet.dp.bag;
 
 import java.util.Arrays;
 
