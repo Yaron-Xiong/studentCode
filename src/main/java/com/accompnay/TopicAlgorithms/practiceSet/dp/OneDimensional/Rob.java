@@ -40,39 +40,34 @@ public class Rob {
 	}
 
 	public int rob2(int[] nums) {
-		if (nums.length == 1) {
-			return nums[0];
+		int dp0 = 0;
+		int dp1 = 0;
+		int temp;
+		for (int num : nums) {
+			dp0 = Math.max(dp0 + num, dp1);
+			temp = dp0;
+			dp0 = dp1;
+			dp1 = temp;
 		}
-		int n_2 = nums[0];
-		int n_1 = Math.max(n_2, nums[1]);
-		int maxDp = Math.max(n_2, n_1);
-		for (int i = 2; i < nums.length; i++) {
-			int temp = Math.max(n_2 + nums[i], n_1);
-			n_2 = n_1;
-			n_1 = temp;
-			maxDp = Math.max(maxDp, temp);
-		}
-		return maxDp;
+		return dp1;
 	}
 
 	public int rob(int[] nums) {
-		return dp(nums, nums.length - 1);
+		return dp(0, nums);
 	}
 
-	private Map<String, Integer> memo = new HashMap<>();
+	private Map<Integer, Integer> memo = new HashMap<>();
 
-	private int dp(int[] nums, int i) {
-		if (i < 0) {
+	public int dp(int index, int[] nums) {
+		if (index >= nums.length) {
 			return 0;
 		}
-		String key = Integer.toString(i);
-		if (memo.containsKey(key)) {
-			return memo.get(key);
+		if (memo.containsKey(index)) {
+			return memo.get(index);
 		}
-		int dp;
-		dp = dp(nums, i - 2) + nums[i];
-		dp = Math.max(dp(nums, i - 1), dp);
-		memo.put(key, dp);
-		return dp;
+		int max = Math.max(dp(index + 1, nums), dp(index + 2, nums) + nums[index]);
+		memo.put(index, max);
+		return max;
 	}
+
 }

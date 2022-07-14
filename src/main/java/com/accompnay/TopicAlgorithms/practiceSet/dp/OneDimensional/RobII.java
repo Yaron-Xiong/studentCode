@@ -31,7 +31,7 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp.OneDimensional;
 public class RobII {
 	public static void main(String[] args) {
 		RobII rob = new RobII();
-		int rob1 = rob.rob(new int[]{1,2,3,1});
+		int rob1 = rob.rob(new int[]{1});
 		System.out.println(rob1);
 	}
 
@@ -42,19 +42,15 @@ public class RobII {
 		return Math.max(dp(nums, 0, nums.length - 2), dp(nums, 1, nums.length - 1));
 	}
 
-	public int dp(int[] nums, int start, int end) {
-		if (end - start == 0) {
-			return nums[start];
+	private int dp(int[] nums, int startIndex, int endIndex) {
+		int dp0 = 0;
+		int dp1 = 0;
+		for (int i = startIndex; i <= endIndex; i++) {
+			dp0 = Math.max(dp0 + nums[i], dp1);
+			int temp = dp1;
+			dp1 = dp0;
+			dp0 = temp;
 		}
-		int n_2 = nums[start];
-		int n_1 = Math.max(n_2, nums[start + 1]);
-		int maxDp = Math.max(n_2, n_1);
-		for (int i = start + 2; i <= end; i++) {
-			int temp = Math.max(n_2 + nums[i], n_1);
-			n_2 = n_1;
-			n_1 = temp;
-			maxDp = Math.max(maxDp, temp);
-		}
-		return maxDp;
+		return dp1;
 	}
 }
