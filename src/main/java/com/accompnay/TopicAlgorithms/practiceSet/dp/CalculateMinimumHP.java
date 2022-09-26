@@ -35,8 +35,39 @@ package com.accompnay.TopicAlgorithms.practiceSet.dp;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class CalculateMinimumHP {
-	public int calculateMinimumHP(int[][] dungeon) {
-		int[][] dp = new int[dungeon.length][dungeon[0].length];
-		dp[dungeon.length - 1][dungeon[0].length - 1] = 1 - dungeon[dungeon.length - 1][dungeon[0].length - 1];
+	public static void main(String[] args) {
+		int[][] dungeon = new int[][]{{-2}, {1}};
+		CalculateMinimumHP calculateMinimumHP = new CalculateMinimumHP();
+		int i = calculateMinimumHP.calculateMinimumHP(dungeon);
+		System.out.println(i);
 	}
+
+	public int calculateMinimumHP(int[][] dungeon) {
+		int rowCount = dungeon.length;
+		int colCount = dungeon[0].length;
+		int[][] dp = new int[rowCount][colCount];
+		dp[rowCount - 1][colCount - 1] = ofValue(1 - dungeon[rowCount - 1][colCount - 1]);
+
+		for (int i = rowCount - 2; i >= 0; i--) {
+			dp[i][colCount - 1] = ofValue(dp[i + 1][colCount - 1] - dungeon[i][colCount - 1]);
+		}
+
+
+		for (int i = colCount - 2; i >= 0; i--) {
+			dp[rowCount - 1][i] = ofValue(dp[rowCount - 1][i + 1] - dungeon[rowCount - 1][i]);
+		}
+
+		for (int i = rowCount - 2; i >= 0; i--) {
+			for (int j = colCount - 2; j >= 0; j--) {
+				dp[i][j] = ofValue(Math.min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j]);
+			}
+		}
+
+		return dp[0][0];
+	}
+
+	private int ofValue(int initValue) {
+		return initValue <= 0 ? 1 : initValue;
+	}
+
 }
