@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.list;
+package com.accompnay.TopicAlgorithms.practiceSet.list.presum;
 
 /**
  * 303. 区域和检索 - 数组不可变

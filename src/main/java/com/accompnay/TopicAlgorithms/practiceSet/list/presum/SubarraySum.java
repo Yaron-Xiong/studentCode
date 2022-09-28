@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.list;
+package com.accompnay.TopicAlgorithms.practiceSet.list.presum;
 
 import java.util.HashMap;
 import java.util.Map;

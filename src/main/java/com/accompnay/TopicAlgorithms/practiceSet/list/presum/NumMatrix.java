@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.list;
+package com.accompnay.TopicAlgorithms.practiceSet.list.presum;
 
 /**
  * 304. 二维区域和检索 - 矩阵不可变
