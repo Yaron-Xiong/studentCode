@@ -1,9 +1,6 @@
 package com.accompnay.TopicAlgorithms.practiceSet.monotonic_stack;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * 496. 下一个更大元素 I
@@ -49,24 +46,24 @@ import java.util.Stack;
 public class NextGreaterElement {
 	public static void main(String[] args) {
 		NextGreaterElement nextGreaterElement = new NextGreaterElement();
-		int[] ints = nextGreaterElement.nextGreaterElement(new int[]{2,4}, new int[]{1, 2, 3, 4});
+		int[] ints = nextGreaterElement.nextGreaterElement(new int[]{1,3,5,2,4}, new int[]{6,5,4,3,2,1,7});
 		System.out.println(Arrays.toString(ints));
 	}
 
 	public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-		Map<Integer, Integer> map = new HashMap<>();
-		Stack<Integer> stack = new Stack<>();
+		Deque<Integer> deque = new ArrayDeque<>();
+		Map<Integer, Integer> num2Max = new HashMap<>();
 		for (int i = nums2.length - 1; i >= 0; i--) {
-			while (!stack.isEmpty() && stack.peek() < nums2[i]) {
-				stack.pop();
+			while (!deque.isEmpty() && nums2[i] > deque.peek()) {
+				deque.pop();
 			}
-			int tempRes = stack.isEmpty() ? -1 : stack.peek();
-			stack.push(nums2[i]);
-			map.put(nums2[i], tempRes);
+			int max = deque.isEmpty() ? -1 : deque.peek();
+			deque.push(nums2[i]);
+			num2Max.put(nums2[i], max);
 		}
 		int[] res = new int[nums1.length];
 		for (int i = 0; i < nums1.length; i++) {
-			res[i] = map.get(nums1[i]);
+			res[i] = num2Max.get(nums1[i]);
 		}
 		return res;
 	}

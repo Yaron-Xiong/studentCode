@@ -34,18 +34,19 @@ import java.util.Deque;
 public class DailyTemperatures {
 	public static void main(String[] args) {
 		DailyTemperatures dailyTemperatures = new DailyTemperatures();
-		int[] ints = dailyTemperatures.dailyTemperatures(new int[]{73,74,75,71,69,72,76,73});
+		int[] ints = dailyTemperatures.dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73});
 		System.out.println(Arrays.toString(ints));
 	}
+
 	public int[] dailyTemperatures(int[] temperatures) {
-		Deque<int[]> stack = new ArrayDeque<>();
+		Deque<Integer> deque = new ArrayDeque<>();
 		int[] res = new int[temperatures.length];
 		for (int i = temperatures.length - 1; i >= 0; i--) {
-			while (!stack.isEmpty() && temperatures[i] >= stack.peek()[1]) {
-				stack.pop();
+			while (!deque.isEmpty() && temperatures[i] >= temperatures[deque.peek()]) {
+				deque.pop();
 			}
-			res[i] = stack.isEmpty() ? 0 : stack.peek()[0] - i;
-			stack.push(new int[]{i, temperatures[i]});
+			res[i] = deque.isEmpty() ? 0 : deque.peek() - i;
+			deque.push(i);
 		}
 		return res;
 	}

@@ -50,8 +50,8 @@ package com.accompnay.TopicAlgorithms.practiceSet.brackets;
 public class MinInsertions {
 	public static void main(String[] args) {
 		MinInsertions minInsertions = new MinInsertions();
-
-		int i = minInsertions.minInsertions("(()))(()))()())))");
+//(()))(()))()())))
+		int i = minInsertions.minInsertions(")))))))");
 		System.out.println(i);
 	}
 
@@ -62,15 +62,14 @@ public class MinInsertions {
 			if (c == '(') {
 				needRight += 2;
 				if (needRight % 2 != 0) {
-					res++;
 					needRight--;
+					res++;
 				}
-			}
-			if (c == ')') {
+			} else {
 				needRight--;
 				if (needRight == -1) {
-					res++;
 					needRight = 1;
+					res++;
 				}
 			}
 		}

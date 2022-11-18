@@ -1,6 +1,7 @@
 package com.accompnay.TopicAlgorithms.practiceSet.quque_stack;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * 232. 用栈实现队列
@@ -48,40 +49,39 @@ import java.util.Stack;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class MyQueue {
-	private Stack<Integer> stack1;
-	private Stack<Integer> stack2;
+	private Deque<Integer> deque1;
+	private Deque<Integer> deque2;
 
 	public MyQueue() {
-		stack1 = new Stack<>();
-		stack2 = new Stack<>();
+		deque1 = new ArrayDeque<>();
+		deque2 = new ArrayDeque<>();
 	}
 
 	public void push(int x) {
-		stack1.push(x);
+		deque1.push(x);
 	}
 
 	public int pop() {
-		if (stack2.isEmpty()) {
-			transfer();
+		if (deque2.isEmpty()) {
+			transform();
 		}
-		return stack2.pop();
+		return deque2.pop();
 	}
 
-	private void transfer() {
-		while (!stack1.isEmpty()) {
-			Integer pop = stack1.pop();
-			stack2.push(pop);
+	private void transform() {
+		while (!deque1.isEmpty()) {
+			deque2.push(deque1.pop());
 		}
 	}
 
 	public int peek() {
-		if (stack2.isEmpty()) {
-			transfer();
+		if (deque2.isEmpty()) {
+			transform();
 		}
-		return stack2.peek();
+		return deque2.peek();
 	}
 
 	public boolean empty() {
-		return stack1.empty() && stack2.empty();
+		return deque1.isEmpty() && deque2.isEmpty();
 	}
 }

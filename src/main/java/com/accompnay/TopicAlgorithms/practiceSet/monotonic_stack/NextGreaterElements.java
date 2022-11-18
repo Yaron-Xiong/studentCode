@@ -1,7 +1,8 @@
 package com.accompnay.TopicAlgorithms.practiceSet.monotonic_stack;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Stack;
+import java.util.Deque;
 
 /**
  * 503. 下一个更大元素 II
@@ -33,20 +34,20 @@ import java.util.Stack;
 public class NextGreaterElements {
 	public static void main(String[] args) {
 		NextGreaterElements nextGreaterElements = new NextGreaterElements();
-		int[] ints = nextGreaterElements.nextGreaterElements(new int[]{5,4,3,2,1});
+		int[] ints = nextGreaterElements.nextGreaterElements(new int[]{1,2,1});
 		System.out.println(Arrays.toString(ints));
 	}
 
 	public int[] nextGreaterElements(int[] nums) {
 		int[] res = new int[nums.length];
-		Stack<Integer> stack = new Stack<>();
-		for (int i = nums.length * 2 - 1; i >= 0; i--) {
-			int index = i % nums.length;
-			while (!stack.isEmpty() && nums[index] >= stack.peek()) {
-				stack.pop();
+		Deque<Integer> deque = new ArrayDeque<>();
+		for (int i = (nums.length * 2) - 1; i >= 0; i--) {
+			int originIndex = i % nums.length;
+			while (!deque.isEmpty() && nums[originIndex] >= deque.peek()) {
+				deque.pop();
 			}
-			res[index] = !stack.isEmpty() ? stack.peek() : -1;
-			stack.push(nums[index]);
+			res[originIndex] = deque.isEmpty() ? -1 : deque.peek();
+			deque.push(nums[originIndex]);
 		}
 		return res;
 	}

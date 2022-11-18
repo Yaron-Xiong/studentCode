@@ -1,8 +1,7 @@
 package com.accompnay.TopicAlgorithms.practiceSet.brackets;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * 20. 有效的括号
@@ -41,30 +40,33 @@ import java.util.Stack;
 public class IsValid {
 	public static void main(String[] args) {
 		IsValid isValid = new IsValid();
-		boolean valid = isValid.isValid("((");
+		boolean valid = isValid.isValid("(()[)]{}");
 		System.out.println(valid);
 	}
 
 	public boolean isValid(String s) {
-		if (s.length() <= 1) {
-			return false;
-		}
-		Map<Character, Character> map = new HashMap<>();
-		map.put(']', '[');
-		map.put('}', '{');
-		map.put(')', '(');
-		Stack<Character> stack = new Stack<>();
-		for (char curChar : s.toCharArray()) {
-			if (map.containsKey(curChar)) {
-				Character leftBracket = map.get(curChar);
-				if (stack.isEmpty() || !stack.peek().equals(leftBracket)) {
-					return false;
-				}
-				stack.pop();
+		Deque<Character> deque = new ArrayDeque<>();
+		boolean res = true;
+		for (char c : s.toCharArray()) {
+			if (c == '(' || c == '[' || c == '{') {
+				deque.push(c);
 			} else {
-				stack.push(curChar);
+				Character peek = deque.peek();
+				if (peek == null) {
+					res = false;
+					break;
+				} else if (peek == '(' && c == ')') {
+					deque.pop();
+				} else if (peek == '[' && c == ']') {
+					deque.pop();
+				} else if (peek == '{' && c == '}') {
+					deque.pop();
+				} else {
+					res = false;
+					break;
+				}
 			}
 		}
-		return stack.isEmpty();
+		return res && deque.isEmpty();
 	}
 }

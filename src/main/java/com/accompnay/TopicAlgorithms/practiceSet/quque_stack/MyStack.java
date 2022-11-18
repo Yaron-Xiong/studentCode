@@ -1,7 +1,6 @@
 package com.accompnay.TopicAlgorithms.practiceSet.quque_stack;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 225. 用队列实现栈
@@ -48,32 +47,43 @@ import java.util.Queue;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class MyStack {
-	private Queue<Integer> queue1;
+	private Queue<Integer> queue;
 
 	public MyStack() {
-		queue1 = new LinkedList<>();
+		queue = new ArrayDeque<>();
 	}
 
 	public void push(int x) {
-		queue1.add(x);
+		queue.add(x);
+	}
+
+	public static void main(String[] args) {
+		MyStack myStack = new MyStack();
+		myStack.push(1);
+		myStack.push(2);
+		myStack.push(3);
+		System.out.println(myStack.pop());
+		System.out.println(myStack.pop());
+		System.out.println(myStack.pop());
+		System.out.println(myStack.empty());
 	}
 
 	public int pop() {
-		int tempSize = queue1.size();
-		while (tempSize >= 2) {
+		int tempSize = queue.size();
+		while (tempSize > 1) {
 			tempSize--;
-			queue1.add(queue1.poll());
+			queue.add(queue.poll());
 		}
-		return queue1.isEmpty() ? -1 : queue1.poll();
+		return queue.poll();
 	}
 
 	public int top() {
-		int res = pop();
-		queue1.add(res);
-		return res;
+		int pop = pop();
+		queue.add(pop);
+		return pop;
 	}
 
 	public boolean empty() {
-		return queue1.isEmpty();
+		return queue.isEmpty();
 	}
 }

@@ -41,20 +41,21 @@ public class MaxSlidingWindow {
 	}
 
 	public int[] maxSlidingWindow(int[] nums, int k) {
-		Deque<Integer> list = new ArrayDeque<>();
 		int[] res = new int[nums.length - k + 1];
 		int index = 0;
+		Deque<Integer> deque = new LinkedList<>();
 		for (int i = 0; i < nums.length; i++) {
-			//单调队列
-			if (i >= k && list.getLast() == nums[i - k]) {
-				list.removeLast();
+			while (!deque.isEmpty() && nums[i] > deque.getFirst()) {
+				deque.removeFirst();
 			}
-			while (!list.isEmpty() && nums[i] > list.getFirst()) {
-				list.removeFirst();
+			deque.addFirst(nums[i]);
+			//检查左边界是否合法
+			int outLeft = i - k;
+			if (outLeft >= 0 && deque.getLast() == nums[outLeft]) {
+				deque.removeLast();
 			}
-			list.addFirst(nums[i]);
 			if (i >= k - 1) {
-				res[index++] = list.getLast();
+				res[index++] = deque.getLast();
 			}
 		}
 		return res;
