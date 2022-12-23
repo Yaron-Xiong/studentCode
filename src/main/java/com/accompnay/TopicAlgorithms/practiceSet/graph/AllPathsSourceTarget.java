@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.map;
+package com.accompnay.TopicAlgorithms.practiceSet.graph;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.practiceSet.map;
+package com.accompnay.TopicAlgorithms.practiceSet.graph;
 
 import java.util.*;
 
@@ -41,7 +41,7 @@ import java.util.*;
 public class CanFinish {
 	public static void main(String[] args) {
 		CanFinish canFinish = new CanFinish();
-		boolean b = canFinish.canFinish2(5, new int[][]{{1, 4}, {2, 4}, {3, 1}, {3, 2}});
+		boolean b = canFinish.canFinish(8, new int[][]{{1, 0}, {2, 6}, {1, 7}, {6, 4}, {7, 0}, {0, 5}});
 		System.out.println(b);
 	}
 
@@ -86,40 +86,37 @@ public class CanFinish {
 	}
 
 	public boolean canFinish(int numCourses, int[][] prerequisites) {
-		List<List<Integer>> maps = new ArrayList<>();
-		for (int i = 0; i < numCourses; i++) {
-			maps.add(new ArrayList<>());
-		}
+		Map<Integer, List<Integer>> map = new HashMap<>();
 		for (int[] prerequisite : prerequisites) {
-			int form = prerequisite[0];
-			int to = prerequisite[1];
-			List<Integer> integers = maps.get(form);
-			integers.add(to);
+			List<Integer> list = map.computeIfAbsent(prerequisite[0], key -> new ArrayList<>());
+			list.add(prerequisite[1]);
 		}
-		int[] visit = new int[numCourses];
+		int[] visitor = new int[numCourses];
 		for (int[] prerequisite : prerequisites) {
-			if (!dfs(prerequisite[0], visit, maps)) {
+			boolean canFinish = dfs(prerequisite[0], map, visitor);
+			if (!canFinish) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	private boolean dfs(Integer curNode, int[] visit, List<List<Integer>> maps) {
-		if (visit[curNode] == 1) {
-			return false;
-		}
-		if (visit[curNode] == -1) {
+	private boolean dfs(int curNode, Map<Integer, List<Integer>> map, int[] visitor) {
+		if (visitor[curNode] == 2) {
 			return true;
 		}
-		visit[curNode] = 1;
-		for (Integer i : maps.get(curNode)) {
-			if (!dfs(i, visit, maps)) {
+		if (visitor[curNode] == 1) {
+			return false;
+		}
+		visitor[curNode] = 1;
+		for (Integer nextNode : map.getOrDefault(curNode, Collections.emptyList())) {
+			if (!dfs(nextNode, map, visitor)) {
 				return false;
 			}
 		}
-		visit[curNode] = -1;
+		visitor[curNode] = 2;
 		return true;
 	}
+
 
 }
