@@ -1,4 +1,4 @@
-package com.accompnay.nginx;
+package com.accompnay.work.nginx;
 
 public class MathUtils {
 	public static Double avg(double a, double b) {

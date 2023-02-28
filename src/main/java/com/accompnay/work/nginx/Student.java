@@ -1,4 +1,4 @@
-package com.accompnay.nginx;
+package com.accompnay.work.nginx;
 
 public class Student {
 	private Integer id;
