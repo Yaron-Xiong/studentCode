@@ -1,9 +1,8 @@
 package com.accompnay.TopicAlgorithms.leetcode;
 
-import org.checkerframework.checker.units.qual.A;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 354. 俄罗斯套娃信封问题
@@ -70,10 +69,10 @@ public class L354_MaxEnvelopes {
 					right = mid;
 				}
 			}
-			if (left >= pileList.size()){
+			if (left >= pileList.size()) {
 				pileList.add(value);
-			}else {
-				pileList.set(left,value);
+			} else {
+				pileList.set(left, value);
 			}
 		}
 		return pileList.size();
