@@ -45,25 +45,27 @@ package com.accompnay.TopicAlgorithms.leetcode;
 public class L2379_MinimumRecolors {
 	public static void main(String[] args) {
 		L2379_MinimumRecolors l2379MinimumRecolors = new L2379_MinimumRecolors();
-		System.out.println(l2379MinimumRecolors.minimumRecolors("BWWWBB", 6));
+		System.out.println(l2379MinimumRecolors.minimumRecolors("WBBWWBBWBW", 7));
 	}
 
 	public int minimumRecolors(String blocks, int k) {
-		int minModifyCount = Integer.MAX_VALUE;
-		for (int i = 0; i < blocks.toCharArray().length; i++) {
-			int modifyCount = 0;
-			int match = 0;
-			for (int j = i; j < blocks.toCharArray().length; j++) {
-				match++;
-				if (blocks.charAt(j) != 'B') {
-					modifyCount++;
-				}
-				if (match == k) {
-					minModifyCount = Math.min(modifyCount, minModifyCount);
-					break;
-				}
+		int curModifyCount = 0;
+		for (int i = 0; i < blocks.toCharArray().length && i < k; i ++) {
+			if (blocks.charAt(i) != 'B') {
+				curModifyCount++;
 			}
+		}
+		int minModifyCount = curModifyCount;
+		for (int i = k; i < blocks.toCharArray().length; i++) {
+			if (blocks.charAt(i - k) != 'B') {
+				curModifyCount--;
+			}
+			if (blocks.charAt(i) != 'B') {
+				curModifyCount++;
+			}
+			minModifyCount = Math.min(curModifyCount, minModifyCount);
 		}
 		return minModifyCount;
 	}
 }
+
