@@ -52,12 +52,11 @@ import java.util.*;
 public class L1617_CountSubgraphsForEachDiameter {
 	public static void main(String[] args) {
 		L1617_CountSubgraphsForEachDiameter l1617CountSubgraphsForEachDiameter = new L1617_CountSubgraphsForEachDiameter();
-		int[] diameter = l1617CountSubgraphsForEachDiameter.countSubgraphsForEachDiameter(4, new int[][]{{1, 2}, {2, 3}, {2, 4}});
+		int[] diameter = l1617CountSubgraphsForEachDiameter.countSubgraphsForEachDiameter(4, new int[][]{{1, 3}, {1, 4}, {2, 3}});
 		System.out.println(Arrays.toString(diameter));
 	}
 
 	int[] res;
-	Set<Integer> set;
 
 	public int[] countSubgraphsForEachDiameter(int n, int[][] edges) {
 		List<List<Integer>> graph = new ArrayList<>();
@@ -80,14 +79,14 @@ public class L1617_CountSubgraphsForEachDiameter {
 		//计算任意两点的距离
 		//计算所有子树的最大宽度
 		Deque<Integer> path = new LinkedList<>();
-		dfs2(0, n, path, graph);
+		dfs2(0, n, path, graph, feeMap);
 		return res;
 	}
 
-	private void dfs2(int curNode, int n, Deque<Integer> path, List<List<Integer>> graph) {
+	private void dfs2(int curNode, int n, Deque<Integer> path, List<List<Integer>> graph, Map<String, Integer> feeMap) {
 		if (curNode >= n) {
 			//说明到了头,开始判断这个path是否构成了一个子树，如果构成，则计算宽度
-			int fee = isTree(path, graph);
+			int fee = isTree(path, graph, feeMap);
 			if (fee != -1) {
 				System.out.println(path + "=" + fee);
 				res[fee - 1]++;
@@ -95,45 +94,38 @@ public class L1617_CountSubgraphsForEachDiameter {
 			return;
 		}
 		//不选择当前节点
-		dfs2(curNode + 1, n, path, graph);
+		dfs2(curNode + 1, n, path, graph, feeMap);
 
 		//选择当前节点
 		path.addLast(curNode);
-		dfs2(curNode + 1, n, path, graph);
+		dfs2(curNode + 1, n, path, graph, feeMap);
 		path.removeLast();
 	}
 
-	private int isTree(Deque<Integer> path, List<List<Integer>> graph) {
+	private int isTree(Deque<Integer> path, List<List<Integer>> graph, Map<String, Integer> feeMap) {
 		if (path.isEmpty() || path.size() == 1) {
 			return -1;
 		}
 		Deque<Integer> deque = new LinkedList<>();
 		Set<Integer> set = new HashSet<>(path);
+		List<Integer> nodes = new ArrayList<>();
 		deque.offer(path.getFirst());
 		int maxFee = 0;
-		int level = 0;
 		while (!deque.isEmpty()) {
-			int size = deque.size();
-			boolean isContains = false;
-			while (size > 0) {
-				size--;
-				Integer pop = deque.pop();
-				if (set.contains(pop)) {
-					set.remove(pop);
-					maxFee = Math.max(level, maxFee);
-					isContains = true;
-				}
-				if (set.isEmpty()) {
-					return maxFee;
-				}
-				for (Integer neighbor : graph.get(pop)) {
+			Integer pop = deque.pop();
+			for (Integer pathNode : nodes) {
+				String key = pop > pathNode ? pathNode + "_" + pop : pop + "_" + pathNode;
+				Integer fee = feeMap.get(key);
+				maxFee = Math.max(fee, maxFee);
+			}
+			nodes.add(pop);
+			set.remove(pop);
+			for (Integer neighbor : graph.get(pop)) {
+				if (set.contains(neighbor)){
 					deque.offer(neighbor);
 				}
 			}
-			if (!isContains) {
-				return -1;
-			}
-			level++;
+
 		}
 		return !set.isEmpty() ? -1 : maxFee;
 	}
