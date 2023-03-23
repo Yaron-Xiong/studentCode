@@ -1,5 +1,8 @@
 package com.accompnay.TopicAlgorithms.leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 1590. 使数组和能被 P 整除
  * 提示
@@ -51,7 +54,28 @@ package com.accompnay.TopicAlgorithms.leetcode;
 public class L1509_MinSubarray {
 	public static void main(String[] args) {
 		L1509_MinSubarray l1509MinSubarray = new L1509_MinSubarray();
-		System.out.println(l1509MinSubarray.minSubarray(new int[]{1000000000,1000000000,1000000000}, 3));
+		System.out.println(l1509MinSubarray.minSubarray2(new int[]{8, 32, 31, 18, 34, 20, 21, 13, 1, 27, 23, 22, 11, 15, 30, 4, 2}, 148));
+	}
+
+	public int minSubarray2(int[] nums, int p) {
+		long[] preSumP = new long[nums.length + 1];
+		long sum = 0;
+		for (int i = 0; i < nums.length; i++) {
+			sum += nums[i];
+			preSumP[i + 1] = sum % p;
+		}
+		if (preSumP[nums.length] == 0) {
+			return 0;
+		}
+		Map<Long, Integer> pMap = new HashMap<>();
+		int minLen = nums.length;
+		for (int i = 0; i < preSumP.length; i++) {
+			pMap.put(preSumP[i], i);
+			long left = (preSumP[i] - preSumP[nums.length] + p) % p;
+			Integer lastIndex = pMap.getOrDefault(left, -nums.length);
+			minLen = Math.min(minLen, i - lastIndex);
+		}
+		return minLen == nums.length ? -1 : minLen;
 	}
 
 	public int minSubarray(int[] nums, int p) {
