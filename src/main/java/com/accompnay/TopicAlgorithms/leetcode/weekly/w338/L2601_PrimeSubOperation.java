@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.leetcode;
+package com.accompnay.TopicAlgorithms.leetcode.weekly.w338;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +47,9 @@ import java.util.List;
  * 链接：<a href="https://leetcode.cn/problems/prime-subtraction-operation/">...</a>
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-public class L6355_PrimeSubOperation {
+public class L2601_PrimeSubOperation {
 	public static void main(String[] args) {
-		L6355_PrimeSubOperation l6355PrimeSubOperation = new L6355_PrimeSubOperation();
+		L2601_PrimeSubOperation l6355PrimeSubOperation = new L2601_PrimeSubOperation();
 		System.out.println(l6355PrimeSubOperation.primeSubOperation(new int[]{3, 4, 10, 15, 6}));
 	}
 

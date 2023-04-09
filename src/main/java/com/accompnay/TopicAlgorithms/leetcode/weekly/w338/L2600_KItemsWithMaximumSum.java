@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.leetcode;
+package com.accompnay.TopicAlgorithms.leetcode.weekly.w338;
 
 /**
  * 6354. K 件物品的最大和
@@ -39,10 +39,10 @@ package com.accompnay.TopicAlgorithms.leetcode;
  * 链接：<a href="https://leetcode.cn/problems/k-items-with-the-maximum-sum/solutions/">...</a>
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-public class L6354_KItemsWithMaximumSum {
+public class L2600_KItemsWithMaximumSum {
 
 	public static void main(String[] args) {
-		L6354_KItemsWithMaximumSum l6354KItemsWithMaximumSum = new L6354_KItemsWithMaximumSum();
+		L2600_KItemsWithMaximumSum l6354KItemsWithMaximumSum = new L2600_KItemsWithMaximumSum();
 		System.out.println(l6354KItemsWithMaximumSum.kItemsWithMaximumSum(3, 2, 2, 8));
 	}
 
