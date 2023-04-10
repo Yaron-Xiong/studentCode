@@ -1,7 +1,6 @@
 package com.accompnay.TopicAlgorithms.leetcode.weekly.w340;
 
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * 6359. 最小化数对的最大差值
@@ -41,12 +40,49 @@ import java.util.Comparator;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L6359_MinimizeMax {
-	public int minimizeMax(int[] nums, int p) {
-		Integer[] sortArr = new Integer[nums.length];
-		for (int i = 0; i < nums.length; i++) {
-			sortArr[i] = i;
-		}
-		Arrays.sort(sortArr, Comparator.comparingInt(a -> nums[a]));
-		return -1;
+	public static void main(String[] args) {
+		L6359_MinimizeMax l6359MinimizeMax = new L6359_MinimizeMax();
+		System.out.println(l6359MinimizeMax.minimizeMax(new int[]{4,2,1,2}, 1));
 	}
+
+	public int minimizeMax(int[] nums, int p) {
+		Arrays.sort(nums);
+		int left = 0;
+		int right = nums[nums.length - 1] - nums[0];
+		while (left < right) {
+			// 最小差值
+			int mid = (left + right) >> 1;
+			//最多需要多少对 才能构建出mid
+			int check = check(nums, mid);
+			if (check >= p) {
+				right = mid;
+			} else {
+				left = mid + 1;
+			}
+		}
+		return right;
+	}
+
+	/**
+	 * 构建差值为target有多少对
+	 *
+	 * @param nums
+	 * @param target
+	 * @return
+	 */
+	public int check(int[] nums, int target) {
+		int index = 0;
+		int cnt = 0;
+		while (index < nums.length - 1) {
+			//选择当前点
+			if (nums[index + 1] - nums[index] <= target) {
+				index += 2;
+				cnt++;
+			} else {
+				index++;
+			}
+		}
+		return cnt;
+	}
+
 }

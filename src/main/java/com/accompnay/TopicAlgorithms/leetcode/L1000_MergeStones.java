@@ -1,5 +1,7 @@
 package com.accompnay.TopicAlgorithms.leetcode;
 
+import java.util.Arrays;
+
 /**
  * 1000. 合并石头的最低成本
  * 困难
@@ -65,11 +67,16 @@ public class L1000_MergeStones {
 			preStonesSum[i + 1] = preStonesSum[i] + stones[i];
 		}
 		memo = new int[stones.length][stones.length][k + 1];
+		for (int[][] ints : memo) {
+			for (int[] anInt : ints) {
+				Arrays.fill(anInt, -1);
+			}
+		}
 		return dfs(0, stones.length - 1, 1);
 	}
 
 	private int dfs(int i, int j, int p) {
-		if (memo[i][j][p] != 0) {
+		if (memo[i][j][p] != -1) {
 			return memo[i][j][p];
 		}
 		if (p == 1) {

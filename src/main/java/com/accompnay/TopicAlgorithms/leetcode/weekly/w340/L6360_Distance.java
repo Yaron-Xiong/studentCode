@@ -41,27 +41,29 @@ import java.util.*;
 public class L6360_Distance {
 	public static void main(String[] args) {
 		L6360_Distance l6360Distance = new L6360_Distance();
-		long[] distance = l6360Distance.distance(new int[]{1, 3, 1, 1, 2});
+		long[] distance = l6360Distance.distance(new int[]{0, 5, 3, 1, 2, 8, 6, 6, 6});
 		System.out.println(Arrays.toString(distance));
 	}
 
 	public long[] distance(int[] nums) {
 		Map<Integer, List<Integer>> map = new HashMap<>();
 		for (int i = 0; i < nums.length; i++) {
-			map.computeIfAbsent(nums[i], (k) -> new ArrayList<>());
-			map.get(nums[i]).add(i);
+			map.computeIfAbsent(nums[i], (k) -> new ArrayList<>()).add(i);
 		}
-		long[] arr = new long[nums.length];
+		long[] res = new long[nums.length];
+		long[] preSum = new long[nums.length];
 		for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
-			List<Integer> value = entry.getValue();
-			for (int i = 0; i < value.size(); i++) {
-				for (int j = i; j < value.size(); j++) {
-					int temp = value.get(j) - value.get(i);
-					arr[value.get(i)] += temp;
-					arr[value.get(j)] += temp;
-				}
+			List<Integer> indexList = entry.getValue();
+			preSum[0] = indexList.get(0);
+			for (int i = 1; i < indexList.size(); i++) {
+				preSum[i] = preSum[i - 1] + indexList.get(i);
+			}
+			for (int i = 0; i < indexList.size(); i++) {
+				long lowValue = i > 0 ? (long) i * indexList.get(i) - preSum[i - 1] : 0;
+				long highValue = (preSum[indexList.size() - 1] - preSum[i]) - ((long) (indexList.size() - i - 1) * indexList.get(i));
+				res[indexList.get(i)] = lowValue + highValue;
 			}
 		}
-		return arr;
+		return res;
 	}
 }
