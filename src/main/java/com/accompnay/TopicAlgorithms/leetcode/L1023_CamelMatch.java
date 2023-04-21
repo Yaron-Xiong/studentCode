@@ -49,30 +49,51 @@ import java.util.List;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L1023_CamelMatch {
-	public static void main(String[] args) {
-		L1023_CamelMatch l1023CamelMatch = new L1023_CamelMatch();
-		System.out.println(l1023CamelMatch.camelMatch(new String[]{"FooBar", "FooBarTest", "FootBall", "FrameBuffer", "ForceFeedBack"},
-				"FoBa"));
-	}
+    public static void main(String[] args) {
+        L1023_CamelMatch l1023CamelMatch = new L1023_CamelMatch();
+        System.out.println(l1023CamelMatch.camelMatch(new String[]{"FooBar", "FooBarTest", "FootBall", "FrameBuffer", "ForceFeedBack"},
+                "FB"));
+    }
 
-	public List<Boolean> camelMatch(String[] queries, String pattern) {
-		List<Boolean> res = new ArrayList<>();
-		for (String query : queries) {
-			res.add(check(query, pattern));
-		}
-		return res;
-	}
+    public List<Boolean> camelMatch(String[] queries, String pattern) {
+        List<Boolean> res = new ArrayList<>();
+        for (String query : queries) {
+            boolean check = check(query, pattern);
+            res.add(check);
+        }
+        return res;
+    }
 
-	public boolean check(String query, String pattern) {
-		int queryIndex = 0;
-		int patternIndex = 0;
-		while (queryIndex < query.length() && patternIndex < pattern.length()) {
-			if (query.charAt(queryIndex) == pattern.charAt(patternIndex)) {
-				patternIndex++;
-			}
-			queryIndex++;
-		}
-		return patternIndex >= pattern.length();
-	}
+    private boolean check(String query, String pattern) {
+        int queryIndex = 0;
+        int patternIndex = 0;
+        while (queryIndex < query.length() && patternIndex < pattern.length()) {
+            if (Character.isLowerCase(query.charAt(queryIndex))) {
+                if (Character.isUpperCase(pattern.charAt(patternIndex))) {
+                    queryIndex++;
+                } else if (query.charAt(queryIndex) == pattern.charAt(patternIndex)) {
+                    queryIndex++;
+                    patternIndex++;
+                } else {
+                    queryIndex++;
+                }
+            } else if (query.charAt(queryIndex) == pattern.charAt(patternIndex)) {
+                queryIndex++;
+                patternIndex++;
+            } else {
+                return false;
+            }
+        }
+        //这个时候query中字符应该都为小写或者两者匹配完毕
+        while (queryIndex < query.length()) {
+            if (Character.isLowerCase(query.charAt(queryIndex))) {
+                queryIndex++;
+            } else {
+                break;
+            }
+        }
+        return queryIndex == query.length() && patternIndex == pattern.length();
+    }
+
 
 }
