@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <springframework.version>6.0.0</springframework.version>
+        <springframework.version>6.0.8</springframework.version>
     </properties>
 
     <dependencies>
