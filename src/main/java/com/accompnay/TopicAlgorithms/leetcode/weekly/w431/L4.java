@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.leetcode;
+package com.accompnay.TopicAlgorithms.leetcode.weekly.w431;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.leetcode;
+package com.accompnay.TopicAlgorithms.leetcode.weekly.w431;
 
 public class L2 {
 	public static void main(String[] args) {
