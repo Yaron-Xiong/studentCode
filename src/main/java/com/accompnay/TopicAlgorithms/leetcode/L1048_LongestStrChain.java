@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms;
+package com.accompnay.TopicAlgorithms.leetcode;
 
 import java.util.Arrays;
 import java.util.Comparator;
