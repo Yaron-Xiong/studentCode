@@ -1,0 +1,123 @@
+package com.accompnay.TopicAlgorithms.leetcode;
+
+/**
+ * 1373. 二叉搜索子树的最大键值和
+ * 提示
+ * 困难
+ * 173
+ * 相关企业
+ * 给你一棵以 root 为根的 二叉树 ，请你返回 任意 二叉搜索子树的最大键值和。
+ * <p>
+ * 二叉搜索树的定义如下：
+ * <p>
+ * 任意节点的左子树中的键值都 小于 此节点的键值。
+ * 任意节点的右子树中的键值都 大于 此节点的键值。
+ * 任意节点的左子树和右子树都是二叉搜索树。
+ * <p>
+ * 示例 1：
+ * <p>
+ * 输入：root = [1,4,3,2,4,2,5,null,null,null,null,null,null,4,6]
+ * 输出：20
+ * 解释：键值为 3 的子树是和最大的二叉搜索树。
+ * 示例 2：
+ * <p>
+ * <p>
+ * <p>
+ * 输入：root = [4,3,null,1,2]
+ * 输出：2
+ * 解释：键值为 2 的单节点子树是和最大的二叉搜索树。
+ * 示例 3：
+ * <p>
+ * 输入：root = [-4,-2,-5]
+ * 输出：0
+ * 解释：所有节点键值都为负数，和最大的二叉搜索树为空。
+ * 示例 4：
+ * <p>
+ * 输入：root = [2,1,3]
+ * 输出：6
+ * 示例 5：
+ * <p>
+ * 输入：root = [5,4,8,3,null,6,3]
+ * 输出：7
+ * <p>
+ * 提示：
+ * <p>
+ * 每棵树有 1 到 40000 个节点。
+ * 每个节点的键值在 [-4 * 10^4 , 4 * 10^4] 之间。
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：<a href="https://leetcode.cn/problems/maximum-sum-bst-in-binary-tree/">...</a>
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
+public class L1373_MaxSumBST {
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public static void main(String[] args) {
+        TreeNode treeNode = new TreeNode(1);
+        treeNode.right = new TreeNode(10);
+        treeNode.right.left = new TreeNode(-5);
+        treeNode.right.right = new TreeNode(20);
+        L1373_MaxSumBST l1373MaxSumBST = new L1373_MaxSumBST();
+        System.out.println(l1373MaxSumBST.maxSumBST(treeNode));
+    }
+
+    int maxV = 0;
+
+    public int maxSumBST(TreeNode root) {
+        isSearchTree(root);
+        return maxV;
+    }
+
+    //是否二叉搜索、当前最小值、当前最大值、总和
+    private int[] isSearchTree(TreeNode root) {
+        if (root == null) {
+            return new int[]{0, 0, 0, 0};
+        }
+        if (root.left == null && root.right == null) {
+            maxV = Math.max(maxV, root.val);
+            return new int[]{1, root.val, root.val, root.val};
+        }
+        int[] leftV = root.left == null ? null : isSearchTree(root.left);
+        int[] rightV = root.right == null ? null : isSearchTree(root.right);
+        int sum = root.val;
+        int max = root.val;
+        int min = root.val;
+        if (leftV != null) {
+            if (leftV[0] == 0 || root.val <= leftV[2]) {
+                return new int[]{0, 0, 0, 0};
+            }
+            leftV = isSearchTree(root.left);
+            sum += leftV[3];
+            min = leftV[2];
+        }
+        if (rightV != null) {
+            if (rightV[0] == 0 || root.val >= rightV[1]) {
+                return new int[]{0, 0, 0, 0};
+            }
+            sum += rightV[3];
+            max = rightV[2];
+        }
+        int[] ints = {1, min, max, sum};
+        //说明是二叉搜索树
+        maxV = Math.max(maxV, ints[3]);
+        return ints;
+    }
+
+}
