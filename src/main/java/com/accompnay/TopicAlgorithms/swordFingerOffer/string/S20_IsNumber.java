@@ -1,14 +1,17 @@
 package com.accompnay.TopicAlgorithms.swordFingerOffer.string;
 
 /**
- * 剑指 Offer 20. 表示数值的字符串：https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof
+ * 剑指 Offer 20. 表示数值的字符串
+ * 中等
+ * 479
+ * 相关企业
  * 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。
  * <p>
  * 数值（按顺序）可以分成以下几个部分：
  * <p>
  * 若干空格
- * 一个小数或者整数
- * （可选）一个'e'或'E'，后面跟着一个整数
+ * 一个 小数 或者 整数
+ * （可选）一个 'e' 或 'E' ，后面跟着一个 整数
  * 若干空格
  * 小数（按顺序）可以分成以下几个部分：
  * <p>
@@ -27,13 +30,40 @@ package com.accompnay.TopicAlgorithms.swordFingerOffer.string;
  * 部分非数值列举如下：
  * <p>
  * ["12e", "1a3.14", "1.2.3", "+-5", "12e+5.4"]
+ * <p>
+ * <p>
+ * 示例 1：
+ * <p>
+ * 输入：s = "0"
+ * 输出：true
+ * 示例 2：
+ * <p>
+ * 输入：s = "e"
+ * 输出：false
+ * 示例 3：
+ * <p>
+ * 输入：s = "."
+ * 输出：false
+ * 示例 4：
+ * <p>
+ * 输入：s = "    .1  "
+ * 输出：true
+ * <p>
+ * 提示：
+ * <p>
+ * 1 <= s.length <= 20
+ * s 仅含英文字母（大写和小写），数字（0-9），加号 '+' ，减号 '-' ，空格 ' ' 或者点 '.' 。
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：<a href="https://leetcode.cn/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof/">...</a>
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-public class IsNumber {
-	public static void main(String[] args) {
-		IsNumber isNumber = new IsNumber();
-		boolean number = isNumber.isNumber("44e016912630333");
-		System.out.println(number);
-	}
+public class S20_IsNumber {
+    public static void main(String[] args) {
+        S20_IsNumber s20IsNumber = new S20_IsNumber();
+        boolean number = s20IsNumber.isNumber("44e016912630333");
+        System.out.println(number);
+    }
 
 	public boolean isNumber(String s) {
 		s = s.trim();

@@ -81,43 +81,27 @@ public class L1373_MaxSumBST {
     int maxV = 0;
 
     public int maxSumBST(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
         isSearchTree(root);
         return maxV;
     }
 
     //是否二叉搜索、当前最小值、当前最大值、总和
     private int[] isSearchTree(TreeNode root) {
-        if (root == null) {
+        int[] leftV = root.left == null ? new int[]{1, Integer.MAX_VALUE, Integer.MIN_VALUE, 0} : isSearchTree(root.left);
+        int[] rightV = root.right == null ? new int[]{1, Integer.MAX_VALUE, Integer.MIN_VALUE, 0} : isSearchTree(root.right);
+        if (leftV[0] == 1 && rightV[0] == 1 && root.val > leftV[2] && root.val < rightV[1]) {
+            int leftMinV = root.left == null ? root.val : leftV[1];
+            int rightMaxV = root.right == null ? root.val : rightV[2];
+            int sum = root.val + leftV[3] + rightV[3];
+            maxV = Math.max(sum, maxV);
+            return new int[]{1, leftMinV, rightMaxV, sum};
+        } else {
+            //说明当前节点不是二叉搜索树
             return new int[]{0, 0, 0, 0};
         }
-        if (root.left == null && root.right == null) {
-            maxV = Math.max(maxV, root.val);
-            return new int[]{1, root.val, root.val, root.val};
-        }
-        int[] leftV = root.left == null ? null : isSearchTree(root.left);
-        int[] rightV = root.right == null ? null : isSearchTree(root.right);
-        int sum = root.val;
-        int max = root.val;
-        int min = root.val;
-        if (leftV != null) {
-            if (leftV[0] == 0 || root.val <= leftV[2]) {
-                return new int[]{0, 0, 0, 0};
-            }
-            leftV = isSearchTree(root.left);
-            sum += leftV[3];
-            min = leftV[2];
-        }
-        if (rightV != null) {
-            if (rightV[0] == 0 || root.val >= rightV[1]) {
-                return new int[]{0, 0, 0, 0};
-            }
-            sum += rightV[3];
-            max = rightV[2];
-        }
-        int[] ints = {1, min, max, sum};
-        //说明是二叉搜索树
-        maxV = Math.max(maxV, ints[3]);
-        return ints;
     }
 
 }
