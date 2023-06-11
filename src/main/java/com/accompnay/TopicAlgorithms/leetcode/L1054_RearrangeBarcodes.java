@@ -1,5 +1,7 @@
 package com.accompnay.TopicAlgorithms.leetcode;
 
+import jdk.nashorn.internal.ir.IfNode;
+
 import java.util.*;
 
 /**
@@ -38,45 +40,32 @@ public class L1054_RearrangeBarcodes {
         System.out.println(Arrays.toString(x));
     }
 
-    public static class Node {
-        int barcode;
-        int count;
-
-        public Node(int barcode, int count) {
-            this.barcode = barcode;
-            this.count = count;
-        }
-    }
-
     public int[] rearrangeBarcodes(int[] barcodes) {
-        Map<Integer, Node> map = new HashMap<>();
-        PriorityQueue<Node> list = new PriorityQueue<>(Comparator.comparingInt(a -> a.count));
+        Map<Integer, Integer> map = new HashMap<>();
+        PriorityQueue<int[]> list = new PriorityQueue<>((a, b) -> Integer.compare(b[1], a[1]));
         for (int barcode : barcodes) {
-            Node node;
-            if (!map.containsKey(barcode)) {
-                node = map.computeIfAbsent(barcode, key -> new Node(barcode, 0));
-                list.add(node);
-            } else {
-                node = map.get(barcode);
-            }
-            node.count++;
+            map.compute(barcode, (k, v) -> v == null ? 1 : v + 1);
+        }
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            list.add(new int[]{entry.getKey(), entry.getValue()});
         }
         int[] res = new int[barcodes.length];
         int index = 0;
-        Node first = list.poll();
-        Node last = list.poll();
-        while (first != null || last != null) {
-            if (first != null) {
-                res[index++] = first.barcode;
-                if (--first.count == 0) {
-                    first = list.poll();
-                }
+        while (!list.isEmpty()) {
+            if (list.size() == 1) {
+                int[] curNode = list.poll();
+                res[index++] = curNode[0];
+                continue;
             }
-            if (last != null) {
-                res[index++] = last.barcode;
-                if (--last.count == 0) {
-                    last = list.poll();
-                }
+            int[] curNode = list.poll();
+            int[] nextNode = list.poll();
+            res[index++] = curNode[0];
+            res[index++] = nextNode[0];
+            if (--curNode[1] != 0) {
+                list.add(curNode);
+            }
+            if (--nextNode[1] != 0) {
+                list.add(nextNode);
             }
         }
         return res;
