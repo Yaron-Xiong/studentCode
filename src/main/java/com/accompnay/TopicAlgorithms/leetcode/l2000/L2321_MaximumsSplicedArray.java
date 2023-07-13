@@ -51,6 +51,6 @@ package com.accompnay.TopicAlgorithms.leetcode.l2000;
  */
 public class L2321_MaximumsSplicedArray {
     public int maximumsSplicedArray(int[] nums1, int[] nums2) {
-
+        return 0;
     }
 }
