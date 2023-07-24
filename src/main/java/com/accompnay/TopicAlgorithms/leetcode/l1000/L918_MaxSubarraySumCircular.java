@@ -43,26 +43,28 @@ package com.accompnay.TopicAlgorithms.leetcode.l1000;
 public class L918_MaxSubarraySumCircular {
     public static void main(String[] args) {
         L918_MaxSubarraySumCircular l918MaxSubarraySumCircular = new L918_MaxSubarraySumCircular();
-        System.out.println(l918MaxSubarraySumCircular.maxSubarraySumCircular(new int[]{-3, -2, -3}));
+        System.out.println(l918MaxSubarraySumCircular.maxSubarraySumCircular(new int[]{1,-2,3,-2}));
     }
 
     public int maxSubarraySumCircular(int[] nums) {
-        int maxValue = nums[0];
-        int[] dp = new int[nums.length];
-        dp[0] = nums[0];
-        for (int i = 1; i < dp.length; i++) {
-            dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);
-            maxValue = Math.max(maxValue, dp[i]);
-        }
-        int minValue = nums[0];
-        int sum = nums[0];
-        for (int i = 1; i < dp.length; i++) {
+        //找最小值
+        int minValue = Integer.MAX_VALUE;
+        int maxValue = Integer.MIN_VALUE;
+        int[] minDp = new int[nums.length + 1];
+        int[] maxDp = new int[nums.length + 1];
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
-            dp[i] = Math.min(nums[i], dp[i - 1] + nums[i]);
-            minValue = Math.min(minValue, dp[i]);
+            minDp[i + 1] = Math.min(minDp[i] + nums[i], nums[i]);
+            maxDp[i + 1] = Math.max(maxDp[i] + nums[i], nums[i]);
+            minValue = Math.min(minValue, minDp[i + 1]);
+            maxValue = Math.max(maxValue, maxDp[i + 1]);
         }
-        //如果maxValue 小于0 说明整个数组都是负数
-        return maxValue < 0 ? maxValue : Math.max(maxValue, sum - minValue);
+        if (sum == minValue) {
+            //说明全是负数此时最大值
+            return maxValue;
+        }
+        return Math.max(maxValue, sum - minValue);
     }
 
 }
