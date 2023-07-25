@@ -50,7 +50,25 @@ package com.accompnay.TopicAlgorithms.leetcode.l2000;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L2321_MaximumsSplicedArray {
+    public static void main(String[] args) {
+        L2321_MaximumsSplicedArray l2321MaximumsSplicedArray = new L2321_MaximumsSplicedArray();
+        System.out.println(l2321MaximumsSplicedArray.maximumsSplicedArray(new int[]{7, 11, 13}, new int[]{1, 1, 1}));
+    }
+
     public int maximumsSplicedArray(int[] nums1, int[] nums2) {
-        return 0;
+        return Math.max(getMax(nums1, nums2), getMax(nums2, nums1));
+    }
+
+    private int getMax(int[] nums1, int[] nums2) {
+        int[] dp = new int[nums1.length];
+        int sum = nums1[0];
+        dp[0] = Math.max(nums2[0] - nums1[0], 0);
+        int maxDiff = dp[0];
+        for (int i = 1; i < nums1.length; i++) {
+            dp[i] = Math.max(dp[i - 1] + (nums2[i] - nums1[i]), 0);
+            maxDiff = Math.max(dp[i], maxDiff);
+            sum += nums1[i];
+        }
+        return sum + maxDiff;
     }
 }
