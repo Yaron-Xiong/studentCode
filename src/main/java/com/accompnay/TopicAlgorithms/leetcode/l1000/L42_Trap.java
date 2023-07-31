@@ -1,5 +1,8 @@
 package com.accompnay.TopicAlgorithms.leetcode.l1000;
 
+import java.util.Deque;
+import java.util.LinkedList;
+
 /**
  * 42. 接雨水
  * 困难
@@ -30,7 +33,7 @@ package com.accompnay.TopicAlgorithms.leetcode.l1000;
 public class L42_Trap {
     public static void main(String[] args) {
         L42_Trap l42Trap = new L42_Trap();
-        System.out.println(l42Trap.trap2(new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}));
+        System.out.println(l42Trap.trap3(new int[]{0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}));
     }
 
     public int trap(int[] height) {
@@ -55,12 +58,46 @@ public class L42_Trap {
     }
 
     public int trap2(int[] height) {
+        Deque<Integer> deque = new LinkedList<>();
         int res = 0;
+        for (int rightIndex = 0; rightIndex < height.length; rightIndex++) {
+            int rightValue = height[rightIndex];
+            while (!deque.isEmpty() && height[deque.peekLast()] < rightValue) {
+                Integer cueNode = deque.pollLast();
+                while (!deque.isEmpty() && height[deque.peekLast()] == height[cueNode]) {
+                    deque.pollLast();
+                }
+                Integer leftIndex = deque.peekLast();
+                if (leftIndex == null) {
+                    //说明空了
+                    break;
+                }
+                //计算容量
+                int heightValue = Math.min(rightValue, height[leftIndex]) - height[cueNode];
+                int widthValue = rightIndex - leftIndex - 1;
+                res += heightValue * widthValue;
+            }
+            deque.offer(rightIndex);
+        }
+        return res;
+    }
+
+    public int trap3(int[] height) {
         int left = 0;
         int right = height.length - 1;
-        int index = 1;
-        while (left <= right && index < height.length) {
-
+        int leftMax = height[left];
+        int rightMax = height[right];
+        int res = 0;
+        while (left <= right) {
+            leftMax = Math.max(height[left], leftMax);
+            rightMax = Math.max(height[right], rightMax);
+            if (leftMax <= rightMax) {
+                res += leftMax - height[left];
+                left++;
+            } else {
+                res += rightMax - height[right];
+                right--;
+            }
         }
         return res;
     }

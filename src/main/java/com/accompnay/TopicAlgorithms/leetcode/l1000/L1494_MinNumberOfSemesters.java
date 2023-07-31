@@ -1,9 +1,6 @@
 package com.accompnay.TopicAlgorithms.leetcode.l1000;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 1494. 并行课程 II
@@ -51,49 +48,46 @@ import java.util.Queue;
 public class L1494_MinNumberOfSemesters {
     public static void main(String[] args) {
         L1494_MinNumberOfSemesters l1494MinNumberOfSemesters = new L1494_MinNumberOfSemesters();
-        System.out.println(l1494MinNumberOfSemesters.minNumberOfSemesters(13, new int[][]{{12,8},{2,4},{3,7},{6,8},{11,8},{9,4},{9,7},{12,4},{11,4},{6,4},{1,4},{10,7},{10,4},{1,7},{1,8},{2,7},{8,4},{10,8},{12,7},{5,4},{3,4},{11,7},{7,4},{13,4},{9,8},{13,8}}, 9));
+        System.out.println(l1494MinNumberOfSemesters.minNumberOfSemesters(13
+                , new int[][]{{12, 8}, {2, 4}, {3, 7}, {6, 8}, {11, 8}, {9, 4}, {9, 7}, {12, 4}, {11, 4}, {6, 4}, {1, 4}, {10, 7}, {10, 4}, {1, 7}, {1, 8}, {2, 7}, {8, 4}, {10, 8}, {12, 7}, {5, 4}, {3, 4}, {11, 7}, {7, 4}, {13, 4}, {9, 8}, {13, 8}}, 9));
     }
 
     public int minNumberOfSemesters(int n, int[][] relations, int k) {
         List<List<Integer>> graph = new ArrayList<>();
-        int[] entryArr = new int[n + 1];
-        for (int i = 0; i <= n; i++) {
+        int[] edges = new int[n];
+        for (int i = 0; i < n; i++) {
             graph.add(new ArrayList<>());
         }
         for (int[] relation : relations) {
-            int form = relation[0];
-            int to = relation[1];
+            int form = relation[0] - 1;
+            int to = relation[1] - 1;
             graph.get(form).add(to);
-            entryArr[to]++;
+            edges[to]++;
         }
-        Queue<Integer> queue = new LinkedList<>();
-        for (int i = 1; i < entryArr.length; i++) {
-            if (entryArr[i] == 0) {
-                queue.add(i);
+        Deque<Integer> deque = new LinkedList<>();
+        for (int i = 0; i < edges.length; i++) {
+            if (edges[i] == 0) {
+                deque.offer(i);
             }
         }
-
         int res = 0;
-        while (!queue.isEmpty()) {
-            //每次可以处理 size<= k
-            int size = queue.size();
-            while (size > 0) {
+        while (!deque.isEmpty()) {
+            int levelSize = deque.size();
+            while (levelSize > 0) {
                 int curK = k;
-                while (size > 0 && curK > 0) {
+                while (levelSize > 0 && curK > 0) {
+                    levelSize--;
                     curK--;
-                    size--;
-                    Integer poll = queue.poll();
-                    for (Integer neighbor : graph.get(poll)) {
-                        entryArr[neighbor]--;
-                        if (entryArr[neighbor] == 0) {
-                            queue.add(neighbor);
+                    Integer node = deque.pop();
+                    for (Integer neighbor : graph.get(node)) {
+                        if (--edges[neighbor] == 0) {
+                            deque.offer(neighbor);
                         }
                     }
                 }
                 res++;
             }
         }
-
         return res;
     }
 }
