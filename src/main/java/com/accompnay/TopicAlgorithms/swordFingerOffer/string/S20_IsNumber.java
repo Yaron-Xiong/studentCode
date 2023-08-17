@@ -61,51 +61,70 @@ package com.accompnay.TopicAlgorithms.swordFingerOffer.string;
 public class S20_IsNumber {
     public static void main(String[] args) {
         S20_IsNumber s20IsNumber = new S20_IsNumber();
-        boolean number = s20IsNumber.isNumber("44e016912630333");
+        boolean number = s20IsNumber.isNumber(".-4");
         System.out.println(number);
     }
 
-	public boolean isNumber(String s) {
-		s = s.trim();
-		s = s.replace("f","q");
-		s = s.replace("F","q");
-		s = s.replace("d","w");
-		s = s.replace("D","w");
-		s = s.toLowerCase();
-		String[] split = s.split("[e]");
-		if (s.lastIndexOf('e') == s.length()-1) {
-			return false;
-		}
-		if (split.length != 1 && split.length != 2) {
-			return false;
-		}
-		if (s.contains("e") && split.length != 2) {
-			return false;
-		}
-		try {
-			if (split.length == 1) {
-				getDouble(split[0]);
-			} else {
-				getDouble(split[0]);
-				Long.valueOf(split[1]);
-			}
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
+    public boolean isNumber(String s) {
+        //1.去掉首位空格
+        s = s.trim();
+        //2.检验是否包含e/E 统一为E
+        s = s.replace("e", "E");
+        s = s.replace("-", "+");
+        int index = s.indexOf('E');
+        if (index < 0) {
+            //说明这个字符串不包含E
+            return isDouble(s);
+        } else {
+            String preStr = s.substring(0, index);
+            String subStr = s.substring(index + 1);
+            return !subStr.isEmpty() && isDouble(preStr) && isInteger(subStr);
+        }
+    }
 
-	private void getDouble(String num) {
-		int index = num.indexOf('.');
-		if (num.equals(".") || num.contains(" ")) {
-			throw new RuntimeException("滚蛋");
-		}
-		if (num.startsWith(".") && num.charAt(index + 1) <= '9' && num.charAt(index + 1) >= '0') {
-			num = "0" + num;
-		} else if (num.endsWith(".") && num.charAt(index - 1) <= '9' && num.charAt(index - 1) >= '0') {
-			num = num + "0";
-		}
-		Double.valueOf(num);
-	}
+    public boolean isInteger(String s) {
+        if (s.isEmpty()) {
+            return false;
+        }
+        int startIndex = s.charAt(0) == '+' ? 1 : 0;
+        return isValue(s.substring(startIndex));
+    }
+
+    private boolean isValue(String s) {
+        if (s.isEmpty()) return false;
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isDouble(String s) {
+        if (s.isEmpty()) {
+            return false;
+        }
+        int startIndex = s.charAt(0) == '+' ? 1 : 0;
+        s = s.substring(startIndex);
+
+        int index = s.indexOf('.');
+        if (index == -1) {
+            return isValue(s);
+        } else {
+            String preStr = s.substring(0, index);
+            String subStr = s.substring(index + 1);
+            boolean preIsInteger = isValue(preStr);
+            boolean subIsInteger = isValue(subStr);
+            if (preIsInteger && subIsInteger) {
+                return true;
+            } else if (preIsInteger && subStr.isEmpty()) {
+                return true;
+            } else if (preStr.isEmpty() && subIsInteger) {
+                return true;
+            }else {
+                return false;
+            }
+        }
+    }
 
 }
