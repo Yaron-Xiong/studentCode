@@ -4,7 +4,7 @@ package com.accompnay.TopicAlgorithms.leetcode.l2000;
  * 2560. 打家劫舍 IV
  * 提示
  * 中等
- * 42
+ * 55
  * 相关企业
  * 沿街有一排连续的房屋。每间房屋内都藏有一定的现金。现在有一位小偷计划从这些房屋中窃取现金。
  * <p>
@@ -41,39 +41,11 @@ package com.accompnay.TopicAlgorithms.leetcode.l2000;
  * 1 <= k <= (nums.length + 1)/2
  * <p>
  * 来源：力扣（LeetCode）
- * 链接：<a href="https://leetcode.cn/problems/house-robber-iv/description/">...</a>
+ * 链接：<a href="https://leetcode.cn/problems/house-robber-iv/">...</a>
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-public class L2560_MinCapability {
-    public static void main(String[] args) {
-        L2560_MinCapability l2560MinCapability = new L2560_MinCapability();
-        System.out.println(l2560MinCapability.minCapability(new int[]{2, 7, 9, 3, 1}, 2));
-    }
-
+public class L2506_MinCapability {
     public int minCapability(int[] nums, int k) {
-        int left = 0;
-        int right = Integer.MAX_VALUE;
-        while (left < right) {
-            int mid = (left + right) >>> 1;
-            int count = check(nums, mid);
-            if (count < k) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
-        }
-        return right;
-    }
-
-    private int check(int[] nums, int singleRootAmount) {
-        int f0 = 0;
-        int f1 = nums[0] > singleRootAmount ? 0 : 1;
-        for (int i = 1; i < nums.length; i++) {
-            int tempF0 = Math.max(f0, f1);
-            int tempF1 = nums[i] <= singleRootAmount ? f0 + 1 : tempF0;
-            f0 = tempF0;
-            f1 = tempF1;
-        }
-        return Math.max(f0, f1);
+        return 0;
     }
 }

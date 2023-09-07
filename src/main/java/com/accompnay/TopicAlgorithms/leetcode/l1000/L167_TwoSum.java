@@ -51,27 +51,19 @@ public class L167_TwoSum {
     }
 
     public int[] twoSum(int[] numbers, int target) {
-        for (int i = 0; i < numbers.length; i++) {
-            int findNum = target - numbers[i];
-            int index = find(numbers, findNum, i + 1, numbers.length);
-            if (index != -1) {
-                return new int[]{i + 1, index + 1};
+        int left = 0;
+        int right = numbers.length - 1;
+        while (left < right) {
+            int temp = numbers[left] + numbers[right];
+            if (temp < target) {
+                left++;
+            } else if (temp > target) {
+                right--;
+            } else {
+                return new int[]{left + 1, right + 1};
             }
         }
         return new int[]{};
     }
 
-    private int find(int[] numbers, int findNum, int left, int right) {
-        while (left < right) {
-            int mid = (left + right) >> 1;
-            if (findNum > numbers[mid]) {
-                left = mid + 1;
-            } else if (findNum < numbers[mid]) {
-                right = mid;
-            } else {
-                return mid;
-            }
-        }
-        return -1;
-    }
 }
