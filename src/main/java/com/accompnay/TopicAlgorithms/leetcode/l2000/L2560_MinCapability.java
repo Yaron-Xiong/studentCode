@@ -1,5 +1,7 @@
 package com.accompnay.TopicAlgorithms.leetcode.l2000;
 
+import java.util.Arrays;
+
 /**
  * 2560. 打家劫舍 IV
  * 提示
@@ -52,28 +54,32 @@ public class L2560_MinCapability {
 
     public int minCapability(int[] nums, int k) {
         int left = 0;
-        int right = Integer.MAX_VALUE;
+        int right = Arrays.stream(nums).max().getAsInt();
         while (left < right) {
-            int mid = (left + right) >>> 1;
-            int count = check(nums, mid);
-            if (count < k) {
-                left = mid + 1;
-            } else {
+            int mid = (left + right) >> 1;
+            int tempK = check(nums, mid);
+            if (tempK >= k) {
+                //降低金额
                 right = mid;
+            } else {
+                //提高金额
+                left = mid + 1;
             }
         }
         return right;
     }
 
-    private int check(int[] nums, int singleRootAmount) {
-        int f0 = 0;
-        int f1 = nums[0] > singleRootAmount ? 0 : 1;
+    private int check(int[] nums, int money) {
+        //如果最多偷#{money} 那么能偷多少间房间
+        int dp0 = 0;
+        int dp1 = nums[0] <= money ? 1 : 0;
         for (int i = 1; i < nums.length; i++) {
-            int tempF0 = Math.max(f0, f1);
-            int tempF1 = nums[i] <= singleRootAmount ? f0 + 1 : tempF0;
-            f0 = tempF0;
-            f1 = tempF1;
+            int temp = Math.max(dp0, dp1);
+            if (nums[i] <= money) {
+                dp1 = dp0 + 1;
+            }
+            dp0 = temp;
         }
-        return Math.max(f0, f1);
+        return Math.max(dp1, dp0);
     }
 }

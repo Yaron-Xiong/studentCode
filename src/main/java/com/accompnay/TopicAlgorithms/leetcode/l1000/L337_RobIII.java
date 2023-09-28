@@ -33,7 +33,7 @@ package com.accompnay.TopicAlgorithms.leetcode.l1000;
  * 链接：<a href="https://leetcode.cn/problems/house-robber-iii/">...</a>
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-public class L337_Rob {
+public class L337_RobIII {
 
     public class TreeNode {
         int val;
@@ -55,22 +55,22 @@ public class L337_Rob {
     }
 
     public int rob(TreeNode root) {
-        int[] dfs = dfs(root);
-        return Math.max(dfs[0], dfs[1]);
+        int[] dp = dfs(root);
+        return Math.max(dp[0], dp[1]);
     }
 
-    public int[] dfs(TreeNode root) {
+
+    private int[] dfs(TreeNode root) {
         if (root == null) {
             return new int[]{0, 0};
         }
         int[] left = dfs(root.left);
         int[] right = dfs(root.right);
-        int[] res = new int[2];
-        //当前节点偷 = 子节点不偷 + 当前节点
-        res[0] = left[1] + right[1] + root.val;
-        //当前节点不偷 = 子节点最大值
-        res[1] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
-        return res;
+        //当前节点不偷
+        int notRob = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        //当前节点偷
+        int rob = left[0] + right[0] + root.val;
+        return new int[]{notRob, rob};
     }
 
 }

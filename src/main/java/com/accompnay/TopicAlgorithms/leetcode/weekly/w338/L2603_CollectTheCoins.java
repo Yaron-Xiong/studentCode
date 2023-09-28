@@ -50,63 +50,63 @@ import java.util.List;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L2603_CollectTheCoins {
-	public static void main(String[] args) {
-		L2603_CollectTheCoins l2603CollectTheCoins = new L2603_CollectTheCoins();
-		System.out.println(l2603CollectTheCoins.collectTheCoins(new int[]{1, 0, 0, 0, 0, 1}, new int[][]{{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 5}}));
-	}
+    public static void main(String[] args) {
+        L2603_CollectTheCoins l2603CollectTheCoins = new L2603_CollectTheCoins();
+        System.out.println(l2603CollectTheCoins.collectTheCoins(new int[]{0,0,0,1,1,0,0,1}, new int[][]{{0,1},{0,2},{1,3},{1,4},{2,5},{5,6},{5,7}}));
+    }
 
-	public int collectTheCoins(int[] coins, int[][] edges) {
-		List<List<Integer>> graph = new ArrayList<>();
-		int[] deg = new int[coins.length];
-		for (int i = 0; i < coins.length; i++) {
-			graph.add(new ArrayList<>());
-		}
-		for (int[] edge : edges) {
-			graph.get(edge[0]).add(edge[1]);
-			graph.get(edge[1]).add(edge[0]);
-			deg[edge[0]]++;
-			deg[edge[1]]++;
-		}
-		//移除不存在金币的子树
-		Deque<Integer> deque = new LinkedList<>();
-		for (int i = 0; i < graph.size(); i++) {
-			if (deg[i] == 1 && coins[i] == 0) {
-				deque.add(i);
-			}
-		}
-		while (!deque.isEmpty()) {
-			Integer pop = deque.pop();
-			for (Integer neighbor : graph.get(pop)) {
-				if (--deg[neighbor] == 1 && coins[neighbor] == 0) {
-					deque.add(neighbor);
-				}
-			}
-		}
+    public int collectTheCoins(int[] coins, int[][] edges) {
+        int n = coins.length;
+        List<List<Integer>> graph = new ArrayList<>();
+        int[] edgesCount = new int[n];
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            int from = edge[0];
+            int to = edge[1];
+            graph.get(from).add(to);
+            graph.get(to).add(from);
+            edgesCount[from]++;
+            edgesCount[to]++;
+        }
+        //找到没有金币 && 边数只有1 的节点
+        Deque<Integer> deque = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (edgesCount[i] == 1 && coins[i] == 0) {
+                deque.add(i);
+            }
+        }
 
-		//进行一次拓扑排序，从有金币的开始枚举
-		for (int i = 0; i < graph.size(); i++) {
-			if (deg[i] == 1 && coins[i] == 1) {
-				deque.add(i);
-			}
-		}
-		int[] time = new int[coins.length];
-		while (!deque.isEmpty()) {
-			Integer node = deque.pop();
-			//将移除相邻节点
-			for (Integer neighbor : graph.get(node)) {
-				if (--deg[neighbor] == 1) {
-					time[neighbor] = time[node] + 1;
-					deque.add(neighbor);
-				}
-			}
-		}
+        int leftNode = n - 1;
+        //移除deque中的节点 中 边为1 并且没有钱的叶子节点
+        while (!deque.isEmpty()) {
+            leftNode--;
+            //扫描临界边
+            for (Integer neighbor : graph.get(deque.pop())) {
+                if (--edgesCount[neighbor] == 1 && coins[neighbor] == 0) {
+                    deque.add(neighbor);
+                }
+            }
+        }
 
-		int ans = 0;
-		for (int[] edge : edges) {
-			if (time[edge[0]] >= 2 && time[edge[1]] >= 2) {
-				ans += 2;
-			}
-		}
-		return ans;
-	}
+        //此时deque内容为空 可以复用
+        //找到 边为1  的节点
+        for (int i = 0; i < n; i++) {
+            if (edgesCount[i] == 1 && coins[i] == 1) {
+                deque.add(i);
+            }
+        }
+        //叶子节点都不考虑
+        leftNode -= deque.size();
+        for (Integer node : deque) {
+            for (Integer neighbor : graph.get(node)) {
+                if (--edgesCount[neighbor] == 1) {
+                    leftNode--;
+                }
+            }
+        }
+        return Math.max(leftNode * 2, 0);
+
+    }
 }

@@ -34,14 +34,13 @@ package com.accompnay.TopicAlgorithms.leetcode.l1000;
  */
 public class L198_Rob {
     public int rob(int[] nums) {
-        int f0 = 0;
-        int f1 = 0;
-        for (int i = 0; i < nums.length; i++) {
-            int tempF0 = Math.max(f0, f1);
-            int tempF1 = f0 + nums[i];
-            f0 = tempF0;
-            f1 = tempF1;
+        int dp0 = 0;
+        int dp1 = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            int temp = Math.max(dp1, dp0);
+            dp1 = dp0 + nums[i];
+            dp0 = temp;
         }
-        return Math.max(f0, f1);
+        return Math.max(dp1, dp0);
     }
 }
