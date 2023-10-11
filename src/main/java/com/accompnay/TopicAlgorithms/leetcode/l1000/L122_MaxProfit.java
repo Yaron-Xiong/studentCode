@@ -46,14 +46,14 @@ public class L122_MaxProfit {
     }
 
     public int maxProfit(int[] prices) {
-        int notHave = 0;
-        int have = -prices[0];
+        int dp0 = 0;
+        int dp1 = -prices[0];
         for (int i = 1; i < prices.length; i++) {
-            int t1 = Math.max(notHave, have + prices[i]);
-            int t2 = Math.max(notHave - prices[i], have);
-            notHave = t1;
-            have = t2;
+            int temp_dp0 = Math.max(dp0, dp1 + prices[i]);
+            int temp_dp1 = Math.max(dp1, dp0 - prices[i]);
+            dp0 = temp_dp0;
+            dp1 = temp_dp1;
         }
-        return notHave;
+        return dp0;
     }
 }
