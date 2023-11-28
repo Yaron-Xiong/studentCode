@@ -37,13 +37,12 @@ package com.accompnay.TopicAlgorithms.leetcode.l1000;
  */
 public class L53_MaxSubArray {
     public int maxSubArray(int[] nums) {
-        int[] dp = new int[nums.length];
-        dp[0] = nums[0];
-        int res = dp[0];
-        for (int i = 1; i < dp.length; i++) {
-            dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);
-            res = Math.max(res, dp[i]);
+        int dp = nums[0];
+        int max = dp;
+        for (int i = 1; i < nums.length; i++) {
+            dp = Math.max(dp + nums[i], nums[i]);
+            max = Math.max(max, dp);
         }
-        return res;
+        return max;
     }
 }

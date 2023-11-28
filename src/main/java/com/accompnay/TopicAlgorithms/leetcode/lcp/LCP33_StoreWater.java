@@ -1,4 +1,4 @@
-package com.accompnay.TopicAlgorithms.leetcode.l2000;
+package com.accompnay.TopicAlgorithms.leetcode.lcp;
 
 import java.util.Arrays;
 
