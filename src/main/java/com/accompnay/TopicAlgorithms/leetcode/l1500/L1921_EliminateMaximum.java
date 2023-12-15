@@ -1,8 +1,6 @@
-package com.accompnay.TopicAlgorithms.leetcode.l1000;
+package com.accompnay.TopicAlgorithms.leetcode.l1500;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
 
 /**
  * 1921. 消灭怪物的最大数量
