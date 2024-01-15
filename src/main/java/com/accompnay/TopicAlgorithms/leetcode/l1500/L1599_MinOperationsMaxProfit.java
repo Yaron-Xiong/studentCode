@@ -63,39 +63,34 @@ package com.accompnay.TopicAlgorithms.leetcode.l1500;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L1599_MinOperationsMaxProfit {
-	public static void main(String[] args) {
-		L1599_MinOperationsMaxProfit l1599MinOperationsMaxProfit = new L1599_MinOperationsMaxProfit();
-		System.out.println(l1599MinOperationsMaxProfit.minOperationsMaxProfit(new int[]{5, 0, 0, 0, 0, 30}, 5, 5));
-	}
+    public static void main(String[] args) {
+        L1599_MinOperationsMaxProfit l1599MinOperationsMaxProfit = new L1599_MinOperationsMaxProfit();
+        System.out.println(l1599MinOperationsMaxProfit.minOperationsMaxProfit(new int[]{21, 1, 38, 42, 33, 16, 26, 26, 49, 3, 31, 37, 7, 43, 18, 46, 44, 27, 42, 16, 15, 29, 17, 7, 50, 20}, 14, 82));
+    }
 
-	public int minOperationsMaxProfit(int[] customers, int boardingCost, int runningCost) {
-		if (4 * boardingCost - runningCost <= 0) {
-			return -1;
-		}
-		int wartCustomer = 0;
-		int curProfit = 0;
-		int curTimes = 0;
-		int maxProfit = 0;
-		int maxProfitTimes = -1;
-		while (curTimes < customers.length) {
-			wartCustomer += customers[curTimes];
-			curTimes++;
-			curProfit += wartCustomer >= 4 ? 4 * boardingCost - runningCost : wartCustomer * boardingCost - runningCost;
-			wartCustomer = wartCustomer >= 4 ? wartCustomer - 4 : 0;
-			if (curProfit > maxProfit) {
-				maxProfitTimes = curTimes;
-				maxProfit = curProfit;
-			}
-		}
-		while (wartCustomer > 0) {
-			curTimes++;
-			curProfit += wartCustomer >= 4 ? 4 * boardingCost - runningCost : wartCustomer * boardingCost - runningCost;
-			wartCustomer = wartCustomer >= 4 ? wartCustomer - 4 : 0;
-			if (curProfit > maxProfit) {
-				maxProfitTimes = curTimes;
-				maxProfit = curProfit;
-			}
-		}
-		return maxProfitTimes;
-	}
+    public int minOperationsMaxProfit(int[] customers, int boardingCost, int runningCost) {
+        if (4 * boardingCost - runningCost <= 0) {
+            return -1;
+        }
+        int waitCustomers = 0;
+        int minOperations = -1;
+        for (int i = 0; i < customers.length; i++) {
+            waitCustomers += customers[i];
+            int curBoardCustomer = Math.min(4, waitCustomers);
+            waitCustomers -= curBoardCustomer;
+            int profile = curBoardCustomer * boardingCost - runningCost;
+            if (profile > 0) {
+                minOperations = i + 1;
+            }
+        }
+        if (waitCustomers / 4 > 0) {
+            int group = waitCustomers / 4;
+            minOperations += group;
+            waitCustomers -= 4 * group;
+        }
+        if (waitCustomers * boardingCost - runningCost > 0) {
+            minOperations++;
+        }
+        return minOperations;
+    }
 }
