@@ -66,86 +66,85 @@ import java.util.*;
  * 0 <= index <= 100000
  * 最多会对 push，pop，和 popAtStack 进行 200000 次调用。
  * <p>
-  */
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：<a href="https://leetcode.cn/problems/dinner-plate-stacks/description/">...</a>
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ */
 public class L1172_DinnerPlates {
 
-	public static void main(String[] args) {
-		DinnerPlates l1172DinnerPlates = new DinnerPlates(2);
-		l1172DinnerPlates.push(1);
-		l1172DinnerPlates.push(2);
-		l1172DinnerPlates.push(3);
-		l1172DinnerPlates.push(4);
-		l1172DinnerPlates.push(5);
+    public static void main(String[] args) {
+        DinnerPlates l1172DinnerPlates = new DinnerPlates(2);
+        l1172DinnerPlates.push(1);
+        l1172DinnerPlates.push(2);
+        l1172DinnerPlates.push(3);
+        l1172DinnerPlates.push(4);
+        l1172DinnerPlates.push(5);
 
-		System.out.println(l1172DinnerPlates.popAtStack(0));
-		l1172DinnerPlates.push(20);
-		l1172DinnerPlates.push(21);
-		System.out.println(l1172DinnerPlates.popAtStack(0));
-		System.out.println(l1172DinnerPlates.popAtStack(2));
-		System.out.println(l1172DinnerPlates.pop());
-		System.out.println(l1172DinnerPlates.pop());
-		System.out.println(l1172DinnerPlates.pop());
-		System.out.println(l1172DinnerPlates.pop());
-		System.out.println(l1172DinnerPlates.pop());
-	}
+        System.out.println(l1172DinnerPlates.popAtStack(0));
+        l1172DinnerPlates.push(20);
+        l1172DinnerPlates.push(21);
+        System.out.println(l1172DinnerPlates.popAtStack(0));
+        System.out.println(l1172DinnerPlates.popAtStack(2));
+        System.out.println(l1172DinnerPlates.pop());
+        System.out.println(l1172DinnerPlates.pop());
+        System.out.println(l1172DinnerPlates.pop());
+        System.out.println(l1172DinnerPlates.pop());
+        System.out.println(l1172DinnerPlates.pop());
+    }
 
-	public static class DinnerPlates {
-		int capacity;
-		PriorityQueue<Integer> idx;
-		List<Deque<Integer>> stacks;
+    public static class DinnerPlates {
+        private int capacity;
+        /**
+         * 存储未满的栈下标，用以快速找到一个可以放进item的栈
+         */
+        private PriorityQueue<Integer> idx;
+        private List<Deque<Integer>> dequeList;
 
-		public DinnerPlates(int capacity) {
-			this.capacity = capacity;
-			this.idx = new PriorityQueue<>();
-			this.stacks = new ArrayList<>();
-		}
+        public DinnerPlates(int capacity) {
+            this.capacity = capacity;
+            this.idx = new PriorityQueue<>();
+            this.dequeList = new ArrayList<>();
+        }
 
-		public void push(int val) {
-			//从所有未满的队列中找到最小的
-			if (idx.isEmpty()) {
-				//说明当前都满了
-				Deque<Integer> deque = new LinkedList<>();
-				deque.push(val);
-				this.stacks.add(deque);
-				if (this.capacity > 1) {
-					//说明未满
-					this.idx.add(this.stacks.size() - 1);
-				}
-			} else {
-				Integer index = this.idx.peek();
-				Deque<Integer> deque = this.stacks.get(index);
-				deque.push(val);
-				if (deque.size() >= capacity) {
-					this.idx.poll();
-				}
-			}
-		}
+        public void push(int val) {
+            if (!idx.isEmpty() && idx.peek() >= this.dequeList.size()) {
+                idx.clear();
+            }
+            if (idx.isEmpty()) {
+                Deque<Integer> deque = new LinkedList<>();
+                dequeList.add(deque);
+                deque.addFirst(val);
+                if (deque.size() < this.capacity) {
+                    idx.add(dequeList.size() - 1);
+                }
+            } else {
+                Deque<Integer> deque = this.dequeList.get(idx.peek());
+                deque.addFirst(val);
+                if (deque.size() == this.capacity) {
+                    idx.poll();
+                }
+            }
+        }
 
-		public int pop() {
-			return popAtStack(this.stacks.size() - 1);
-		}
+        public int pop() {
+            return popAtStack(this.dequeList.size() - 1);
+        }
 
-		public int popAtStack(int index) {
-			if (index < 0 || index >= this.stacks.size()) {
-				return -1;
-			}
-			Deque<Integer> deque = this.stacks.get(index);
-			if (deque.isEmpty()) {
-				return -1;
-			}
-
-			if (deque.size() == this.capacity && this.capacity != 1) {
-				//放进idx
-				this.idx.add(index);
-			}
-			Integer val = deque.pop();
-			if (deque.isEmpty()) {
-				//从队列中移除
-				this.stacks.remove(index);
-
-			}
-			return val;
-		}
-	}
+        public int popAtStack(int index) {
+            if (index < 0 || index >= this.dequeList.size() || this.dequeList.get(index).isEmpty()) {
+                return -1;
+            }
+            Deque<Integer> deque = this.dequeList.get(index);
+            if (deque.size() == this.capacity) {
+                this.idx.add(index);
+            }
+            int val = deque.pollFirst();
+            while (!this.dequeList.isEmpty() && this.dequeList.get(this.dequeList.size() - 1).isEmpty()) {
+                this.dequeList.remove(this.dequeList.size() - 1);
+            }
+            return val;
+        }
+    }
 
 }
