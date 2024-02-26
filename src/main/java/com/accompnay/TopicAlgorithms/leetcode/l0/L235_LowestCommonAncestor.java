@@ -55,6 +55,9 @@ public class L235_LowestCommonAncestor {
         if (root == null) {
             return null;
         }
+        if (root.val == p.val || root.val == q.val) {
+            return root;
+        }
         if (root.val > p.val && root.val < q.val) {
             return root;
         } else if (p.val > root.val) {
