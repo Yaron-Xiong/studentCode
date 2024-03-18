@@ -1,8 +1,5 @@
 package com.carlotta;
 
-import com.accompnay.designPatterns.factory.single.Sun;
-
-import java.io.PrintStream;
 import java.util.Scanner;
 
 /**
