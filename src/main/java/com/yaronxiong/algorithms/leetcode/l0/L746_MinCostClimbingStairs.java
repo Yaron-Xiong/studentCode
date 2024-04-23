@@ -1,4 +1,4 @@
-package com.yaronxiong.algorithms.leetcode.l1000;
+package com.yaronxiong.algorithms.leetcode.l0;
 
 /**
  * 746. 使用最小花费爬楼梯
