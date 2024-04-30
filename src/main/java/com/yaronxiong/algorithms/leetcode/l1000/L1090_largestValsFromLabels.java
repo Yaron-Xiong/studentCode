@@ -40,6 +40,10 @@ import java.util.*;
  * 1 <= n <= 2 * 104
  * 0 <= values[i], labels[i] <= 2 * 104
  * 1 <= numWanted, useLimit <= n
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：<a href="https://leetcode.cn/problems/largest-values-from-labels/description/">...</a>
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L1090_largestValsFromLabels {
     public static void main(String[] args) {
