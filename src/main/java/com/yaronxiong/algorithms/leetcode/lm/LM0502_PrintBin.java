@@ -1,4 +1,4 @@
-package com.yaronxiong.algorithms.leetcode.l2000;
+package com.yaronxiong.algorithms.leetcode.lm;
 
 /**
  * 面试题 05.02. 二进制数转字符串
