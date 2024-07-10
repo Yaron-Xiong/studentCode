@@ -85,7 +85,7 @@ public class TimeoutTest2 {
                 .build();
 
         String url = "http://aqsy-yducaccount.sdk.100bt.com/healthy/check.json";
-        String url2 = "http://pe-oneserver.100bt.com/healthy/check.json";
+        String url2 = "pe-oneserver.100bt.com/healthy/check.json";
         for (int i = 0; i < 5; i++) {
             HttpUriRequest request = new HttpGet(url2);
             HttpResponse execute = httpClient.execute(request);
