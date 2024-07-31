@@ -41,39 +41,20 @@ package com.yaronxiong.algorithms.leetcode.l1000;
 public class L1186_MaximumSum {
     public static void main(String[] args) {
         L1186_MaximumSum l1186MaximumSum = new L1186_MaximumSum();
-        System.out.println(l1186MaximumSum.maximumSum2(new int[]{-50}));
-    }
-
-    public int maximumSum2(int[] arr) {
-        int[][] dp = new int[arr.length][2];
-        dp[0][0] = arr[0];
-        dp[0][1] = arr[0];
-        int res = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            dp[i][0] = Math.max(arr[i], dp[i - 1][0] + arr[i]);
-            dp[i][1] = Math.max(dp[i - 1][1] + arr[i], dp[i - 1][0]);
-            res = Math.max(dp[i][0], Math.max(res, dp[i][1]));
-        }
-        return res;
+        System.out.println(l1186MaximumSum.maximumSum(new int[]{8, -1, 6, -7, -4, 5, -4, 7, -6}));
     }
 
     public int maximumSum(int[] arr) {
-        int res = Integer.MIN_VALUE;
-        for (int right = 0; right < arr.length; right++) {
-            //节选长度 0~i
-            int regionMinValue = Integer.MAX_VALUE;
-            int sum = 0;
-            for (int left = right; left >= 0; left--) {
-                sum += arr[left];
-                int value = sum;
-                regionMinValue = Math.min(arr[left], regionMinValue);
-                if (right - left > 1 && regionMinValue < 0) {
-                    //找到最小值
-                    value -= regionMinValue;
-                }
-                res = Math.max(res, value);
-            }
+        int[][] dp = new int[arr.length][2];
+        dp[0][0] = arr[0];
+        dp[0][1] = arr[0];
+        int ans = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            dp[i][0] = Math.max(dp[i - 1][0] + arr[i], arr[i]);
+            dp[i][1] = Math.max(dp[i - 1][1] + arr[i], dp[i - 1][0]);
+            ans = Math.max(ans, dp[i][1]);
+            ans = Math.max(ans, dp[i][0]);
         }
-        return res;
+        return ans;
     }
 }

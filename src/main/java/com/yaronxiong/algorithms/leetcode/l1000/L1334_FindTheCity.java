@@ -59,41 +59,51 @@ public class L1334_FindTheCity {
     }
 
     public int findTheCity(int n, int[][] edges, int distanceThreshold) {
-        int[][] w = new int[n][n];
-        for (int[] ints : w) {
+        //计算每个点能抵达的城市列表
+        //但是距离不能超过distanceThreshold
+        int[][] graph = new int[n][n];
+        for (int[] ints : graph) {
             Arrays.fill(ints, Integer.MAX_VALUE >> 1);
         }
         for (int[] edge : edges) {
-            int a = edge[0];
-            int b = edge[1];
-            w[a][b] = w[b][a] = edge[2];
+            graph[edge[0]][edge[1]] = edge[2];
+            graph[edge[1]][edge[0]] = edge[2];
         }
-        int[][][] memo = new int[n][n][n];
+        int minArrival = Integer.MAX_VALUE;
         int ans = 0;
-        int minCnt = n;
+        int[][][] memo = new int[n][n][n];
         for (int i = 0; i < n; i++) {
-            int cnt = 0;
-            for (int j = 0; j < n; j++) {
-                if (j != i && dfs(n - 1, i, j, memo, w) <= distanceThreshold) {
-                    cnt++;
+            int canArrival = 0;
+            for (int j = n - 1; j >= 0; j--) {
+                //判断 i点跟j点的链接情况
+                if (i == j) {
+                    continue;
+                }
+                if (dfs2(i, j, n - 1, memo, graph) <= distanceThreshold) {
+                    canArrival++;
                 }
             }
-            if (cnt <= minCnt) {
+            if (canArrival <= minArrival) {
+                minArrival = canArrival;
                 ans = i;
-                minCnt = cnt;
             }
         }
         return ans;
     }
 
-    private int dfs(int node, int i, int j, int[][][] memo, int[][] w) {
-        if (node < 0) {
-            //没有中间点可以插入了
-            return w[i][j];
+    private int dfs2(int i, int j, int k, int[][][] memo, int[][] graph) {
+        if (k < 0) {
+            return graph[i][j];
         }
-        if (memo[node][i][j] != 0) {
-            return memo[node][i][j];
+        if (memo[i][j][k] != 0) {
+            return memo[i][j][k];
         }
-        return memo[node][i][j] = Math.min(dfs(node - 1, i, j, memo, w), dfs(node - 1, i, node, memo, w) + dfs(node - 1, node, j, memo, w));
+        //假设从i->j 要经过k这个节点的最小值
+        //假设选择k
+        int v1 = dfs2(i, k, k - 1, memo, graph) + dfs2(k, j, k - 1, memo, graph);
+        //假设不选择k
+        int v2 = dfs2(i, j, k - 1, memo, graph);
+        return memo[i][j][k] = Math.min(v1, v2);
     }
+
 }

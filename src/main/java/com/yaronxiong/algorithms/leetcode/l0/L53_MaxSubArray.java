@@ -37,12 +37,12 @@ package com.yaronxiong.algorithms.leetcode.l0;
  */
 public class L53_MaxSubArray {
     public int maxSubArray(int[] nums) {
+        int ans = nums[0];
         int dp = nums[0];
-        int max = dp;
         for (int i = 1; i < nums.length; i++) {
             dp = Math.max(dp + nums[i], nums[i]);
-            max = Math.max(max, dp);
+            ans = Math.max(ans, dp);
         }
-        return max;
+        return ans;
     }
 }

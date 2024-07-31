@@ -51,45 +51,39 @@ public class L307_NumArray {
     }
 
     static class NumArray {
-        private int[] tree;
-
-        private int lowBit(int x) {
-            return x & (-x);
-        }
-
-        private void add(int index, int val) {
-            if (index >= this.tree.length) {
-                return;
-            }
-            //修改parent值
-            this.tree[index] += val;
-            add(index + lowBit(index), val);
-        }
-
-        private int query(int index) {
-            if (index <= 0) {
-                return 0;
-            }
-            return this.tree[index] + query(index - lowBit(index));
-        }
-
-        private int[] nums;
+        private int[] treeArr;
+        private int[] originNum;
 
         public NumArray(int[] nums) {
-            this.tree = new int[nums.length + 1];
-            this.nums = nums;
+            treeArr = new int[nums.length + 1];
+            originNum = new int[nums.length];
             for (int i = 0; i < nums.length; i++) {
-                add(i + 1, nums[i]);
+                update(i, nums[i]);
             }
         }
 
         public void update(int index, int val) {
-            add(index + 1, val - nums[index]);
-            this.nums[index] = val;
+            int updateValue = val - originNum[index];
+            originNum[index] = val;
+            for (int i = index + 1; i < treeArr.length; i += lowbit(i)) {
+                treeArr[i] += updateValue;
+            }
         }
 
         public int sumRange(int left, int right) {
-            return query(right + 1) - query(left);
+            return getValue(right + 1) - getValue(left);
+        }
+
+        private int getValue(int treeIndex) {
+            int ans = 0;
+            for (int i = treeIndex; i > 0; i -= lowbit(i)) {
+                ans += treeArr[i];
+            }
+            return ans;
+        }
+
+        private int lowbit(int i) {
+            return i & (~i + 1);
         }
     }
 }

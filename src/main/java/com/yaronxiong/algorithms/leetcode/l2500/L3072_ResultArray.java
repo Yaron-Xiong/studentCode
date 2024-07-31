@@ -17,7 +17,10 @@ import java.util.List;
  * <p>
  * 现定义函数 greaterCount ，使得 greaterCount(arr, val) 返回数组 arr 中 严格大于 val 的元素数量。
  * <p>
- * 你需要使用 n 次操作，将 nums 的所有元素分配到两个数组 arr1 和 arr2 中。在第一次操作中，将 nums[1] 追加到 arr1 。在第二次操作中，将 nums[2] 追加到 arr2 。之后，在第 i 次操作中：
+ * 你需要使用 n 次操作，将 nums 的所有元素分配到两个数组 arr1 和 arr2 中。
+ * 在第一次操作中，将 nums[1] 追加到 arr1 。
+ * 在第二次操作中，将 nums[2] 追加到 arr2 。
+ * 之后，在第 i 次操作中：
  * <p>
  * 如果 greaterCount(arr1, nums[i]) > greaterCount(arr2, nums[i]) ，将 nums[i] 追加到 arr1 。
  * 如果 greaterCount(arr1, nums[i]) < greaterCount(arr2, nums[i]) ，将 nums[i] 追加到 arr2 。
@@ -65,46 +68,79 @@ import java.util.List;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L3072_ResultArray {
+
     public static void main(String[] args) {
         L3072_ResultArray l3072ResultArray = new L3072_ResultArray();
-        System.out.println(Arrays.toString(l3072ResultArray.resultArray(new int[]{2, 38, 2})));
+        System.out.println(Arrays.toString(l3072ResultArray.resultArray(new int[]{2, 1, 3, 3})));
     }
-    public int[] resultArray(int[] nums) {
-        List<Integer> list1 = new ArrayList<>();
-        List<Integer> list2 = new ArrayList<>();
-        int index = 0;
-        list1.add(nums[index++]);
-        list2.add(nums[index++]);
-        while (index < nums.length) {
-            int v1 = greaterCount(list1, nums[index]);
-            int v2 = greaterCount(list2, nums[index]);
-            if (v1 > v2) {
-                list1.add(nums[index]);
-            } else if (v1 < v2) {
-                list2.add(nums[index]);
-            } else {
-                List<Integer> temp = list1.size() <= list2.size() ? list1 : list2;
-                temp.add(nums[index]);
+
+    public static class FenwickTree {
+        private int[] arr;
+
+        public FenwickTree(int length) {
+            this.arr = new int[length];
+        }
+
+        public void add(int i) {
+            while (i < arr.length) {
+                arr[i]++;
+                i += lowbit(i);
             }
-            index++;
         }
-        int[] ans = new int[nums.length];
-        for (int i = 0; i < list1.size(); i++) {
-            ans[i] = list1.get(i);
+
+        public int get(int i) {
+            int ans = 0;
+            while (i > 0) {
+                ans += arr[i];
+                i -= lowbit(i);
+            }
+            return ans;
         }
-        for (int i = 0; i < list2.size(); i++) {
-            ans[i + list1.size()] = list2.get(i);
+
+        private int lowbit(int i) {
+            return i & (~i + 1);
+        }
+
+    }
+
+    public int[] resultArray(int[] nums) {
+        int[] cloneNums = nums.clone();
+        Arrays.sort(cloneNums);
+        List<Integer> a1 = new ArrayList<>();
+        List<Integer> a2 = new ArrayList<>();
+        a1.add(nums[0]);
+        a2.add(nums[1]);
+
+        FenwickTree f1 = new FenwickTree(nums.length + 1);
+        FenwickTree f2 = new FenwickTree(nums.length + 1);
+        f1.add(Arrays.binarySearch(cloneNums, nums[0]) + 1);
+        f2.add(Arrays.binarySearch(cloneNums, nums[1]) + 1);
+
+        for (int i = 2; i < nums.length; i++) {
+            int itemIndex = Arrays.binarySearch(cloneNums, nums[i]);
+            int v1 = a1.size() - f1.get(itemIndex + 1);
+            int v2 = a2.size() - f2.get(itemIndex + 1);
+            if (v1 > v2) {
+                f1.add(itemIndex + 1);
+                a1.add(nums[i]);
+            } else if (v1 < v2) {
+                f2.add(itemIndex + 1);
+                a2.add(nums[i]);
+            } else if (a1.size() <= a2.size()) {
+                f1.add(itemIndex + 1);
+                a1.add(nums[i]);
+            } else {
+                f2.add(itemIndex + 1);
+                a2.add(nums[i]);
+            }
+        }
+        a1.addAll(a2);
+
+        int[] ans = new int[a1.size()];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = a1.get(i);
         }
         return ans;
     }
 
-    private int greaterCount(List<Integer> arr, int val) {
-        int cnt = 0;
-        for (Integer i : arr) {
-            if (i > val) {
-                cnt++;
-            }
-        }
-        return cnt;
-    }
 }
