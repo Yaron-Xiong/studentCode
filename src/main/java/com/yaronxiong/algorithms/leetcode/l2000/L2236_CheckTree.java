@@ -27,7 +27,7 @@ package com.yaronxiong.algorithms.leetcode.l2000;
  * <p>
  * 树只包含根结点、左子结点和右子结点
  * -100 <= Node.val <= 100
- *
+ * <p>
  * 来源：力扣（LeetCode）
  * 链接：<a href="https://leetcode.cn/problems/root-equals-sum-of-children/">...</a>
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
