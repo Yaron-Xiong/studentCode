@@ -1,7 +1,4 @@
-package com.yaronxiong.algorithms.leetcode.l2500;
-
-import java.util.Arrays;
-import java.util.Comparator;
+package com.yaronxiong.algorithms.leetcode.l3000;
 
 /**
  * 3238. 求出胜利玩家的数目

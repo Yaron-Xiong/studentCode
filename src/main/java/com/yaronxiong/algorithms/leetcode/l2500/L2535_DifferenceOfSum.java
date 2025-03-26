@@ -1,4 +1,4 @@
-package com.yaronxiong.algorithms.leetcode.l2000;
+package com.yaronxiong.algorithms.leetcode.l2500;
 
 /**
  * 2535. 数组元素和与数字和的绝对差

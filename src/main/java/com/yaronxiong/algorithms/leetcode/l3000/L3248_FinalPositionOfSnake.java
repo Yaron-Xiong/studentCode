@@ -1,4 +1,4 @@
-package com.yaronxiong.algorithms.leetcode.l2500;
+package com.yaronxiong.algorithms.leetcode.l3000;
 
 import com.google.common.collect.Lists;
 
