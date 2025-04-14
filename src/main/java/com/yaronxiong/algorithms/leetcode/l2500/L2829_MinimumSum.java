@@ -1,8 +1,5 @@
 package com.yaronxiong.algorithms.leetcode.l2500;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * 2829. k-avoiding 数组的最小总和
  * 中等
@@ -39,25 +36,24 @@ import java.util.Set;
 public class L2829_MinimumSum {
     public static void main(String[] args) {
         L2829_MinimumSum l2829MinimumSum = new L2829_MinimumSum();
-        System.out.println(l2829MinimumSum.minimumSum(2, 6));
+        System.out.println(l2829MinimumSum.minimumSum(5, 4));
     }
 
     public int minimumSum(int n, int k) {
-        //每选出一个数字另外一个数字就不能选择了
-        Set<Integer> bankSet = new HashSet<>();
-        int curNum = 1;
-        int sum = 0;
-        while (n > 0) {
-            while (bankSet.contains(curNum)) {
-                curNum++;
-            }
-            if (curNum <k){
-                bankSet.add(k - curNum);
-            }
-            sum += curNum;
-            curNum++;
-            n--;
-        }
-        return sum;
+        //2 = 1+1
+        //3 = 1+2
+        //4 = 1+3 | 2+2
+        //5 = 1+4 | 2+3
+        //6 = 1+5 | 2+4 | 3+3
+        //7 = 1+6 | 2+5 | 3+4
+        //8 = 1+7 | 2+6 | 3+5 | 4+4
+        //所以只能到 curNum -> n/2
+        //可以用到元素
+        int canUse = k / 2;
+        int preSize = Math.min(canUse, n);
+        int pre = ((preSize * preSize) + preSize) / 2;
+        int subSize = n - preSize;
+        int sub = (k * subSize) + ((subSize * subSize) - subSize) / 2;
+        return pre + sub;
     }
 }
