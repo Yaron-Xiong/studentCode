@@ -1,4 +1,4 @@
-package com.yaronxiong.algorithms.leetcode.l1000;
+package com.yaronxiong.algorithms.leetcode.l1500;
 
 import javafx.util.Pair;
 

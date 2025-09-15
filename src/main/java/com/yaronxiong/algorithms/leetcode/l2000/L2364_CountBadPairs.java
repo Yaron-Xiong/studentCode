@@ -1,4 +1,4 @@
-package com.yaronxiong.algorithms.leetcode.l2500;
+package com.yaronxiong.algorithms.leetcode.l2000;
 
 import java.util.HashMap;
 import java.util.Map;

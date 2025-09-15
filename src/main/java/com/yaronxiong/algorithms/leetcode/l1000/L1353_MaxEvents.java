@@ -1,4 +1,4 @@
-package com.yaronxiong.algorithms.leetcode.l3000;
+package com.yaronxiong.algorithms.leetcode.l1000;
 
 import java.util.ArrayList;
 import java.util.Arrays;
