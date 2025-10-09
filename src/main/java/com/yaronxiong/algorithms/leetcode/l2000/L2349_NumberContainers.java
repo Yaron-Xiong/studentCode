@@ -59,26 +59,26 @@ public class L2349_NumberContainers {
     }
 
     public static class NumberContainers {
-        private Map<Integer, Queue<Integer>> value2Index;
-        private Map<Integer, Integer> index2Value;
+        private final Map<Integer, Integer> index2Number;
+        private final Map<Integer, PriorityQueue<Integer>> number2Index;
 
         public NumberContainers() {
-            value2Index = new HashMap<>();
-            index2Value = new HashMap<>();
+            index2Number = new HashMap<>();
+            number2Index = new HashMap<>();
         }
 
         public void change(int index, int number) {
-            index2Value.put(index, number);
-            Queue<Integer> queue = value2Index.computeIfAbsent(number, (k) -> new PriorityQueue<>());
-            queue.add(index);
+            Integer oldNumber = index2Number.put(index, number);
+            PriorityQueue<Integer> queue = number2Index.computeIfAbsent(number, k -> new PriorityQueue<>());
+            queue.offer(index);
         }
 
         public int find(int number) {
-            if (!value2Index.containsKey(number) || value2Index.get(number).isEmpty()) {
+            PriorityQueue<Integer> queue = number2Index.get(number);
+            if (queue == null || queue.isEmpty()) {
                 return -1;
             }
-            Queue<Integer> queue = value2Index.get(number);
-            while (!queue.isEmpty() && index2Value.get(queue.peek()) != number) {
+            while (!queue.isEmpty() && index2Number.get(queue.peek()) != number) {
                 queue.poll();
             }
             return queue.isEmpty() ? -1 : queue.peek();

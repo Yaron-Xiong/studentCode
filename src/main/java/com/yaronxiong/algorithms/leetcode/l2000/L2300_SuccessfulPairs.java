@@ -48,7 +48,7 @@ import java.util.Arrays;
 public class L2300_SuccessfulPairs {
     public static void main(String[] args) {
         L2300_SuccessfulPairs l2300SuccessfulPairs = new L2300_SuccessfulPairs();
-        System.out.println(Arrays.toString(l2300SuccessfulPairs.successfulPairs(new int[]{5,1,3}, new int[]{1,2,3,4,5}, 7)));
+        System.out.println(Arrays.toString(l2300SuccessfulPairs.successfulPairs(new int[]{5, 1, 3}, new int[]{1, 2, 3, 4, 5}, 7)));
     }
 
     public int[] successfulPairs(int[] spells, int[] potions, long success) {
@@ -59,9 +59,8 @@ public class L2300_SuccessfulPairs {
             int left = 0;
             int right = potions.length;
             while (left < right) {
-                int mid = (left + right) >> 1;
-                long value = (long) spell * potions[mid];
-                if (value >= success) {
+                int mid = (left + right) / 2;
+                if ((long) spell * potions[mid] >= success) {
                     right = mid;
                 } else {
                     left = mid + 1;
