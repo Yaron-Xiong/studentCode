@@ -1,5 +1,10 @@
 package com.yaronxiong.algorithms.leetcode.l1000;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * 1262. 可被三整除的最大和
  * 提示
@@ -36,19 +41,66 @@ package com.yaronxiong.algorithms.leetcode.l1000;
 public class L1262_MaxSumDivThree {
     public static void main(String[] args) {
         L1262_MaxSumDivThree l1262MaxSumDivThree = new L1262_MaxSumDivThree();
-        System.out.println(l1262MaxSumDivThree.maxSumDivThree(new int[]{1, 2, 3, 4, 4}));
+        System.out.println(l1262MaxSumDivThree.maxSumDivThreeV2(new int[]{2, 6, 2, 2, 7}));
     }
 
-    public int maxSumDivThree(int[] nums) {
-        int[][] dp = new int[nums.length + 1][3];
-        dp[0][1] = Integer.MIN_VALUE;
-        dp[0][2] = Integer.MIN_VALUE;
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < 3; j++) {
-                dp[i + 1][j] = Math.max(dp[i][j], dp[i][(nums[i] + j) % 3] + nums[i]);
-            }
+    /**
+     * dfs
+     */
+    public int maxSumDivThreeV2(int[] nums) {
+        int[][] memo = new int[nums.length][3];
+        for (int[] ints : memo) {
+            Arrays.fill(ints, -1);
         }
-        return dp[nums.length - 1][0] == Integer.MIN_VALUE ? 0 : dp[nums.length - 1][0];
+        return dfs2(nums.length - 1, 0, nums, memo);
+    }
+
+    private int dfs2(int i, int j, int[] nums, int[][] memo) {
+        if (i < 0) {
+            return j == 0 ? 0 : Integer.MIN_VALUE;
+        }
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        //选
+        int a = dfs2(i - 1, (j + nums[i]) % 3, nums, memo) + nums[i];
+        //不选
+        int b = dfs2(i - 1, j, nums, memo);
+        return memo[i][j] = Math.max(a, b);
+    }
+
+    /**
+     * 贪心版本
+     */
+    public int maxSumDivThree(int[] nums) {
+        List<Integer> a1 = new ArrayList<>();
+        List<Integer> a2 = new ArrayList<>();
+        int sum = 0;
+        for (int num : nums) {
+            if (num % 3 == 1) {
+                a1.add(num);
+            } else if (num % 3 == 2) {
+                a2.add(num);
+            }
+            sum += num;
+        }
+        if (sum % 3 == 0) {
+            return sum;
+        }
+        a1.sort(Comparator.comparingInt(a -> a));
+        a2.sort(Comparator.comparingInt(a -> a));
+        //当sum%3 == 1 时： 可以由 2个2 或者 1个1 构建
+        //当sum%3 == 2 时： 可以由 2个1 或者 1个2 构建
+        if (sum % 3 == 1) {
+            List<Integer> tmp = a2;
+            a2 = a1;
+            a1 = tmp;
+        }
+        int ans = a2.isEmpty() ? 0 : sum - a2.get(0);
+        if (a1.size() > 1) {
+            ans = Math.max(ans, sum - a1.get(0) - a1.get(1));
+        }
+        return ans;
     }
 
 }

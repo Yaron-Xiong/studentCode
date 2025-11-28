@@ -1,7 +1,6 @@
 package com.yaronxiong.algorithms.leetcode.l1000;
 
-import java.util.HashSet;
-import java.util.Set;
+import org.checkerframework.checker.units.qual.K;
 
 /**
  * 1015. 可被 K 整除的最小整数
@@ -41,11 +40,13 @@ import java.util.Set;
  */
 public class L1015_SmallestRepunitDivByK {
     public int smallestRepunitDivByK(int k) {
-        Set<Integer> set = new HashSet<>();
         int curN = 1 % k;
-        while (curN > 0 && set.add(curN)) {
-            curN = (curN * (10 % k) + 1) % k;
+        for (int i = 1; i <= k; i++) {
+            if (curN == 0) {
+                return i;
+            }
+            curN = (curN * 10 + 1) % k;
         }
-        return curN > 0 ? -1 : set.size() + 1;
+        return -1;
     }
 }
