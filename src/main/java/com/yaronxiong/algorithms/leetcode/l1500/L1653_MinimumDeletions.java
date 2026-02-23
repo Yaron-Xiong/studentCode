@@ -1,5 +1,7 @@
 package com.yaronxiong.algorithms.leetcode.l1500;
 
+import javafx.scene.control.cell.CheckBoxTableCell;
+
 /**
  * 1653. 使字符串平衡的最少删除次数
  * 提示
@@ -35,46 +37,34 @@ package com.yaronxiong.algorithms.leetcode.l1500;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L1653_MinimumDeletions {
-	public static void main(String[] args) {
-		L1653_MinimumDeletions l1653MinimumDeletions = new L1653_MinimumDeletions();
-		System.out.println(l1653MinimumDeletions.minimumDeletions_dp("bbaaaaabb"));
-	}
+    public static void main(String[] args) {
+        L1653_MinimumDeletions l1653MinimumDeletions = new L1653_MinimumDeletions();
+        System.out.println(l1653MinimumDeletions.minimumDeletions("bbbbbbbaabbbbbaaabbbabbbbaabbbbbbaabbaaabaabbbaaaabaaababbbabbabbaaaabbbabbbbbaabbababbbaaaaaababaaababaabbabbbaaaabbbbbabbabaaaabbbaba"));
+        System.out.println(l1653MinimumDeletions.minimumDeletions("a"));
+        System.out.println(l1653MinimumDeletions.minimumDeletions("bbaaaaabb"));
+    }
 
-	public int minimumDeletions_dp(String s) {
-		int n = s.length();
-		//dp 记录了需要删除的值
-		int dp = 0;
-		int rightA = 0;
-		for (int i = n - 1; i >= 0; i--) {
-			if (s.charAt(i) == 'a') {
-				rightA++;
-			} else {
-				dp = Math.min(dp + 1, rightA);
-			}
-		}
-		return dp;
-	}
+    public int minimumDeletions(String s) {
+        int aCnt = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == 'a') {
+                aCnt++;
+            }
+        }
+        //计算保留每一个A的代价
+        int ans = aCnt;
+        int cntB = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == 'b') {
+                cntB++;
+            } else {
+                //此时的代价 前面的B全部删除 + 后面的A全部删除
+                int temp = cntB + cntB + aCnt - i  - 1;
+                ans = Math.min(ans, temp);
+            }
+        }
+        return ans;
+    }
 
-
-	public int minimumDeletions(String s) {
-		int rightA = 0;
-		for (char c : s.toCharArray()) {
-			if (c == 'a') {
-				rightA++;
-			}
-		}
-
-		int minRes = rightA;
-		int leftB = 0;
-		for (char c : s.toCharArray()) {
-			if (c == 'a') {
-				rightA--;
-			} else {
-				leftB++;
-			}
-			minRes = Math.min(minRes, leftB + rightA);
-		}
-		return minRes;
-	}
 
 }
