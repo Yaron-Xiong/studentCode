@@ -41,6 +41,10 @@ package com.yaronxiong.algorithms.leetcode.l1000;
  * n == flips.length
  * 1 <= n <= 5 * 104
  * flips 是范围 [1, n] 中所有整数构成的一个排列
+ *
+ * 来源：力扣（LeetCode）
+ * 链接：<a href="https://leetcode.cn/problems/sort-integers-by-the-number-of-1-bits/description/?envType=daily-question&envId=2026-02-25">...</a>
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class L1375_NumTimesAllBlue {
     public static void main(String[] args) {
