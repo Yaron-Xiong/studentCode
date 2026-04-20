@@ -61,6 +61,7 @@ public class L3653_XorAfterQueries {
         System.out.println(l3653XorAfterQueries.xorAfterQueries(new int[]{1, 1, 1}, new int[][]{{0, 2, 1, 4}}));
         System.out.println(l3653XorAfterQueries.xorAfterQueries(new int[]{2, 3, 1, 5, 4}, new int[][]{{1, 4, 2, 3}, {0, 2, 1, 2}}));
     }
+
     public int xorAfterQueries(int[] nums, int[][] queries) {
         int mod = 1000000007;
         for (int i = 0; i < queries.length; i++) {
