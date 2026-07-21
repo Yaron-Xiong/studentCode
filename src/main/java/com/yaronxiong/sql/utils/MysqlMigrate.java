@@ -1,7 +1,5 @@
 package com.yaronxiong.sql.utils;
 
-import net.lingala.zip4j.exception.ZipException;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class MysqlMigrate {
 
-    public static void main(String[] args) throws IOException, ZipException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException {
         Path path = Paths.get("C:\\Users\\yaoyuanxiong\\Desktop", "dump.sql");
         Collection<String> dumpTable = getDumpTable(path);
         newKeysCheck(dumpTable);
@@ -27,7 +25,7 @@ public class MysqlMigrate {
         System.out.println("日期格式检查");
         for (String s : dumpTable) {
             if (s.contains("0000-00-00 00:00:00")) {
-                System.err.println(String.format("错误：表中存在不合法的日期格式 field=[%s] date=[%s]", "0000-00-00 00:00:00", s));
+                System.err.printf("错误：表中存在不合法的日期格式 field=[%s] date=[%s]%n", "0000-00-00 00:00:00", s);
             }
         }
         System.out.println("日期格式检查结束");
@@ -42,7 +40,7 @@ public class MysqlMigrate {
                 String engine = matcher.group("charset");
                 System.out.println(engine);
                 if (!engine.contains("utf8")) {
-                    System.err.println(String.format("错误：表中存在不兼容的字符集 field=[%s] line=[%s]", engine, s));
+                    System.err.printf("错误：表中存在不兼容的字符集 field=[%s] line=[%s]%n", engine, s);
                 }
             }
         }
@@ -58,7 +56,7 @@ public class MysqlMigrate {
                 String engine = matcher.group("engine");
                 System.out.println(engine);
                 if (!engine.contains("InnoDB")) {
-                    System.err.println(String.format("错误：表中存在非InnoDB引擎 field=[%s] line=[%s]", engine, s));
+                    System.err.printf("错误：表中存在非InnoDB引擎 field=[%s] line=[%s]%n", engine, s);
                 }
             }
         }
@@ -76,7 +74,7 @@ public class MysqlMigrate {
                 String field = matcher.group("field").toUpperCase();
                 //System.out.println(field);
                 if (newKeys.contains(field)) {
-                    System.err.println(String.format("错误：表中存在新增关键词 field=[%s] line=[%s]", field, s));
+                    System.err.printf("错误：表中存在新增关键词 field=[%s] line=[%s]%n", field, s);
                 }
             }
         }
