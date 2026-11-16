@@ -57,9 +57,7 @@ package com.yaronxiong.algorithms.leetcode.l3000;
  * 2 <= complexity.length <= 105
  * 1 <= complexity[i] <= 109
  * <p>
- * 来源：力扣（LeetCode）
- * 链接：<a href="https://leetcode.cn/problems/count-the-number-of-computer-unlocking-permutations/description/?envType=daily-question&envId=2025-12-10">...</a>
- * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+31
  */
 public class L3577_CountPermutations {
     public int countPermutations(int[] complexity) {
